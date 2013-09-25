@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<project name="myFirstANTProject" default="compile" basedir=".">
+    <target name="init">
+        <echo message="Init has been called"/>
+        <mkdir dir="build" />
+    </target>
+    <target name="compile" depends="init">
+        <echo message="Compile target has been called"/>
+        <javac srcdir="src" destdir="build" />
+        <java classname="Test" classpath="build" />
+    </target>
+</project>
