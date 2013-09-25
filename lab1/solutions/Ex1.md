@@ -17,6 +17,41 @@ For the second part, add the original repository as a remote called upstream (so
 
 Now, you can download new files in it (without modifying your own) by using "git fetch" as follows
 
-	git fetch upstream master
+	git fetch upstream
 
-You should now see the new "lab2" folder already is there. 
+Now, the newer commits from the original repository are your local repository (but they haven't yet been merged to your repository, so you will not see them yet). The next step is to do a "merge"
+
+	git merge upstream/master
+	
+Since you modified the file "README.md" and pushed that commit, you will probably see the following output
+
+	Auto-merging README.md
+	CONFLICT (content): Merge conflict in README.md
+	Automatic merge failed; fix conflicts and then commit the result. 
+
+To fix the conflicts, you can either do it manually (opening the file and solving the conflicts as suggested [here](https://help.github.com/articles/resolving-merge-conflicts)) or use the "git mergetool". For this time, let's do it manually (you can later learn how to setup and use a visual mergetool)
+
+So, fixing manually: open the file with the conflicts (README.md) and you will see something like this
+
+	<<<<<<< HEAD
+	your changes will be here
+	=======
+	the changes made in the "upstream" repository will be here
+	>>>>>>> upstream/master
+
+Choose either the paragraph above ======= or the one below and remove the other. For example, let's select your local changes and this section should be like the following.
+
+	your changes will be here
+	
+If there is any other block of text like the one we saw before, you need to do the same. Once yo are done, there are some files that you just need to delete from the folder (remaining of the conflict resolution)
+
+	README.md.BACKUP.72417.md 
+	README.md.BASE.72417.md   
+	README.md.LOCAL.72417.md  
+	README.md.REMOTE.72417.md  
+
+Now you can stage, commit and push the fixed version of README.md
+
+	git add README.md
+	git commit -m "conflict solved"
+	git push origin master
