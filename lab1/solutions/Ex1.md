@@ -23,7 +23,11 @@ Now, the newer commits from the original repository are your local repository (b
 
 	git merge upstream/master
 	
-Here, there are two posibilities: there are no conflicts, there are conflicts. If no conflict exist, a file will be open with the merge commit message. Just saved and exit the file and the merge will be completed.  
+Here, there are two posibilities: there are no conflicts, there are conflicts. If no conflict exist, the file ".git/MERGE_MSG" will be automaticall open/displayed, with a merge commit message in it. Just saved and exit the file and the merge will be completed with output similar to this: 
+
+	Merge made by the 'recursive' strategy.
+ 		lab1/solutions/Ex1.md | 4 +++-
+ 	1 file changed, 3 insertions(+), 1 deletion(-)
 
 In our case, we will have conflicts because we modified the file "README.md" and pushed that commit, so you will probably see the following output
 
