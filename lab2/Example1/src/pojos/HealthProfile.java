@@ -29,9 +29,10 @@ public class HealthProfile {
 	public void setHeight(double height) {
 		this.height = height;
 	}
-	
 	public String toString() {
 		return "Height="+height+", Weight="+weight;
 	}
 
+	// add accessor for the newly created BMI
+	// the getter can responde with the calculation 
 }

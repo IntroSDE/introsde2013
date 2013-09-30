@@ -29,10 +29,20 @@ Fetch updated lab session code from Github
 
 ## ANT and Java
 
-In the directory [lab2/Example1/src]()
+In the directory [lab2/Example1/src](lab2/Example1/src)
 Open Test.java
-public class Test {
-    public static void main(String args[]){
-        System.out.println("Hello World!");
-    }
-}
+
+	public class Test {
+    	public static void main(String args[]){
+        	System.out.println("Hello World!");
+    	}
+	}
+	
+What if I have a giant project, with many classes, many source folders, many packages, and want to package them all into a single jar, or a directory, or simply want to automate build? 
+
+Ant is a Java-based build tool
+A build tool automates repetitive tasks (e.g. compiling source code, running tests, generating documentation).
+Typically, without a graphical user interface (headless) directly from the command line.
+Others: Maven and Gradle.
+Open source
+Full portable
