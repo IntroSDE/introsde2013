@@ -9,4 +9,20 @@
         <javac srcdir="src" destdir="build" />
         <java classname="Test" classpath="build" />
     </target>
+    <target name="compile-person" depends="init">
+        <echo message="Compile target has been called"/>
+        <javac srcdir="src" destdir="build" />
+        <java classname="HealthProfileReader" classpath="build" />
+    </target>
+    
+    <target name="archive" depends="compile-person">
+        <echo>Starting to archive...</echo>
+        <jar destfile="dist/project.jar" basedir="build">
+            <manifest>
+                <attribute name="Main-Class" value="HealthProfileReader" />
+                <attribute name="Class-Path" value="build"/>
+            </manifest>
+        </jar>
+        <echo>Archived!</echo>
+    </target>
 </project>
