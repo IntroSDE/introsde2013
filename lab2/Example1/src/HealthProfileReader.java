@@ -34,6 +34,7 @@ public class HealthProfileReader {
 				System.out.println(fname+" "+lname+" is not in the database");
 			}
 		}
+		// add the case where there are 3 parameters, the third being a string that matches "weight", "height" or "bmi"
 	}
 	
 	public static void initializeDatabase() {

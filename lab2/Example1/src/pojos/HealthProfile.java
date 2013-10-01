@@ -34,5 +34,5 @@ public class HealthProfile {
 	}
 
 	// add accessor for the newly created BMI
-	// the getter can responde with the calculation 
+	// the getter can respond with the calculation (weight divided the height in meters elevated to the power of 2) 
 }
