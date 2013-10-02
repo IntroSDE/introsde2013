@@ -1,14 +1,19 @@
 <?xml version="1.0"?>
 <project name="myFirstANTProject" default="compile" basedir=".">
+
+    <property name="BuildDir" value="build"/>
+
     <target name="init">
         <echo message="Init has been called"/>
-        <mkdir dir="build" />
+        <mkdir dir="${BuildDir}" />
+        <echo message="${BuildDir} has been created"/>
     </target>
     <target name="compile" depends="init">
         <echo message="Compile target has been called"/>
-        <javac srcdir="src" destdir="build" />
+        <javac srcdir="src" destdir="${BuildDir}" />
         <java classname="Test" classpath="build" />
     </target>
+    
     <target name="compile-person" depends="init">
         <echo message="Compile target has been called"/>
         <javac srcdir="src" destdir="build" />
@@ -24,5 +29,16 @@
             </manifest>
         </jar>
         <echo>Archived!</echo>
+    </target>
+
+    <target name="execute-test" depends="compile">
+        <java classname="Test" classpath="build" />
+    </target>
+
+    <target name="execute-hprofile" depends="compile">
+        <java classname="HealthProfileReader" classpath="build">
+            <arg value="Pinco"/>
+            <arg value="Pallino"/>
+        </java>
     </target>
 </project>
