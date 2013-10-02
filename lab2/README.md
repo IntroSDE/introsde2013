@@ -52,7 +52,7 @@ Now, what if I have a giant project, with many classes, many source folders, man
 
 Ant is a Java-based build tool. A build tool automates repetitive tasks (e.g. compiling source code, running tests, generating documentation). Typically, without a graphical user interface (headless) directly from the command line. Others with a similar purpose are Maven and Gradle.
 
-Take a look to the [build.xml](lab2/Example1/build.xml) as an example an ant build file. And execute it
+Take a look to the [build.xml](https://github.com/cdparra/introsde2013/blob/master/lab2/Example1/build.xml) as an example an ant build file. And execute it
 
 	ant init
 	ant compile
@@ -101,7 +101,7 @@ In summary, ant scripts define:
 	* execute: runs the project with three integer arguments
 	* clean: goes back to the original state  
 
-Try it! ([solution](lab2/solutions/Ex1))
+Try it! ([solution](https://github.com/cdparra/introsde2013/blob/master/lab2/solutions/Ex1))
 
 ### .gitignores
 A brief pause in the lab session for a reminder. Please, don't push everything in your repository. For example, compiled things do not need to be versioned. So, use .gitignore files in your repo to define what should be ignored by git. There is already one in the root of the repo with this content: 
@@ -178,7 +178,7 @@ For the example, we will use one of the samples of axis2. You will find it in th
 	or
 	cd lab2/Example2/quickstart
 	
-First, check the "service.xml" definition that it will be used to create a WSDL file describing a SOAP endpoint service based on the [StockQuoteService](lab2/Example2/quickstart/service/pojo/StockQuoteService.java) java class. This java class takes the stock code of a company (e.g., IBM) and returns its stocks value. Check the services.xml
+First, check the "service.xml" definition that it will be used to create a WSDL file describing a SOAP endpoint service based on the [StockQuoteService](https://github.com/cdparra/introsde2013/blob/master/lab2/Example2/quickstart/service/pojo/StockQuoteService.java) java class. This java class takes the stock code of a company (e.g., IBM) and returns its stocks value. Check the services.xml
 
 	open resources/META-INF/services.xml
 	
@@ -255,11 +255,11 @@ Now, your turn. Do the exercises!!
 
 ### Exercise 2 
 
-Create a POJO-based web service that takes two numbers and returns the sum ([solution](https://github.com/cdparra/introsde2013/blob/lab2/solutions/Ex2))
+Create a POJO-based web service that takes two numbers and returns the sum ([solution](https://github.com/cdparra/introsde2013/blob/master/lab2/solutions/Ex2))
 
 ### Exercise 3
 
-Expose the HealthProfileReader through an axis2 web service ([solution](https://github.com/cdparra/introsde2013/blob/lab2/solutions/Ex3))
+Expose the HealthProfileReader through an axis2 web service ([solution](https://github.com/cdparra/introsde2013/blob/master/lab2/solutions/Ex3))
 
 
 
