@@ -60,6 +60,7 @@ For example, in your windows PC it might look like
 Appart from the typical "compile" you have *generate.wsdl* and a *generate.service*. 
 
 ```xml
+
 	<target name="generate.wsdl" depends="compile.service">
         <taskdef name="java2wsdl"
                  classname="org.apache.ws.java2wsdl.Java2WSDLTask"
