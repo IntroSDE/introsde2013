@@ -20,7 +20,8 @@
 <project name="quickstart" basedir="." default="generate.service">
 
     <property environment="env"/>
-    <property name="AXIS2_HOME" value="/opt/axis2-1.6.2/"/>
+    <property name="AXIS2_HOME" value="/opt/axis2-1.6.2"/>
+    <property name="AXIS2_HOME_TOMCAT" value="/opt/apache-tomcat-7.0.39/webapps/axis2"/>
 
     <property name="build.dir" value="build"/>
 
@@ -68,10 +69,17 @@
         <jar destfile="${build.dir}/StockQuoteService.aar">
             <fileset excludes="**/Test.class" dir="${build.dir}/classes"/>
         </jar>
+        <!-- deploy to axis2 standalone server -->
         <copy file="${build.dir}/StockQuoteService.aar"
               toDir="${AXIS2_HOME}/repository/services"
               overwrite="yes">  
-        </copy> 
+        </copy>
+
+        <!-- deploy to axis2 web application deployed in tomcat -->
+        <copy file="${build.dir}/StockQuoteService.aar"
+              toDir="${AXIS2_HOME_TOMCAT}/WEB-INF/services"
+              overwrite="yes">  
+        </copy>  
     </target>
 
     <target name="clean">
