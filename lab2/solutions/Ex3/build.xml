@@ -69,10 +69,28 @@
         <jar destfile="${build.dir}/HealthProfileReader.aar">
             <fileset excludes="**/Test.class" dir="${build.dir}/classes"/>
         </jar>
+
+        <!-- deploy to axis2 standalone server -->
+        <copy file="${build.dir}/HealthProfileReader.aar"
+              toDir="${AXIS2_HOME}/repository/services"
+              overwrite="yes">  
+        </copy>
+
+        <!-- deploy to axis2 web application deployed in tomcat -->
         <copy file="${build.dir}/HealthProfileReader.aar"
               toDir="${AXIS2_HOME_TOMCAT}/WEB-INF/services"
               overwrite="yes">  
-        </copy> 
+        </copy>  
+    </target>
+
+    <target name="remove.service">
+        <!-- remove the service from axis2 standalone server -->
+        <delete file="${AXIS2_HOME}/repository/services/HealthProfileReader.aar">  
+        </delete>
+
+        <!-- remove the service from axis2 web application deployed in tomcat -->
+        <delete file="${AXIS2_HOME_TOMCAT}/WEB-INF/services/HealthProfileReader.aar">  
+        </delete>  
     </target>
 
 

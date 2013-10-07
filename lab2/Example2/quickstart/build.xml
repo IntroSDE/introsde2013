@@ -82,6 +82,16 @@
         </copy>  
     </target>
 
+    <target name="remove.service">
+        <!-- remove the service from axis2 standalone server -->
+        <delete file="${AXIS2_HOME}/repository/services/StockQuoteService.aar">  
+        </delete>
+
+        <!-- remove the service from axis2 web application deployed in tomcat -->
+        <delete file="${AXIS2_HOME_TOMCAT}/WEB-INF/services/StockQuoteService.aar">  
+        </delete>  
+    </target>
+
     <target name="clean">
         <delete dir="${build.dir}"/>
     </target>
