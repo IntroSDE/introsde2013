@@ -13,6 +13,9 @@ Before starting with this lab, we will review the [the example 2 of Lab #2](http
 
 **1. Check the service.xml file** 
 
+
+```
+
 	<service name="StockQuoteService" <!-- The name of the service -->
 		scope="application"
 		targetNamespace="http://quickstart.samples/"
@@ -42,6 +45,7 @@ Before starting with this lab, we will review the [the example 2 of Lab #2](http
 			name="ServiceClass">samples.quickstart.service.pojo.StockQuoteService
 		</parameter>
 	</service>
+```
 
 **2. Check/Adjust the build.xml file** 
 
@@ -68,7 +72,6 @@ Appart from the typical "compile" you have *generate.wsdl* and a *generate.servi
         <!-- This is the key: java2wsdle creates the wsdle for a class -->
         <java2wsdl className="samples.quickstart.service.pojo.StockQuoteService"
                    outputLocation="${build.dir}"
-                   
                    <!-- remember, these two must be the same as in service.xml -->
                    targetNamespace="http://quickstart.samples/"
                    schemaTargetNamespace="http://quickstart.samples/xsd">
