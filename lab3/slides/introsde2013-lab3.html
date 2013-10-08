@@ -93,7 +93,6 @@ class: center, middle, inverse
   Cristhian Parra: Lab Lectures for IntroSDE-2013/2014
   <br> Some slides from LabSDE-2012/2013
 ]
-
 # Axis2 recap and XPATH 
 Introduction to Service Design and Engineering 2013/2014. 
 <br>*Lab session #3*
@@ -307,7 +306,6 @@ Reading/Parsing XML documents
 
 --- 
 
-
 ## XPATH Introduction
 
 * XPath is a **query language** designed for querying XML documents (actually, DOM trees)
@@ -371,6 +369,7 @@ Take a look again to the XPath tree you saw during lectures. What's the similari
       }
   }
 ```
+
 ---
 
 ## Exercise 1 (10 min)
@@ -378,6 +377,7 @@ Take a look again to the XPath tree you saw during lectures. What's the similari
 * In the *lab3/my-solutions* folder, copy XPathTest.java and modify it to print also the authors 
 
 ---
+
 ## Node Selection
 
 Think about the xml document for the bookstore
@@ -385,6 +385,7 @@ Think about the xml document for the bookstore
 ![](https://raw.github.com/cdparra/introsde2013/master/lab3/resources/Fig3-XmlDocument.png)
 
 ---
+
 ## Node Selection (1)
 
 * A path that begins with a / represents an absolute path, starting from the top of the document 
@@ -420,7 +421,6 @@ Think about the xml document for the bookstore
 ```java
   XPathExpression expr = xpath.compile("/bookstore/book[isbn='" + ISBN + "']");
 ```
- 
 
 --- 
 
@@ -432,7 +432,6 @@ Think about the xml document for the bookstore
 * To choose elements that have a given attribute, put the attribute name in square brackets
 * //title[@lang='eng'] Selects all the title elements that have an attribute named lang with a value of 'eng'
 
-
 ---
 
 ## Wildcards
@@ -441,7 +440,6 @@ Think about the xml document for the bookstore
 * @* Matches all attribute node
 * //title[@*] Selects all title elements which have any attribute
 * node() Matches any node of any kind
-
 
 ---
 
@@ -452,7 +450,6 @@ Think about the xml document for the bookstore
   * Selects all the title and price elements of all book elements
 * /bookstore/book/title | //price
   * Selects all the title elements of the book element of the bookstore element and all the price elements in the document
-
 
 
 ---
@@ -470,13 +467,12 @@ Think about the xml document for the bookstore
   XPathExpression expr = xpath.compile("//child::book[author='" + authorName + "']");
 ```
 
-
 --- 
 
 ## Arithmetic Operators
-* + add
-* - subtract
-* * multiply
+* "+" add
+* "-" subtract
+* "*"" multiply
 * div (not /) divide
 * mod modulo (remainder)
 
@@ -515,8 +511,6 @@ Think about the xml document for the bookstore
   * org.w3c.dom.Node
 * When you evaluate an XPath expression in Java, the second argument specifies the return type you expect.
 
-
-
 ---
 
 ## Example 2: xpath advanced
@@ -525,8 +519,6 @@ Think about the xml document for the bookstore
 * Compile it
 * Run it
 
-
-
 ---
 
 ## Example 3: using xpath on the web 
@@ -534,14 +526,13 @@ Think about the xml document for the bookstore
 * Get [scraper](https://chrome.google.com/webstore/detail/scraper/mbigbapnjcgaffohmbkdlecaccepngjd) (chrome only extension)
 * Go to meteotrentino.it
 
-
-
 ---
 
 ## Exercise 2
 
 * Replace the HashMap db in the HealthProfile Reader with a xml file as follows
-```java
+
+```xml
 <people>
     <person>
         <firstname>George R. R.</firstname>

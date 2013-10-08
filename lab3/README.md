@@ -274,6 +274,7 @@ Take a look again to the XPath tree you saw during lectures. What's the similari
 		  }
 	}
 ```
+
 ---
 
 ## Exercise 1 (10 min)
@@ -281,6 +282,7 @@ Take a look again to the XPath tree you saw during lectures. What's the similari
 * In the *lab3/my-solutions* folder, copy XPathTest.java and modify it to print also the authors 
 
 ---
+
 ## Node Selection
 
 Think about the xml document for the bookstore
@@ -288,6 +290,7 @@ Think about the xml document for the bookstore
 ![](https://raw.github.com/cdparra/introsde2013/master/lab3/resources/Fig3-XmlDocument.png)
 
 ---
+
 ## Node Selection (1)
 
 * A path that begins with a / represents an absolute path, starting from the top of the document 
@@ -372,11 +375,12 @@ Think about the xml document for the bookstore
 --- 
 
 ## Arithmetic Operators
-* + add
-* - subtract
-* * multiply
+* "+" add
+* "-" subtract
+* "*"" multiply
 * div (not /) divide
 * mod modulo (remainder)
+
 
 --- 
 
@@ -392,6 +396,7 @@ Think about the xml document for the bookstore
 * not()
 * The following are used for numerical comparisons only:
 	* <, <=, >, >=
+
 
 ---
 
@@ -431,7 +436,8 @@ Think about the xml document for the bookstore
 ## Exercise 2
 
 * Replace the HashMap db in the HealthProfile Reader with a xml file as follows
-```java
+
+```xml
 <people>
     <person>
         <firstname>George R. R.</firstname>

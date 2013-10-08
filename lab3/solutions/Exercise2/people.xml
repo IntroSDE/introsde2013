@@ -1,0 +1,11 @@
+<people>
+    <person>
+        <firstname>George R. R.</firstname>
+        <lastname>Martin</lastname>
+        <healthprofile>
+            <weitgh>120</weitgh>
+            <height>1.65</height>
+        </healthprofile>
+    </person>
+    <!-- add more people to the db --> 
+</people>
