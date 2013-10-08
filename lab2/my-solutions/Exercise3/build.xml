@@ -2,6 +2,7 @@
 
     <property environment="env"/>
     <property name="AXIS2_HOME" value="/opt/axis2-1.6.2/"/>
+    <property name="AXIS2_HOME_TOMCAT" value="/opt/apache-tomcat-7.0.42/webapps/axis2/"/>
 
     <property name="build.dir" value="build"/>
 
@@ -50,7 +51,7 @@
             <fileset excludes="**/Test.class" dir="${build.dir}/classes"/>
         </jar>
         <copy file="${build.dir}/lab2Exercise3.aar"
-              toDir="${AXIS2_HOME}/repository/services"
+              toDir="${AXIS2_HOME_TOMCAT}/WEB-INF/services"
               overwrite="yes">  
         </copy> 
     </target>
