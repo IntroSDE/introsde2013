@@ -13,8 +13,8 @@ public class HealthProfileReader {
 	{
 	    Person pallino = new Person();
 		Person pallo = new Person("Pinco", "Pallo");
-		HealthProfile hp = new HealthProfile(68.0,1.72);
-		Person john = new Person("John", "Doe",hp);
+		HealthProfile hp = new HealthProfile(68.0, 1.72);
+		Person john = new Person("John", "Doe", hp);
 		
 		database.put(pallino.getFirstname() + " " + pallino.getLastname(), pallino);
 		database.put(pallo.getFirstname() + " " + pallo.getLastname(), pallo);
