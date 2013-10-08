@@ -2,6 +2,8 @@
 
 In this lab session, we will code a very first and simple example of a SOAP web service, using Apache AXIS 2
 
+---
+
 ## Outline of the session
 
 * ANT and Java
@@ -15,6 +17,8 @@ In this lab session, we will code a very first and simple example of a SOAP web 
 	* Deployment of a Java Web Service (JWS)
 	* Running a Client with Dll Method
 
+---
+
 ## Before the lab
 Required resources: 
 * Java
@@ -22,10 +26,15 @@ Required resources:
 * Tomcat
 * Apache Axis 2
 
+
+---
 No experience with Java?, try out a [quick tutorial](http://www.vogella.com/articles/JavaIntroduction/article.html) 
 
 Fetch updated lab session code from Github 
 * Steps to follow in Lab 1 [solution to the exercise 1](https://github.com/cdparra/introsde2013/blob/master/lab1/solutions/Ex1.md)
+* 
+
+---
 
 ## ANT and Java
 
@@ -41,8 +50,11 @@ Open Test.java
 
 Now, compiled the class and execute the program. 
 
-	javac Test.java 
+	javac Test.java
 	java Test
+
+
+---
 
 That's the typical "Hello World" example. If a class in java has a an "public static" method called "main", this will be executed by the JVM when you execute it. 
 
@@ -52,10 +64,15 @@ Now, what if I have a giant project, with many classes, many source folders, man
 
 Ant is a Java-based build tool. A build tool automates repetitive tasks (e.g. compiling source code, running tests, generating documentation). Typically, without a graphical user interface (headless) directly from the command line. Others with a similar purpose are Maven and Gradle.
 
+---
+
 Take a look to the [build.xml](https://github.com/cdparra/introsde2013/blob/master/lab2/Example1/build.xml) as an example an ant build file. And execute it
 
 	ant init
 	ant compile
+
+
+---
 
 Now, the build folder has some compiled classes that can be execute it. To compile the HealthProfileReader execute: 
 
@@ -69,6 +86,8 @@ You can also execute things using ant. Try:
 Finally, classes can all be packaged in one using jar files. Try it like this. 
 
 	ant archive
+
+---
 	
 In the build folder, there should be a jar file now (project.jar), whose main class is pointed to the HealthProfileReader. To execute it, run: 
 
@@ -76,11 +95,15 @@ In the build folder, there should be a jar file now (project.jar), whose main cl
 	
 What did you do? You have been executing ant targets (compile, init, archive, etc.) that are defined in the build.xml, each target indicating a list of tasks (i.e. commands) to be sequentially execute it. Take a look to the build.xml to see how they were defined.  
 
+---
+
 In summary, ant scripts define: 
 * *Ant Project*: a collection of named targets. Each build file contains one project.
 * *Ant Target*: a fixed series of ant tasks in a specified order that can depend on other named targets.
 * *Ant Task*: something that ant can execute jobs, such as compile, create jars, copy.   
 * *Ant properties*: immutable constants set once and used through the whole scritps
+
+---
 
 ### Exercise 1
 * First create a folder “my-solutions” under lab2 folder for your exercise solutions (do not change the lab source code, unless you want to deal with solving conflicts in the future :P)
@@ -103,9 +126,11 @@ In summary, ant scripts define:
 
 Try it! ([solution](https://github.com/cdparra/introsde2013/blob/master/lab2/solutions/Ex1))
 
+---
+
 ### .gitignores
 A brief pause in the lab session for a reminder. Please, don't push everything in your repository. For example, compiled things do not need to be versioned. So, use .gitignore files in your repo to define what should be ignored by git. There is already one in the root of the repo with this content: 
-	
+
 	# Compiled java classes (this is a comment)
 	*.class
 	
@@ -115,15 +140,29 @@ A brief pause in the lab session for a reminder. Please, don't push everything i
 	*.ear
 	*/build/
  
+---
+
 ## Axis2
 
+Axis2 a web service engine that implement both client and server sides of web services (and, from v2, also REST services). It handles the generation/sending/receiving/dispatching of SOAP messages. It allows you to expose simple Java Classes with its methods and other web applications as web services. 
+
+![axis2 middleware](http://axis.apache.org/axis2/java/core/docs/images/fig02.jpg "Axis2 middleware")
+
+In this part we will go through the process of installing axis2 and then using it to create one service. 
+
 First, install tomcat. Go to apache [tomcat website](http://tomcat.apache.org/). Download the zip version of Tomcat 7.x. Unzip it somewhere (e.g. /opt or C:\) and Set environment variables. 
+
+---
 
 	# if you are in unix/linux/mac or you are using msysgit from windows
 	export CATALINA_HOME=/opt/apache-tomcat-7.0.39
 	
 	# windows
 	set CATALINA_HOME=C:\apache-tomcat-7.0.39
+
+**Observation:** for those using msysgit, beware that the "\" is a escape characters, so you can use either *C:\\apache-tomcat-7.0.39* or */C/apache-tomcat-7.0.39* 
+
+---
 
 Start the server
 
@@ -133,10 +172,14 @@ Start the server
 	# windows
 	%CATALINA_HOME%\bin\startup.bat
 
+---
+
 Now, go to http://localhost:8080/ and if you see the apache tomcat cat, you are fine. Next step: donwload and install [axis2](http://axis.apache.org/axis2/java/core/download.cgi). You can either download the war package directly, or download the binary distribution, unzip it somewhere and then build the war. Let's do the second. For this, I downloaded the axis2-1.6.2-bin.zip distribution. 
 
 	unzip axis2-1.6.2-bin.zip  
 	mv axis2-1.6.2 /opt
+
+---
 
 Now, you need to enter the weabpp folder in the axis home and create the package war of axis2 (yes, using ant ;-) )
 
@@ -147,9 +190,13 @@ Now, you need to enter the weabpp folder in the axis home and create the package
 		[war] Building war: /opt/axis2-1.6.2/dist/axis2.war
 	...
 
+---
+
 Deploy the war in tomcat. For this, you need to access the tomcat manager in your browser. By default, Tomcat does not enable admin or manager access. To enable it, you will have to edit the $TOMCAT_HOME/conf/tomcat-users.xml manually by adding the following (or uncommenting if it is there)
 
 	<user username="admin" password="whateverpasswordyouwantiuseadmin" roles="manager-gui,tomcat"/>
+
+---
 
 Now, you can access the manager in  http://localhost:8080/manager/html and deploy axis war. Now that it is deployed, you can open axis2 
 
@@ -159,7 +206,11 @@ Should show you a page with 3 links: services, validate, administration. Open va
 
 	Follow the link http://localhost:8080/axis2/axis2-web/HappyAxis.jsp
 
-It should should show you a HappyAxis page with the list of needed libraries and their status (if they are or not in your system). Now it’s time to test a service, 
+It should should show you a HappyAxis page with the list of needed libraries and their status (if they are or not in your system).  If the Happy Axis page is coming with GREEN color then it means that axis2 is successfully deployed. 
+
+---
+
+Now it’s time to test a service, 
 	
 	Follow this link http://localhost:8080/axis2/services/Version?method=getVersion
 
@@ -169,43 +220,67 @@ It shows you something like this
 		<ns:return>Hi - the Axis2 version is 1.6.2</ns:return>
 	</ns:getVersionResponse>
 
-Now, hit the link "administration" i the axis2 home. The default user/password is admin/axis2. From here, you can deplow other services. 
+Now, hit the link "administration" i the axis2 home. The default user/password is admin/axis2. From here, you can deploy other services. 
+
+---
 
 ### Example 2
-For the example, we will use one of the samples of axis2. You will find it in the Example 2 folder of this repo or in the axis2 home samples folder
+Let's do one example, using one of the samples that come with axis2 distributions. Go to the **Example2** folder of this repo (or, if you prefer, use the axis2 home samples folder)
 
-	cd AXIS2_HOME/samples/quickstart 
-	or
 	cd lab2/Example2/quickstart
-	
+		or (if you prefer) 
+	cd AXIS2_HOME/samples/quickstart 
+
+---
+
 First, check the "service.xml" definition that it will be used to create a WSDL file describing a SOAP endpoint service based on the [StockQuoteService](https://github.com/cdparra/introsde2013/blob/master/lab2/Example2/quickstart/service/pojo/StockQuoteService.java) java class. This java class takes the stock code of a company (e.g., IBM) and returns its stocks value. Check the services.xml
 
 	open resources/META-INF/services.xml
 	
+---
+
 You should see this: 
 
-	<service name="StockQuoteService" 
-			 scope="application" 
-			 targetNamespace="http://quickstart.samples/"
+	<service name="StockQuoteService" <!-- The name of the service -->
+		scope="application"
+		targetNamespace="http://quickstart.samples/"
+		<!-- Scope and nameSpace must be later matched inthe build.xml -->
 	>
+		<!-- a description of what the service does -->
 		<description>Stock Quote Service</description>
+		
+		<!-- the classes that will process incoming messages to the service -->
+		<!-- we are using standar message receivers already bundled with axis2 -->
 		<messageReceivers>
-			<messageReceiver 
-					mep="http://www.w3.org/2004/08/wsdl/in-only" 
-					class="org.apache.axis2.rpc.receivers.RPCInOnlyMessageReceiver"
+			<messageReceiver
+				mep="http://www.w3.org/2004/08/wsdl/in-only"
+				class="org.apache.axis2.rpc.receivers.RPCInOnlyMessageReceiver"
 			/>
-			<messageReceiver 
-					mep="http://www.w3.org/2004/08/wsdl/in-out"
-					class="org.apache.axis2.rpc.receivers.RPCMessageReceiver"
+			<messageReceiver
+				mep="http://www.w3.org/2004/08/wsdl/in-out"
+				class="org.apache.axis2.rpc.receivers.RPCMessageReceiver"
 			/>
 		</messageReceivers>
+		
+		<!-- definition of the xml schema used by the service -->
 		<schema schemaNamespace="http://quickstart.samples/xsd"/>
+		
+		<!-- specification of what Java class is being exposed as a service -->
 		<parameter
 			name="ServiceClass">samples.quickstart.service.pojo.StockQuoteService
 		</parameter>
 	</service>
 
-This is the definition of the StockQuoteService. It basically defines one "service" with the name *StockQuoteService* and which java class it is going to be used as a *ServiceClass* (under params), exposing all of its public methods as such (in this case, the *samples.quickstart.service.pojo.StockQuoteService* class). *ServiceClass* parameter specifies the class that will be exposed as web service. The other important parameters are *targetNamespace* and *schemaNamespace*, which later has to be reused in the ant build file (we will get there). There is also the definition of what receivers will be used to process incoming SOAP messages (the standard axis2 receivers org.apache.axis2.rpc.receivers).  
+---
+
+This is the definition of the StockQuoteService. It defines: 
+
+* one "service" with the name *StockQuoteService* 
+* what java class it is going to be used as a *ServiceClass* (under params), exposing all of its public methods as services (in this case, the *samples.quickstart.service.pojo.StockQuoteService* class).  
+* The other important parameters are *targetNamespace* and *schemaNamespace*, which later has to be reused in the ant build file (we will get there). 
+* What receivers will be used to process incoming messages (the standard axis2 receivers org.apache.axis2.rpc.receivers).  
+
+---
 
 Now, you need a build.xml file to get this thing done: 
 
@@ -213,6 +288,8 @@ Now, you need a build.xml file to get this thing done:
 	* *generate.wsdl*: This target generates the StockQuoteService.wsdl file in the build folder, using the java2wsdl command. Make sure that *targetNamespace* and *schemaTargetNamespace* is same as in service.xml file.
 	* *generate.service*: This target generates the axis2 archive (which is nothing but a jar actually) in the build folder under the name *StockQuoteService.aar*, which includes the *services.xml* and the compiled classes. You can use this *.aar file to deploy the service through axis2 webapp. 
 	* *generate.client*: This target generates the client side classes. Make sure you run this after executing generate.wsdl so the MyService.wsdl file is present in the build folder.
+
+---
 
 Now, generate the WSDL file and generate the packaged version of the service doing the following
 	

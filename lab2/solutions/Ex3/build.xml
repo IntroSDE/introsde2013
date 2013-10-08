@@ -17,11 +17,11 @@
   ~ under the License.
   -->
 
-<project name="quickstart" basedir="." default="generate.service">
+<project name="Ex3" basedir="." default="generate.service">
 
     <property environment="env"/>
-    <property name="AXIS2_HOME" value="/opt/axis2-1.6.2"/>
     <property name="AXIS2_HOME_TOMCAT" value="/opt/apache-tomcat-7.0.39/webapps/axis2"/>
+    <property name="AXIS2_HOME" value="/opt/axis2-1.6.2"/>
 
     <property name="build.dir" value="build"/>
 
@@ -48,7 +48,7 @@
         <taskdef name="java2wsdl"
                  classname="org.apache.ws.java2wsdl.Java2WSDLTask"
                  classpathref="axis2.classpath"/>
-        <java2wsdl className="samples.quickstart.service.pojo.StockQuoteService"
+        <java2wsdl className="service.health.HealthProfileReader"
                    outputLocation="${build.dir}"
                    targetNamespace="http://quickstart.samples/"
                    schemaTargetNamespace="http://quickstart.samples/xsd">
@@ -66,17 +66,18 @@
                 <include name="**/*.xml"/>
             </fileset>
         </copy>
-        <jar destfile="${build.dir}/StockQuoteService.aar">
+        <jar destfile="${build.dir}/HealthProfileReader.aar">
             <fileset excludes="**/Test.class" dir="${build.dir}/classes"/>
         </jar>
+
         <!-- deploy to axis2 standalone server -->
-        <copy file="${build.dir}/StockQuoteService.aar"
+        <copy file="${build.dir}/HealthProfileReader.aar"
               toDir="${AXIS2_HOME}/repository/services"
               overwrite="yes">  
         </copy>
 
         <!-- deploy to axis2 web application deployed in tomcat -->
-        <copy file="${build.dir}/StockQuoteService.aar"
+        <copy file="${build.dir}/HealthProfileReader.aar"
               toDir="${AXIS2_HOME_TOMCAT}/WEB-INF/services"
               overwrite="yes">  
         </copy>  
@@ -84,13 +85,15 @@
 
     <target name="remove.service">
         <!-- remove the service from axis2 standalone server -->
-        <delete file="${AXIS2_HOME}/repository/services/StockQuoteService.aar">  
+        <delete file="${AXIS2_HOME}/repository/services/HealthProfileReader.aar">  
         </delete>
 
         <!-- remove the service from axis2 web application deployed in tomcat -->
-        <delete file="${AXIS2_HOME_TOMCAT}/WEB-INF/services/StockQuoteService.aar">  
+        <delete file="${AXIS2_HOME_TOMCAT}/WEB-INF/services/HealthProfileReader.aar">  
         </delete>  
     </target>
+
+
 
     <target name="clean">
         <delete dir="${build.dir}"/>
