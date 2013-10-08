@@ -9,8 +9,7 @@ Introduction to Service Design and Engineering 2013/2014.
 
 * Recap axis2 web service sample of the last session
 * Practice how to create a simple axis2 web service by doing lab2/Exercise3
-* Example of XML parsing using XPATH and java (covered in Lecture 3)
-* First part on JAXB xml parsing *(if there is time)*
+* Example of XML reading using XPATH and java (covered in Lecture 3)
 
 ---
 
@@ -252,8 +251,7 @@ Take a look again to the XPath tree you saw during lectures. What's the similari
 	import javax.xml.xpath.XPath;
 	...
 	public class XPathTest {
-		  public static void main(String[] args)  throws ParserConfigurationException, SAXException,
-		          											IOException, XPathExpressionException {
+		  public static void main(String[] args)  throws ParserConfigurationException, SAXException,										IOException, XPathExpressionException {
 		    // 1. read the xml file and parse it to a in-memory DOM tree
 		    DocumentBuilderFactory domFactory = DocumentBuilderFactory.newInstance();
 		    domFactory.setNamespaceAware(true);
@@ -263,7 +261,6 @@ Take a look again to the XPath tree you saw during lectures. What's the similari
 		    // 2. create an XPath object to evaluate an XPathExpression 
 		    XPathFactory factory = XPathFactory.newInstance();
 		    XPath xpath = factory.newXPath();
-
 		    XPathExpression expr = xpath.compile("/bookstore/book/title/text()");
 		    // 3. Operate on the result
 		    Object result = expr.evaluate(doc, XPathConstants.NODESET);
@@ -445,28 +442,9 @@ Think about the xml document for the bookstore
 ```
 
 * Use xpath to implement methods like getWeight and getHeight
-
-
-
-## Exercise 2
-
-* Replace the HashMap db in the HealthProfile Reader with a xml file as follows
-
-```xml
-<people>
-    <person>
-        <firstname>George R. R.</firstname>
-        <lastname>Martin</lastname>
-        <healthprofile>
-            <weitgh>120</weitgh>
-            <height>1.65</height>
-        </healthprofile>
-    </person>
-    <!-- add more people to the db --> 
-</people>
-```
-
-* Use xpath to implement methods like getWeight and getHeight
+* Make a function which prints all people in the list with detail
+* A function which accepts name as parameter and print that particular person HealthProfile
+* A function which accepts weight and an operator (=, > , <) as parameters and prints people that fulfill that condition.
 
 ---
 
