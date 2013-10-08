@@ -22,7 +22,6 @@ public class HealthProfileReader {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		initializeDatabase();
 		int argCount = args.length;
 		if (argCount == 0) {
 			System.out.println("I cannot create people out of thing air. Give me at least a name and lastname.");
