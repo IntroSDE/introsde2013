@@ -209,7 +209,7 @@ class: center, middle, inverse
 Reading/Parsing XML documents 
 
 
---- 
+---
 
 ## XPATH Introduction
 
@@ -327,7 +327,7 @@ Think about the xml document for the bookstore
 	XPathExpression expr = xpath.compile("/bookstore/book[isbn='" + ISBN + "']");
 ```
 
---- 
+---
 
 ## Attributes
 
@@ -372,7 +372,7 @@ Think about the xml document for the bookstore
 	XPathExpression expr = xpath.compile("//child::book[author='" + authorName + "']");
 ```
 
---- 
+---
 
 ## Arithmetic Operators
 * "+" add
@@ -382,7 +382,7 @@ Think about the xml document for the bookstore
 * mod modulo (remainder)
 
 
---- 
+---
 
 ## Boolean Operators
 
@@ -426,12 +426,27 @@ Think about the xml document for the bookstore
 
 ---
 
-## Example 3: using xpath on the web 
+## Exercise 2
 
-* Get [scraper](https://chrome.google.com/webstore/detail/scraper/mbigbapnjcgaffohmbkdlecaccepngjd) (chrome only extension)
-* Go to meteotrentino.it
+* Replace the HashMap db in the HealthProfile Reader with a xml file as follows
 
----
+```xml
+<people>
+    <person>
+        <firstname>George R. R.</firstname>
+        <lastname>Martin</lastname>
+        <healthprofile>
+            <weitgh>120</weitgh>
+            <height>1.65</height>
+        </healthprofile>
+    </person>
+    <!-- add more people to the db --> 
+</people>
+```
+
+* Use xpath to implement methods like getWeight and getHeight
+
+
 
 ## Exercise 2
 
@@ -452,3 +467,13 @@ Think about the xml document for the bookstore
 ```
 
 * Use xpath to implement methods like getWeight and getHeight
+
+---
+
+## Bonus Example: using xpath on the wild 
+
+* Get [scraper](https://chrome.google.com/webstore/detail/scraper/mbigbapnjcgaffohmbkdlecaccepngjd) (chrome only extension)
+* Go to meteotrentino.it
+* Inspect Element on top of the temperature
+* Copy as XPATH (//div/div/span/strong)
+* Scrape Similar
