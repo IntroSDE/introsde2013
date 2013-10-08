@@ -1,5 +1,3 @@
-package it.unitn.science.soaa.parser;
-
 import java.io.IOException;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -23,10 +21,13 @@ public class XPathTest {
 	    DocumentBuilderFactory domFactory = DocumentBuilderFactory.newInstance();
 	    domFactory.setNamespaceAware(true);
 	    DocumentBuilder builder = domFactory.newDocumentBuilder();
+	    System.out.println("Loading books.xml...");
 	    Document doc = builder.parse("books.xml");
 
 	    XPathFactory factory = XPathFactory.newInstance();
 	    XPath xpath = factory.newXPath();
+	    System.out.println("Reading list of titles...");
+	    System.out.println("(using xpath = /bookstore/book/title/text()");
 	    XPathExpression expr = xpath.compile("/bookstore/book/title/text()");
 
 	    Object result = expr.evaluate(doc, XPathConstants.NODESET);

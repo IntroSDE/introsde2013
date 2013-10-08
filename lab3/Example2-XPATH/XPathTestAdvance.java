@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-package lsde.lab3;
 
 /**
  *
@@ -34,7 +29,7 @@ public class XPathTestAdvance {
         DocumentBuilderFactory domFactory = DocumentBuilderFactory.newInstance();
         domFactory.setNamespaceAware(true);
         DocumentBuilder builder = domFactory.newDocumentBuilder();
-        doc = builder.parse("data/books-xpath.xml");
+        doc = builder.parse("books.xml");
 
         //creating xpath object
         getXPathObj();
