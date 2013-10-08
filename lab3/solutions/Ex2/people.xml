@@ -7,5 +7,28 @@
             <height>1.65</height>
         </healthprofile>
     </person>
-    <!-- add more people to the db --> 
+    <person>
+        <firstname>Pinco</firstname>
+        <lastname>Pallino</lastname>
+        <healthprofile>
+            <weitgh>80</weitgh>
+            <height>1.80</height>
+        </healthprofile>
+    </person>
+    <person>
+        <firstname>Pinco</firstname>
+        <lastname>Pallo</lastname>
+        <healthprofile>
+            <weitgh>74</weitgh>
+            <height>1.72</height>
+        </healthprofile>
+    </person>
+    <person>
+        <firstname>Daniel</firstname>
+        <lastname>Sam</lastname>
+        <healthprofile>
+            <weitgh>70</weitgh>
+            <height>1.70</height>
+        </healthprofile>
+    </person>
 </people>
