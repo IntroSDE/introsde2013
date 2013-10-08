@@ -304,7 +304,9 @@ class: center, middle, inverse
 
 Reading/Parsing XML documents 
 
+
 --- 
+
 
 ## XPATH Introduction
 
@@ -380,7 +382,7 @@ Take a look again to the XPath tree you saw during lectures. What's the similari
 
 Think about the xml document for the bookstore
 
-![](https://raw.github.com/cdparra/introsde2013/master/lab3/resources/Fig2-XmlDocument.png)
+![](https://raw.github.com/cdparra/introsde2013/master/lab3/resources/Fig3-XmlDocument.png)
 
 ---
 ## Node Selection (1)
@@ -418,6 +420,7 @@ Think about the xml document for the bookstore
 ```java
   XPathExpression expr = xpath.compile("/bookstore/book[isbn='" + ISBN + "']");
 ```
+ 
 
 --- 
 
@@ -429,6 +432,7 @@ Think about the xml document for the bookstore
 * To choose elements that have a given attribute, put the attribute name in square brackets
 * //title[@lang='eng'] Selects all the title elements that have an attribute named lang with a value of 'eng'
 
+
 ---
 
 ## Wildcards
@@ -437,6 +441,7 @@ Think about the xml document for the bookstore
 * @* Matches all attribute node
 * //title[@*] Selects all title elements which have any attribute
 * node() Matches any node of any kind
+
 
 ---
 
@@ -447,6 +452,7 @@ Think about the xml document for the bookstore
   * Selects all the title and price elements of all book elements
 * /bookstore/book/title | //price
   * Selects all the title elements of the book element of the bookstore element and all the price elements in the document
+
 
 
 ---
@@ -464,6 +470,7 @@ Think about the xml document for the bookstore
   XPathExpression expr = xpath.compile("//child::book[author='" + authorName + "']");
 ```
 
+
 --- 
 
 ## Arithmetic Operators
@@ -472,6 +479,7 @@ Think about the xml document for the bookstore
 * * multiply
 * div (not /) divide
 * mod modulo (remainder)
+
 
 --- 
 
@@ -487,6 +495,7 @@ Think about the xml document for the bookstore
 * not()
 * The following are used for numerical comparisons only:
   * <, <=, >, >=
+
 
 ---
 
@@ -506,6 +515,8 @@ Think about the xml document for the bookstore
   * org.w3c.dom.Node
 * When you evaluate an XPath expression in Java, the second argument specifies the return type you expect.
 
+
+
 ---
 
 ## Example 2: xpath advanced
@@ -514,12 +525,16 @@ Think about the xml document for the bookstore
 * Compile it
 * Run it
 
+
+
 ---
 
 ## Example 3: using xpath on the web 
 
 * Get [scraper](https://chrome.google.com/webstore/detail/scraper/mbigbapnjcgaffohmbkdlecaccepngjd) (chrome only extension)
 * Go to meteotrentino.it
+
+
 
 ---
 

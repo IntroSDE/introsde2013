@@ -285,7 +285,7 @@ Take a look again to the XPath tree you saw during lectures. What's the similari
 
 Think about the xml document for the bookstore
 
-![](https://raw.github.com/cdparra/introsde2013/master/lab3/resources/Fig2-XmlDocument.png)
+![](https://raw.github.com/cdparra/introsde2013/master/lab3/resources/Fig3-XmlDocument.png)
 
 ---
 ## Node Selection (1)
