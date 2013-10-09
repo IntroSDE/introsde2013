@@ -184,3 +184,7 @@ Now you can stage, commit and push the fixed version of README.md
 	git add README.md
 	git commit -m "conflict solved"
 	git push origin master 
+
+## Java and ANT
+
+We didn't get here in the 2013 version of the lab. You will find this in [Lab2](https://github.com/cdparra/introsde2013/tree/master/lab2)
