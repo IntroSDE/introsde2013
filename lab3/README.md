@@ -452,6 +452,16 @@ Think about the xml document for the bookstore
 
 * Get [scraper](https://chrome.google.com/webstore/detail/scraper/mbigbapnjcgaffohmbkdlecaccepngjd) (chrome only extension)
 * Go to meteotrentino.it
-* Inspect Element on top of the temperature
-* Copy as XPATH (//div/div/span/strong)
-* Scrape Similar
+* Righclick on top of one of the temperatures and click "Scrape Similar"
+* You should see the following, which scrapes the content on the page using xpath (the HTML document it is also treated like a DOM tree)
+
+![](https://raw.github.com/cdparra/introsde2013/master/lab3/resources/Scraper-1.png)
+
+---
+ 
+## Bonus Example (Advanced): using xpath on the wild 
+
+* You can copy the xpath of an element on a web page with Chrome by doing Right Click -> Inspect Element -> Right clike on the HTML element -> Copy as Xpath
+* You can use this, in combination with the knowledge from this session to obtain something like the following: 
+
+![](https://raw.github.com/cdparra/introsde2013/master/lab3/resources/Scraper-3-advanced.png)
