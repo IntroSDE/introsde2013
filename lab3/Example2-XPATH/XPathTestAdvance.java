@@ -1,7 +1,6 @@
 
 /**
- *
- * @author Imran
+ * Based on code made by Muhammad Imran
  */
 import java.io.IOException;
 
