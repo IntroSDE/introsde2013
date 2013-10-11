@@ -105,8 +105,7 @@ Introduction to Service Design and Engineering 2013/2014.
 
 * Recap axis2 web service sample of the last session
 * Practice how to create a simple axis2 web service by doing lab2/Exercise3
-* Example of XML parsing using XPATH and java (covered in Lecture 3)
-* First part on JAXB xml parsing *(if there is time)*
+* Example of XML reading using XPATH and java (covered in Lecture 3)
 
 ---
 
@@ -348,8 +347,7 @@ Take a look again to the XPath tree you saw during lectures. What's the similari
   import javax.xml.xpath.XPath;
   ...
   public class XPathTest {
-      public static void main(String[] args)  throws ParserConfigurationException, SAXException,
-                                    IOException, XPathExpressionException {
+      public static void main(String[] args)  throws ParserConfigurationException, SAXException,                    IOException, XPathExpressionException {
         // 1. read the xml file and parse it to a in-memory DOM tree
         DocumentBuilderFactory domFactory = DocumentBuilderFactory.newInstance();
         domFactory.setNamespaceAware(true);
@@ -359,7 +357,6 @@ Take a look again to the XPath tree you saw during lectures. What's the similari
         // 2. create an XPath object to evaluate an XPathExpression 
         XPathFactory factory = XPathFactory.newInstance();
         XPath xpath = factory.newXPath();
-
         XPathExpression expr = xpath.compile("/bookstore/book/title/text()");
         // 3. Operate on the result
         Object result = expr.evaluate(doc, XPathConstants.NODESET);
@@ -541,16 +538,30 @@ Think about the xml document for the bookstore
 ```
 
 * Use xpath to implement methods like getWeight and getHeight
+* Make a function which prints all people in the list with detail
+* A function which accepts name as parameter and print that particular person HealthProfile
+* A function which accepts weight and an operator (=, > , <) as parameters and prints people that fulfill that condition.
 
 ---
 
-## Bonus Example: using xpath on the web 
+## Bonus Example: using xpath on the wild 
 
 * Get [scraper](https://chrome.google.com/webstore/detail/scraper/mbigbapnjcgaffohmbkdlecaccepngjd) (chrome only extension)
 * Go to meteotrentino.it
-* Inspect Element on top of the temperature
-* Copy as XPATH (//div/div/span/strong)
-* Scrape Similar
+* Righclick on top of one of the temperatures and click "Scrape Similar"
+* You should see the following, which scrapes the content on the page using xpath (the HTML document it is also treated like a DOM tree)
+
+![](https://raw.github.com/cdparra/introsde2013/master/lab3/resources/Scraper-1.png)
+
+---
+ 
+## Bonus Example (Advanced): using xpath on the wild 
+
+* You can copy the xpath of an element on a web page with Chrome by doing Right Click -> Inspect Element -> Right clike on the HTML element -> Copy as Xpath
+* You can use this, in combination with the knowledge from this session to obtain something like the following: 
+
+![](https://raw.github.com/cdparra/introsde2013/master/lab3/resources/Scraper-3-advanced.png)
+
 
     </textarea>
     <script src="http://gnab.github.io/remark/downloads/remark-0.5.6.min.js" type="text/javascript">

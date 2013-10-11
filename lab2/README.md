@@ -1,6 +1,8 @@
-# Introsde2013 @ UNITN - Lab Session #2
-
-In this lab session, we will code a very first and simple example of a SOAP web service, using Apache AXIS 2
+Java, ANT and Axis2
+===
+Introduction to Service Design and Engineering 2013/2014. 
+<br>*Lab session #3*
+<br>**University of Trento** 
 
 ---
 
@@ -144,6 +146,8 @@ A brief pause in the lab session for a reminder. Please, don't push everything i
 
 ## Axis2
 
+**Important notice for 2013:** this part was just half-develope in lab2, the rest in lab3
+
 Axis2 a web service engine that implement both client and server sides of web services (and, from v2, also REST services). It handles the generation/sending/receiving/dispatching of SOAP messages. It allows you to expose simple Java Classes with its methods and other web applications as web services. 
 
 ![axis2 middleware](http://axis.apache.org/axis2/java/core/docs/images/fig02.jpg "Axis2 middleware")
@@ -174,10 +178,12 @@ Start the server
 
 ---
 
-Now, go to http://localhost:8080/ and if you see the apache tomcat cat, you are fine. Next step: donwload and install [axis2](http://axis.apache.org/axis2/java/core/download.cgi). You can either download the war package directly, or download the binary distribution, unzip it somewhere and then build the war. Let's do the second. For this, I downloaded the axis2-1.6.2-bin.zip distribution. 
+Now, go to http://localhost:8080/ and if you see the apache tomcat cat, you are fine. Next step: donwload and install [axis2](http://axis.apache.org/axis2/java/core/download.cgi). You can either download the war package directly, or download the binary distribution, unzip it somewhere and then build the war. Let's do the second. For this lab session, I downloaded the axis2-1.6.2-bin.zip distribution. 
 
 	unzip axis2-1.6.2-bin.zip  
 	mv axis2-1.6.2 /opt
+
+**Observation:** there might be problems with the classpath if you are using only the war distribution. One way of checking exactly what you have in the class path is running *ant SOME_EXISTING_TARGET -diagnostics*. To avoid potential problems, use the binary distribution. 
 
 ---
 
@@ -227,9 +233,9 @@ Now, hit the link "administration" i the axis2 home. The default user/password i
 ### Example 2
 Let's do one example, using one of the samples that come with axis2 distributions. Go to the **Example2** folder of this repo (or, if you prefer, use the axis2 home samples folder)
 
+```
 	cd lab2/Example2/quickstart
-		or (if you prefer) 
-	cd AXIS2_HOME/samples/quickstart 
+```
 
 ---
 
@@ -289,6 +295,8 @@ Now, you need a build.xml file to get this thing done:
 	* *generate.service*: This target generates the axis2 archive (which is nothing but a jar actually) in the build folder under the name *StockQuoteService.aar*, which includes the *services.xml* and the compiled classes. You can use this *.aar file to deploy the service through axis2 webapp. 
 	* *generate.client*: This target generates the client side classes. Make sure you run this after executing generate.wsdl so the MyService.wsdl file is present in the build folder.
 
+**Observation:** in the build.xml, replace the properties AXIS2_HOME and AXIS2_TOMCAT_HOME to make it point to your local installations. If you are didn't download the binary version of axis2, remove all the references to AXIS2_HOME. 
+
 ---
 
 Now, generate the WSDL file and generate the packaged version of the service doing the following
@@ -337,13 +345,3 @@ Create a POJO-based web service that takes two numbers and returns the sum ([sol
 ### Exercise 3
 
 Expose the HealthProfileReader through an axis2 web service ([solution](https://github.com/cdparra/introsde2013/blob/master/lab2/solutions/Ex3))
-
-
-
-
-	
-	
- 
-
-
-
