@@ -1,5 +1,3 @@
-class: center, middle, inverse
-
 # XML schemas, Java Annotations, JAXB & Dozer 
 Introduction to Service Design and Engineering 2013/2014. 
 <br>*Lab session #4*
@@ -12,8 +10,8 @@ Introduction to Service Design and Engineering 2013/2014.
 * XML schema definition (XSD) overview
 * Java Annotation minimal example
 * Introduction to JAXB
-* Example: from schema to java representations
-* Example: Generate an XML document from an Object Model
+* JAXB Annotations
+* Example: XML from/to Object Model
 * Exercise
 * Dozer
 * Assignment
@@ -43,20 +41,19 @@ Introduction to Service Design and Engineering 2013/2014.
 
 ---
 
-## Example 1: XSD (1)
-
-* Open the [Example 1](https://github.com/cdparra/introsde2013/blob/master/lab4/Example1.xsd)
+## Example 1: XSD
+ 
 ```xml 
 <xsd:schema 
     xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <xsd:complexType name="personType">
         <xsd:sequence>
-            <xsd:element name="firstName" type="xsd:string"				/>
-            <xsd:element name="lastName"  type="xsd:string"				/>
-            <xsd:element name="birthDate" type="xsd:date"				/>
-            <xsd:element name="age"       type="xsd:integer"			
+            <xsd:element name="firstName" type="xsd:string"/>
+            <xsd:element name="lastName"  type="xsd:string"/>
+            <xsd:element name="birthDate" type="xsd:date"/>
+            <xsd:element name="age"       type="xsd:integer"
                 minOccurs="0" maxOccurs="1"/>
-            <xsd:element name="healthProfile" type="healthProfileType"	
+            <xsd:element name="healthProfile" type="healthProfileType"
                 minOccurs="0" maxOccurs="1"/>
         </xsd:sequence>
 		<xsd:attribute name="id" type="xsd:integer"/>
@@ -70,6 +67,14 @@ Introduction to Service Design and Engineering 2013/2014.
     <xsd:element name="person" type="personType"/>
 </xsd:schema>
 ```
+
+---
+
+## Example 1: Validate XML against XSD (1)
+
+* Open and XML/XSD validation tool online: http://www.utilities-online.info/xsdvalidation/#.Ul0rkGRvj40
+* Copy the content [Example 1 XML Schema](https://github.com/cdparra/introsde2013/blob/master/lab4/Example1.xsd) and [Example 1 XML instance](https://github.com/cdparra/introsde2013/blob/master/lab4/Example1.xml)
+* Validate XML againsts XSD
 
 ---
 
@@ -212,25 +217,27 @@ Introduction to Service Design and Engineering 2013/2014.
 ### Elements that contain both elements and text 
 
 * XML Elements
-```html 
-	<p> 
-		<b>Mixed content</b> lets you embed <i>child elements</i>
-	</p>
+```xml
+<letter>
+  Dear Mr.<name>John Smith</name>.
+  Your order <orderid>1032</orderid>
+  will be shipped on <shipdate>2001-07-13</shipdate>.
+</letter>
 ```
 
 * Corresponding XSD definitions
 ```xml 
-    <xsd:complexType name="chunkType" mixed="true">
-        <xsd:choice maxOccurs="unbounded">
-        	<xsd:element name="b" type="chunkType"/>
-        	<xsd:element name="i" type="chunkType"/>
-        </xsd:choice>
-    </xsd:complexType>
-    <xsd:complexType name="TextType" >
-        <xsd:sequence>
-        	<xsd:element name="p" type="chunkType"/>
-        </xsd:sequence>
-    </xsd:complexType>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<xsd:element name="letter">
+  <xsd:complexType mixed="true">
+    <xsd:sequence>
+      <xsd:element name="name" type="xsd:string"/>
+      <xsd:element name="orderid" type="xsd:positiveInteger"/>
+      <xsd:element name="shipdate" type="xsd:date"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element>
+</xsd:schema>
 ```
 
 * **What was new here?**
@@ -291,7 +298,16 @@ Introduction to Service Design and Engineering 2013/2014.
             </xsd:extension>
          </xsd:simpleContent>
     </xsd:complexType>
+    <xsd:element name="root" type="SomeEntity"/>
 ```
+
+---
+
+## Exercise 1
+
+* Go to the online validator: http://www.utilities-online.info/xsdvalidation/#.Ul0rkGRvj40
+* Copy [Example 5](https://github.com/cdparra/introsde2013/blob/master/lab4/Example5.xsd) in the XSD Schema.
+* Create an XML instance of this schema that is **valid**
 
 ---
 
@@ -374,7 +390,7 @@ public class Catalog {
 * JAXB Provides two main features: 
 	* the ability to **marshal** (i.e., convert) Java objects into XML
 	* the ability to **un-marshal** XML back into Java objects
-* https://jaxb.java.net/
+* Download from https://jaxb.java.net/2.2.7/
 
 ---
 
@@ -399,8 +415,17 @@ public class Catalog {
 
 ---
 
+---
+
+## XML From/to Object Model
+
+* Think about the following simple object model
+![](https://raw.github.com/cdparra/introsde2013/master/lab4/resources/BookModel.png)
+
+
 ## Example 6: JAXB Annotations
 
+* Open [Example6-JAXB/src/model/Book.java](https://github.com/cdparra/introsde2013/blob/master/Example6-JAXB/src/model/Book.java) 
 ```java
 @XmlRootElement(name = "book")
 // If you want you can define the order in which the fields are written
@@ -425,6 +450,7 @@ public class Book {
 
 ## Example 6: JAXB Annotations
 
+* Open [Example6-JAXB/src/model/Book.java](https://github.com/cdparra/introsde2013/blob/master/Example6-JAXB/src/model/Bookstore.java)
 ```java
 //This statement means that class "Bookstore.java" is the root-element of our example
 @XmlRootElement(namespace = "de.vogella.xml.jaxb.model")
@@ -439,12 +465,15 @@ public class Bookstore {
   private String location;
 ```
 
+
 ---
 
 ## Example 6: XML from/to Object Model 
 
+* Open [Example6-JAXB/src/model/Book.java](https://github.com/cdparra/introsde2013/blob/master/Example6-JAXB/src/model/BookMain.java)
 ```java
 public class BookMain {
+  // let's put the final result somewhere
   private static final String BOOKSTORE_XML = "./bookstore-jaxb.xml";
   public static void main(String[] args) throws JAXBException, IOException {
     ArrayList<Book> bookList = new ArrayList<Book>();
@@ -513,11 +542,71 @@ public class BookMain {
 
 ---
 
-## Exercise 1: XML from Object Model
+## Exercise 1: XML from/to Object Model
 
+* Enter **Example6-JAXB** 
+* Explore the content of BookMain.java, Book.java and Bookstore.java
+* Compile and run the code 
+
+```sh
+	ant init
+	ant compile
+	ant execute
+```
+
+---
+
+## Exercise 2: XML from Object Model
+
+* Create a simple Program that creates an xml from a Person model in the following format
+
+```xml
+	<person name="Thomas">
+		<age>35</age>
+		<address>Via Malpensada 140</address>
+	</person>
+```
+
+---
+
+## Exercise 3: Check example 7
+
+* Enter the directory **Example7-JAXB**
+* Compile teh code and then run
+	* Simple Java to XML (com.register.jaxb.JavaToXML) 
+	* Marshalling (com.register.jaxb.JAXBMarshaller)
+	* Un-Marshalling (com.register.jaxb.JAXBUnMarshaller)
+
+---
+
+## Dozer
+
+Domain Objects vs Transfer Objects
+
+I would like to keep domain objects separate from logics that manage the transformation into XML documents
+I propose to define two different packages:
+entity: here we put pure domain objects
+transfer: here we put jaxb objects
+We need a mechanism to map domain objects into jaxb objects
 
 
 ---
+
+
+### Dozer basics
+
+Dozer is a Java Bean to Java Bean mapper that recursively copies data from one object to another
+Dozer supports mapping between attribute names and between types.
+Standard conversions are provided automatically
+You are allowed to specify custom conversions via XML
+
+With Dozer, your internal domain objects are not exposed to external presentation layers or to external
+   consumers.
+Dozer maps your domain objects to external APIs calls and vice-versa.
+
+
+---
+
 
 ## Assignment #1
 
@@ -548,6 +637,8 @@ public class BookMain {
 * XML Schemas
 	* http://www.w3schools.com/schema/default.asp
 	* http://www.xfront.com/files/xml-schema.html
-	* Validator: http://tools.decisionsoft.com/schemaValidate/
+	* Validators: 
+		* http://tools.decisionsoft.com/schemaValidate/
+		* http://www.utilities-online.info/xsdvalidation/#.Ul0rkGRvj40
 * JAXB
 * Dozer

@@ -1,13 +1,11 @@
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-    <xsd:complexType name="chunkType" mixed="true">
-        <xsd:choice maxOccurs="unbounded">
-            <xsd:element name="b" type="chunkType"/>
-            <xsd:element name="i" type="chunkType"/>
-        </xsd:choice>
-    </xsd:complexType>
-    <xsd:complexType name="TextType" >
-        <xsd:sequence>
-            <xsd:element name="p" type="chunkType"/>
-        </xsd:sequence>
-    </xsd:complexType>
+<xsd:element name="letter">
+  <xsd:complexType mixed="true">
+    <xsd:sequence>
+      <xsd:element name="name" type="xsd:string"/>
+      <xsd:element name="orderid" type="xsd:positiveInteger"/>
+      <xsd:element name="shipdate" type="xsd:date"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element>
 </xsd:schema>

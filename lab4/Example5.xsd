@@ -12,4 +12,5 @@
             </xsd:extension>
          </xsd:simpleContent>
     </xsd:complexType>
+    <xsd:element name="root" type="SomeEntity"/>
 </xsd:schema>
