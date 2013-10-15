@@ -629,6 +629,7 @@ public class BookMain {
 * Add ${dozer.home}/dist/dozer.jar to your classpath.
 * Add required thirdparty runtime jars to your classpath http://dozer.sourceforge.net/dependencies.html
 
+
 ---
 
 ## Assignment #1
@@ -655,6 +656,11 @@ public class BookMain {
 	* Make a function which prints all people in the list with detail
 	* A function which accepts name as parameter and print that particular person HealthProfile
 	* A function which accepts weight and an operator (=, > , <) as parameters and prints people that fulfill that condition.
+	
+---
+
+## Assignment #1
+
 * **Part 2**
 	* Define the XML schema for the example XML document of people.
 	* Write a java application that does the marshalling and un-marshalling using JAXB. 
