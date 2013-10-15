@@ -39,6 +39,6 @@ public class PersonMain
         System.out.println("Output from our XML File: ");
         Unmarshaller um = context.createUnmarshaller();
         Person person2 = (Person) um.unmarshal(new FileReader(PERSON_XML));
-        System.out.println("Person: " + person2.getName() + " " + person2.getAge() + " year old and from " + person2.getAddress());
+        System.out.println(person2.getName() + " is " + person2.getAge() + " years old and from " + person2.getAddress());
     }
 } 
