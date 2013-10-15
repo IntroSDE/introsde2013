@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<person id="12345"
+    xmlns="http://www.w3schools.com"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.w3schools.com Example4.xsd">        
+    <firstName>George R. R.</firstName>
+    <lastName>Martin</lastName>
+    <birthDate>1970-06-21</birthDate>
+    <country>United States</country>
+</person>

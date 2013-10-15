@@ -1,24 +1,22 @@
-<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+<xsd:schema 
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
     xmlns:example="http://www.example.com/Example" 
     targetNamespace="http://www.example.com/Example">
-
-    <xsd:complexType name="Person">
+    <xsd:element name="person" type="personType"/>
+    <xsd:complexType name="personType">
         <xsd:sequence>
-            <xsd:element name="firstName" type="xsd:string"/>
-            <xsd:element name="lastName"  type="xsd:string"/>
-            <xsd:element name="age"       type="xsd:int"/>
-            <xsd:element name="health-profile" type="HealthProfile"/>
-         </xsd:sequence>
-         <xsd:attribute name="ssn"     type="xsd:ID"/>
-         <xsd:attribute name="version" type="xsd:int"/>
+            <xsd:element name="firstName" type="xsd:string"				/>
+            <xsd:element name="lastName"  type="xsd:string"				/>
+            <xsd:element name="birthDate" type="xsd:date"				/>
+            <xsd:element name="age"       type="xsd:integer"			/>
+            <xsd:element name="healthProfile" type="healthProfileType"	/>
+        </xsd:sequence>
+		<xs:attribute name="id" type="xs:integer"/>
     </xsd:complexType>
-
-    <xsd:complexType name="HealthProfile">
+    <xsd:complexType name="healthProfileType">
         <xsd:sequence>
             <xsd:element name="weight" type="xsd:decimal"/>
             <xsd:element name="height"  type="xsd:decimal"/>
          </xsd:sequence>
-         <xsd:attribute name="ssn"     type="xsd:ID"/>
-         <xsd:attribute name="version" type="xsd:int"/>
     </xsd:complexType>
 </xsd:schema>
