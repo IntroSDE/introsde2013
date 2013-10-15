@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<project name="JAXBExample" default="compile" basedir=".">
+
+    <property name="BuildDir" value="build"/>
+    <property name="lib" value="lib"/>
+
+    <target name="init">
+        <echo message="Init has been called"/>
+        <mkdir dir="${BuildDir}" />
+        <echo message="${BuildDir} has been created"/>
+    </target>
+    <target name="compile" depends="init">
+        <echo message="Compile target has been called"/>
+        <javac srcdir="src" destdir="${BuildDir}">
+	        <classpath>
+               	<fileset dir="${lib}">
+                	  <include name="**/*.jar" />
+            	   </fileset>
+        	 </classpath>
+     	</javac>
+    </target>
+    
+    <target name="archive" depends="compile">
+        <echo>Starting to archive...</echo>
+        <jar destfile="dist/project.jar" basedir="build">
+            <manifest>
+                <attribute name="Main-Class" value="BookMain" />
+                <attribute name="Class-Path" value="build"/>
+            </manifest>
+        </jar>
+        <echo>Archived!</echo>
+    </target>
+
+    <target name="execute" depends="compile">
+        <java classname="BookMain" classpath="build">
+        	<classpath>
+               	<fileset dir="${lib}">
+                	  <include name="**/*.jar" />
+            	   </fileset>
+        	 </classpath>
+        </java>
+    </target>
+</project>

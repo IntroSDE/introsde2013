@@ -1,6 +1,6 @@
 class: center, middle, inverse
 
-# JAXB, XML schemas & Dozer 
+# XML schemas, Java Annotations, JAXB & Dozer 
 Introduction to Service Design and Engineering 2013/2014. 
 <br>*Lab session #4*
 <br>**University of Trento** 
@@ -9,8 +9,8 @@ Introduction to Service Design and Engineering 2013/2014.
 
 ## Outline
 
-* XML schema: XSD
-* Java Annotation
+* XML schema definition (XSD) overview
+* Java Annotation minimal example
 * Introduction to JAXB
 * Example: from schema to java representations
 * Example: Generate an XML document from an Object Model
@@ -47,19 +47,19 @@ Introduction to Service Design and Engineering 2013/2014.
 
 * Open the [Example 1](https://github.com/cdparra/introsde2013/blob/master/lab4/Example1.xsd)
 ```xml 
-<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-    xmlns:example="http://www.example.com/Example" 
-    targetNamespace="http://www.example.com/Example">
-    <xsd:element name="person" type="personType"/>
+<xsd:schema 
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <xsd:complexType name="personType">
         <xsd:sequence>
             <xsd:element name="firstName" type="xsd:string"				/>
             <xsd:element name="lastName"  type="xsd:string"				/>
             <xsd:element name="birthDate" type="xsd:date"				/>
-            <xsd:element name="age"       type="xsd:integer"			/>
-            <xsd:element name="healthProfile" type="healthProfileType"	/>
-         </xsd:sequence>
-		<xs:attribute name="id" type="xs:integer"/>
+            <xsd:element name="age"       type="xsd:integer"			
+                minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="healthProfile" type="healthProfileType"	
+                minOccurs="0" maxOccurs="1"/>
+        </xsd:sequence>
+		<xsd:attribute name="id" type="xsd:integer"/>
     </xsd:complexType>
     <xsd:complexType name="healthProfileType">
         <xsd:sequence>
@@ -67,6 +67,7 @@ Introduction to Service Design and Engineering 2013/2014.
             <xsd:element name="height"  type="xsd:decimal"/>
          </xsd:sequence>
     </xsd:complexType>
+    <xsd:element name="person" type="personType"/>
 </xsd:schema>
 ```
 
@@ -76,9 +77,7 @@ Introduction to Service Design and Engineering 2013/2014.
 ## Example 1: XSD (2)
 
 ```xml 
-	<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
-		xmlns:example="http://www.example.com/Example" 
-    	targetNamespace="http://www.example.com/Example">
+	<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     	...
    </xsd:schema>
 ```
@@ -338,6 +337,11 @@ or
 ## Java Annotations
 
 
+* Annotations provide data about a program that is not part of the program itself.
+* They have no direct effect on the operation of the code they annotate.
+* Annotations can be applied to a program's  declarations of classes, fields, methods, and other program  elements.
+
+
 ```java
 @XmlRootElement // this is a java annotation
 @XmlType(name = "", propOrder = { "publisher", "edition", "title", "author" })
@@ -351,8 +355,13 @@ public class Catalog {
 	public String journal;
 ```
 
+---
 
+## Java Annotations: Uses
 
+* **Information for the compiler:** Annotations can be used by the compiler to detect errors or suppress warnings.
+* **Compile-time and deployment-time processing:** Software tools can process annotation information to generate code, XML files, and so forth.
+* **Runtime processing:** Some annotations are available to be examined at runtime
 
 ---
 
@@ -374,6 +383,141 @@ public class Catalog {
 ![](https://raw.github.com/cdparra/introsde2013/master/lab4/resources/JAXB-Architecture.png)
 
 
+---
+
+## JAXB Binding Process
+
+![](https://raw.github.com/cdparra/introsde2013/master/lab4/resources/JAXB-BindingProcess.png)
+
+---
+
+## JAXB Annotations
+
+* **@XmlRootElement(namespace = "namespace"):** defines the root element for an XML tree
+* **@XmlType(propOrder = { "field2", "field1",.. }):** allows to define the order in which the fields are written in the XML file
+* **@XmlElement(name = "neuName"):** defines the XML element which will be used. Only need to be used if the neuNeu is different then the JavaBeans Name
+
+---
+
+## Example 6: JAXB Annotations
+
+```java
+@XmlRootElement(name = "book")
+// If you want you can define the order in which the fields are written
+// Optional
+@XmlType(propOrder = { "author", "name", "publisher", "isbn" })
+public class Book {
+  //
+  private String name;
+  private String author;
+  private String publisher;
+  private String isbn;
+  //
+  // If you like the variable name, e.g. "name", you can easily change this
+  // name for your XML-Output:
+  @XmlElement(name = "title")
+  public String getName() {
+    return name;
+  }
+```
+
+---
+
+## Example 6: JAXB Annotations
+
+```java
+//This statement means that class "Bookstore.java" is the root-element of our example
+@XmlRootElement(namespace = "de.vogella.xml.jaxb.model")
+public class Bookstore {
+  //
+  // XmLElementWrapper generates a wrapper element around XML representation
+  @XmlElementWrapper(name = "bookList")
+  // XmlElement sets the name of the entities
+  @XmlElement(name = "book")
+  private ArrayList<Book> bookList;
+  private String name;
+  private String location;
+```
+
+---
+
+## Example 6: XML from/to Object Model 
+
+```java
+public class BookMain {
+  private static final String BOOKSTORE_XML = "./bookstore-jaxb.xml";
+  public static void main(String[] args) throws JAXBException, IOException {
+    ArrayList<Book> bookList = new ArrayList<Book>();
+    // create books
+    Book book1 = new Book();
+    book1.setIsbn("978-0060554736");
+    book1.setName("The Game");
+    book1.setAuthor("Neil Strauss");
+    book1.setPublisher("Harpercollins");
+    bookList.add(book1);
+    //
+    Book book2 = new Book();
+    book2.setIsbn("978-3832180577");
+    book2.setName("Feuchtgebiete");
+    book2.setAuthor("Charlotte Roche");
+    book2.setPublisher("Dumont Buchverlag");
+    bookList.add(book2);
+    //
+    // create bookstore, assigning book
+    Bookstore bookstore = new Bookstore();
+    bookstore.setName("Fraport Bookstore");
+    bookstore.setLocation("Frankfurt Airport");
+    bookstore.setBookList(bookList);
+	…
+```
+
+---
+
+## Example 6: XML from/to Object Model 
+
+```java
+	...
+    // create JAXB context and instantiate marshaller
+    JAXBContext context = JAXBContext.newInstance(Bookstore.class);
+    Marshaller m = context.createMarshaller();
+    m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+	//
+    // Write to System.out
+    m.marshal(bookstore, System.out);
+	//
+    // Write to File
+    m.marshal(bookstore, new File(BOOKSTORE_XML));
+	//
+    // get variables from our xml file, created before
+    System.out.println();
+    System.out.println("Output from our XML File: ");
+   	…
+```
+
+---
+
+## Example 6: XML from/to Object Model 
+
+```java
+	...
+    Unmarshaller um = context.createUnmarshaller();
+    Bookstore bookstore2 = (Bookstore) um.unmarshal(new FileReader(BOOKSTORE_XML));
+    ArrayList<Book> list = bookstore2.getBooksList();
+    for (Book book : list) {
+      System.out.println("Book: " + book.getName() + " from "
+          + book.getAuthor());
+    }
+  }
+} 
+```
+
+---
+
+## Exercise 1: XML from Object Model
+
+
+
+---
 
 ## Assignment #1
 

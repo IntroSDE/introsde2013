@@ -1,6 +1,4 @@
-<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-    xmlns:example="http://www.example.com/Example" 
-    targetNamespace="http://www.example.com/Example">
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
    <xsd:attributeGroup name="elementAttrGroup">
         <xsd:attribute name="refURI" type="xsd:anyURI" use="optional">
         </xsd:attribute>
