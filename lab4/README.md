@@ -407,6 +407,13 @@ public class Catalog {
 
 ---
 
+## XML From/to Object Model
+
+* Think about the following simple object model
+![](https://raw.github.com/cdparra/introsde2013/master/lab4/resources/BookModel.png)
+
+---
+
 ## JAXB Annotations
 
 * **@XmlRootElement(namespace = "namespace"):** defines the root element for an XML tree
@@ -414,14 +421,6 @@ public class Catalog {
 * **@XmlElement(name = "neuName"):** defines the XML element which will be used. Only need to be used if the neuNeu is different then the JavaBeans Name
 
 ---
-
----
-
-## XML From/to Object Model
-
-* Think about the following simple object model
-![](https://raw.github.com/cdparra/introsde2013/master/lab4/resources/BookModel.png)
-
 
 ## Example 6: JAXB Annotations
 
@@ -502,7 +501,7 @@ public class BookMain {
 
 ---
 
-## Example 6: XML from/to Object Model 
+## Example 6: XML from Object Model 
 
 ```java
 	...
@@ -525,7 +524,7 @@ public class BookMain {
 
 ---
 
-## Example 6: XML from/to Object Model 
+## Example 6: XML to Object Model 
 
 ```java
 	...
@@ -542,9 +541,9 @@ public class BookMain {
 
 ---
 
-## Exercise 1: XML from/to Object Model
+## Example 6: XML from/to Object Model
 
-* Enter **Example6-JAXB** 
+* Enter [Example6-JAXB](https://github.com/cdparra/introsde2013/tree/master/Example6-JAXB) 
 * Explore the content of BookMain.java, Book.java and Bookstore.java
 * Compile and run the code 
 
@@ -553,6 +552,8 @@ public class BookMain {
 	ant compile
 	ant execute
 ```
+
+* What's new in the folder? 
 
 ---
 
@@ -569,44 +570,66 @@ public class BookMain {
 
 ---
 
-## Exercise 3: Check example 7
+## Example 7: more JAXB
 
-* Enter the directory **Example7-JAXB**
-* Compile teh code and then run
-	* Simple Java to XML (com.register.jaxb.JavaToXML) 
-	* Marshalling (com.register.jaxb.JAXBMarshaller)
-	* Un-Marshalling (com.register.jaxb.JAXBUnMarshaller)
+* Enter the directory [Example7-JAXB](https://github.com/cdparra/introsde2013/tree/master/Example7-JAXB)
+* Compile the code and then run
+
+```sh
+	javac *.java
+	java JavaToXML
+```
+
+* Explore catalog.xml
+
+```sh
+	java JAXBMarshaller
+```
+
+* Explore catalog.xml
+
+```sh
+	java JAXBUnMarshaller
+```
+
+---
+
+## Exercise 3
+
+* What should you change in [Example7-JAXB](https://github.com/cdparra/introsde2013/tree/master/Example7-JAXB) to add an **element year** within each article of a journal? 
 
 ---
 
 ## Dozer
 
-Domain Objects vs Transfer Objects
-
-I would like to keep domain objects separate from logics that manage the transformation into XML documents
-I propose to define two different packages:
-entity: here we put pure domain objects
-transfer: here we put jaxb objects
-We need a mechanism to map domain objects into jaxb objects
-
+* Domain Objects vs Transfer Objects
+* I would like to keep domain objects separate from logics that manage the transformation into XML documents
+* I propose to define two different packages:
+	* entity: here we put pure domain objects
+	* transfer: here we put jaxb objects
+* We need a mechanism to map domain objects into jaxb objects
 
 ---
 
+## Dozer basics
 
-### Dozer basics
-
-Dozer is a Java Bean to Java Bean mapper that recursively copies data from one object to another
-Dozer supports mapping between attribute names and between types.
-Standard conversions are provided automatically
-You are allowed to specify custom conversions via XML
-
-With Dozer, your internal domain objects are not exposed to external presentation layers or to external
-   consumers.
-Dozer maps your domain objects to external APIs calls and vice-versa.
-
+* Dozer is a Java Bean to Java Bean mapper that recursively copies data from one object to another
+* Dozer supports mapping between attribute names and between types.
+* Standard conversions are provided automatically
+* You are allowed to specify custom conversions via XML
+* With Dozer, your internal domain objects are not exposed to external presentation layers or to external consumers.
+* Dozer maps your domain objects to external APIs calls and vice-versa.
+* Dozer can works both with XML and JSON 
 
 ---
 
+## Dozer Installation
+
+* Download Dozer and extract the archive: http://dozer.sourceforge.net/
+* Add ${dozer.home}/dist/dozer.jar to your classpath.
+* Add required thirdparty runtime jars to your classpath http://dozer.sourceforge.net/dependencies.html
+
+---
 
 ## Assignment #1
 
@@ -626,11 +649,40 @@ Dozer maps your domain objects to external APIs calls and vice-versa.
 </people>
 ```
 
-* Use xpath to implement methods like getWeight and getHeight
-* Make a function which prints all people in the list with detail
-* A function which accepts name as parameter and print that particular person HealthProfile
-* A function which accepts weight and an operator (=, > , <) as parameters and prints people that fulfill that condition.
+* **Part 1** 
+	* Extend the example above to include at least 20 people (maybe your friends with fake names) 
+	* Use xpath to implement methods like getWeight and getHeight
+	* Make a function which prints all people in the list with detail
+	* A function which accepts name as parameter and print that particular person HealthProfile
+	* A function which accepts weight and an operator (=, > , <) as parameters and prints people that fulfill that condition.
+* **Part 2**
+	* Define the XML schema for the example XML document of people.
+	* Write a java application that does the marshalling and un-marshalling using JAXB. 
 
+---
+
+## Assingment Rules
+
+* Before submission make a zip file that includes only
+	* All Java source files 
+	* All XML and XSD files
+* Rename the Zip file to: your full name + assignment_no. for example: cristhian_parra_1.zip
+* Submission link: www.dropitto.me/introsde2013* Password will be given and class and sent to the group
+* The assignment is due on 05-Nov (Mid-Night). 
+* On 06-Nov I'll copy your directory and I use that copy for the evaluation.
+
+---
+
+
+## For next session
+
+* Install Eclipse: http://www.eclipse.org/downloads/packages/eclipse-standard-431/keplersr1
+* Install Maven (newly added requirement): http://maven.apache.org/download.cgi
+* Prepare yourselves for a long session: we will go till 7pm. 
+* Stay tunned to the list, will send a list of plugins for eclipse to add later in the week. 
+
+
+---
 
 ## References:
 
