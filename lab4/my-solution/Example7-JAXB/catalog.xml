@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<catalog journalTitle="Java Technology 2.22" publisher="UNITN developerWorks">
+    <journal>
+        <article edition="Oct-2010">
+            <title>Managing XML data: Tag URIs</title>
+            <author>Elliotte Harold</author>
+        </article>
+        <article edition="October-2005">
+            <title>JAXP validation</title>
+            <author>Brett McLaughlin</author>
+        </article>
+    </journal>
+</catalog>
