@@ -20,6 +20,8 @@
 		<echo message="${build.dir} has been deleted" />
 		<delete dir="${src.dir}/${xjc.package}" />
 		<echo message="${src.dir}/${xjc.package} has been deleted" />
+		<delete file="catalog.xml" />
+		<echo message="catalog.xml has been deleted" />
 	</target>
 	
 	<taskdef name="xjc" classname="com.sun.tools.xjc.XJCTask">
