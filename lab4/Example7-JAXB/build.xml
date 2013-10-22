@@ -6,7 +6,7 @@
 	<property name="src.dir" value="src" />
 	<property name="xjc.package" value="generated" />
 	<!-- Change the value of this property based on the path where you put JAXB-->
-	<property name="jaxb.home" value="/opt/jaxb-ri-2.2.7" />
+	<property name="jaxb.home" value="/opt/jaxb-ri-2.2.6" />
 	
 	<target name="init">
 		<echo message="Init has been called" />
@@ -29,6 +29,7 @@
 			<fileset dir="${jaxb.home}/lib" includes="*.jar" />
 		</classpath>
 	</taskdef>
+
 	<target name="generate" depends="init">
 		<xjc schema="catalog.xsd" destdir="${src.dir}" package="${xjc.package}" />
 	</target>
