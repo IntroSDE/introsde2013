@@ -112,6 +112,13 @@ Introduction to Service Design and Engineering 2013/2014.
 * Dozer
 * Assignment
 
+---
+
+## The goal of the session
+
+**How can we map xml documents to java objects (and viceversa) so that our program deals only with objects?**
+
+
 
 ---
 
@@ -397,6 +404,11 @@ Introduction to Service Design and Engineering 2013/2014.
     <xsd:element name="root" type="SomeEntity"/>
 ```
 
+## Exercise 0
+
+* Add a HealthProfile to the Example1.xml and make sure this is valid with respect to the Example1.xsd
+
+
 ---
 
 ## Exercise 1
@@ -669,23 +681,37 @@ public class BookMain {
 ## Example 7: more JAXB
 
 * Enter the directory [Example7-JAXB](https://github.com/cdparra/introsde2013/tree/master/Example7-JAXB)
+* Edit the build.xml to update the JAXB home (e.g., /opt/jaxb-ri-2.2.6)
 * Compile the code and then run
 
 ```sh
-  javac *.java
-  java JavaToXML
+  ant init
+  ant compile
+  ant execute.JavaToXML
+```
+
+---
+
+## Example 7: generating classes from XML Schema
+
+* JAXB comes with an XML Schema binding compile
+
+```sh
+  ant generate
+```
+
+* Explore the classes under the newly created "generated folder"
+* Now, Marshal these classes into an XML
+
+```sh
+  ant execute.JAXBUnMarshaller
 ```
 
 * Explore catalog.xml
+* UnMarshal them into Java objects
 
 ```sh
-  java JAXBMarshaller
-```
-
-* Explore catalog.xml
-
-```sh
-  java JAXBUnMarshaller
+  ant execute.JAXBUnMarshaller
 ```
 
 ---
@@ -696,14 +722,30 @@ public class BookMain {
 
 ---
 
-## Dozer
+## Domain Objects vs Transfer Objects
 
-* Domain Objects vs Transfer Objects
-* I would like to keep domain objects separate from logics that manage the transformation into XML documents
-* I propose to define two different packages:
-  * entity: here we put pure domain objects
-  * transfer: here we put jaxb objects
-* We need a mechanism to map domain objects into jaxb objects
+* **You have a domain model** (i.e., the model that is mapped to your database) 
+
+```java
+public class PersonDB {  
+    private String firstName;
+    private String lastName;
+    private String address;
+    private String dbID;
+```
+
+* **What if your client is waiting this, and it does not care about ids?** 
+
+```xml
+<person>
+  <fName>Cristhian</fName>
+  <lName>Parra</lName>
+  <address>Povo Trento</address>
+</person>
+```
+
+* In other words, we want to keep domain objects separate from the logics that manage the transformation into XML/JSON representations of the resources in our model
+* To do se, we need **Transfer Objects** in the middle
 
 ---
 
@@ -721,12 +763,97 @@ public class BookMain {
 
 ## Dozer Installation
 
-* Download Dozer and extract the archive: http://dozer.sourceforge.net/
+* Download Dozer and extract the archive: https://github.com/DozerMapper/dozer/archive/v5.4.0.zip
 * Add ${dozer.home}/dist/dozer.jar to your classpath.
 * Add required thirdparty runtime jars to your classpath http://dozer.sourceforge.net/dependencies.html
 
+---
+
+## Dozer Example (1)
+
+* Open [Example8-Dozer](https://github.com/cdparra/introsde2013/tree/master/Example8-Dozer)
+* The basic idea is that you have two set of classes in different packages:
+  * **[entity classes](https://github.com/cdparra/introsde2013/tree/master/Example8-Dozer/src/dozerproject/entity)**: here we put pure domain objects
+  * **[transfer classes](https://github.com/cdparra/introsde2013/tree/master/Example8-Dozer/src/dozerproject/entity)**: here we put objects as they are going to be mapped to the presentation layer (xml, json)
+* Dozer maps domain objects into jaxb objects, that can later be marshalled to xml
+
+
+## Dozer Example (2)
+```java
+package dozerproject.entity;
+public class PersonDB {
+    private String firstName;
+    private String lastName;
+    private String address;
+    private String dbID;
+```
+
+```java
+package dozerproject.transfer;
+@XmlRootElement(name="person")
+public class PersonUI {
+    private String fName;
+    private String lName;
+    private String address;
+    // getters and setters
+```
 
 ---
+
+## Dozer Example (3)
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://dozer.sourceforge.net
+          http://dozer.sourceforge.net/schema/beanmapping.xsd">          
+  <mapping> 
+    <class-a>dozerproject.PersonDB</class-a>
+    <class-b>lsde.lab4.presentation.PersonUI</class-b>   
+    <field>
+      <a>firstName</a>
+      <b>fName</b>
+    </field>
+    <field>
+      <a>lastName</a>
+      <b>lName</b>
+    </field>
+  </mapping>  
+</mappings>
+```
+
+---
+
+## Dozer Example (4)
+
+```java
+    public static void main (String argus[]){        
+        DozerMapper mapper = new DozerMapper();
+        PersonDB pdb = getPersonFromDB(); 
+        // load mapping files
+        List myMappingFiles = new ArrayList();
+        myMappingFiles.add("File:./dozerMappings.xml");
+        // prepare DozerMapper
+        DozerBeanMapper mapper = new DozerBeanMapper();
+        mapper.setMappingFiles(myMappingFiles);
+    // do the mapping
+        PersonUI destObject = (PersonUI) mapper.map(sourceObject, PersonUI.class);
+        // serialize the mapped object to the final representation (e.g., xml)
+        String xmlFile = "person.xml";
+        File xmlDocument = newFile(xmlFile);
+      try {
+            JAXBContext jaxbContext = JAXBContext.newInstance(PersonUI.class);
+            Marshaller marshaller = jaxbContext.createMarshaller();
+            marshaller.setProperty("jaxb.formatted.output", new Boolean(true));
+            marshaller.marshal(destObject, new FileOutputStream(xmlDocument));
+        } catch (IOException e) {
+         …
+        }
+```
+
+---
+
 
 ## Assignment #1
 
@@ -747,32 +874,42 @@ public class BookMain {
 ```
 
 * **Part 1** 
-  * Extend the example above to include at least 20 people (maybe your friends with fake names) 
-  * Use xpath to implement methods like getWeight and getHeight
-  * Make a function which prints all people in the list with detail
-  * A function which accepts name as parameter and print that particular person HealthProfile
-  * A function which accepts weight and an operator (=, > , <) as parameters and prints people that fulfill that condition.
+  * Extend the example above to include at least 20 people (maybe your friends with fake names, **extra points if you find a bigger datasource**) 
+  * Use xpath to implement methods like **getWeight** and **getHeight**
+  * Make a function that prints all people in the list with detail (if >20, paginated)
+  * A function that accepts **fullname as parameter** and prints that particular person **HealthProfile**
+  * A function which accepts a **weight** and an **operator (=, > , <)** as parameters and prints people that fulfill that condition (i.e., >80Kg, =75Kg, etc.).
   
 ---
 
 ## Assignment #1
 
 * **Part 2**
-  * Define the XML schema for the example XML document of people.
+  * Create the XML schema XSD file for the example XML document of people.
   * Write a java application that does the marshalling and un-marshalling using JAXB. 
 
 ---
 
-## Assingment Rules
+## Assignment Rules
 
 * Before submission make a zip file that includes only
   * All Java source files 
   * All XML and XSD files
+  * please, do not include .class or IDE generated project files
 * Rename the Zip file to: your full name + assignment_no. for example: cristhian_parra_1.zip
 * Submission link: www.dropitto.me/introsde2013
 * Password will be given and class and sent to the group
 * The assignment is due on 05-Nov (Mid-Night). 
 * On 06-Nov I'll copy your directory and I use that copy for the evaluation.
+
+---
+
+## Assignment Evaluation
+
+* The assignment will be evaluated in terms of: 
+  * **Completeness:** did you deliver all that was asked?
+  * **Functioning:** does it work? Does it do what it was requested?
+  * **Organization (for extra points):** the easier you make it for us to understand what you did and how to run it, the more chances for you to have a better mark (i.e., there is self-explained ant build file to automate things, files are structured in orderly manner, source code is readable, there is a maven project file taking care for dependencies - that would be awesome, etc.)
 
 ---
 
@@ -797,7 +934,6 @@ public class BookMain {
     * http://www.utilities-online.info/xsdvalidation/#.Ul0rkGRvj40
 * JAXB
 * Dozer
-
     </textarea>
     <script src="http://gnab.github.io/remark/downloads/remark-0.5.6.min.js" type="text/javascript">
     </script>

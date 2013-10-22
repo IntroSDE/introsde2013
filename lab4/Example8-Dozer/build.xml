@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<project name="JAXBExample" default="compile" basedir=".">
+
+    <property name="build.dir" value="build" />
+    <property name="lib.dir" value="lib" />
+    <property name="src.dir" value="src" />
+
+    <target name="init">
+        <echo message="Init has been called" />
+        <mkdir dir="${build.dir}" />
+        <echo message="${build.dir} has been created" />
+    </target>
+    
+    <target name="clean">
+        <echo message="Clean has been called" />
+        <delete dir="${build.dir}" />
+        <echo message="${build.dir} has been deleted" />
+    </target>
+
+    <target name="compile" depends="init">
+        <echo message="Compile target has been called"/>
+        <javac srcdir="${src.dir}" destdir="${build.dir}">
+	        <classpath>
+               	<fileset dir="${lib.dir}">
+                	  <include name="**/*.jar" />
+            	   </fileset>
+        	 </classpath>
+     	</javac>
+    </target>
+    
+    <target name="archive" depends="compile">
+        <echo>Starting to archive...</echo>
+        <jar destfile="dist/project.jar" basedir="${build.dir}">
+            <manifest>
+                <attribute name="Main-Class" value="dozerproject.DozerMapper" />
+                <attribute name="Class-Path" value="${build.dir}"/>
+            </manifest>
+        </jar>
+        <echo>Archived!</echo>
+    </target>
+
+
+    <target name="execute" depends="compile">
+        <java classname="dozerproject.DozerMapper" classpath="${build.dir}">
+        	<classpath>
+               	<fileset dir="${lib.dir}">
+                	  <include name="**/*.jar" />
+            	</fileset>
+             </classpath>
+        </java>
+    </target>
+</project>
