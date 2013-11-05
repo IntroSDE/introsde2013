@@ -155,6 +155,7 @@ One resource, many representations
  
 ## Configuration - Tomcat Server in Eclipse (1)
 
+* The first step is to configure a Runtime Environment for Tomcat
 * In eclipse, go to **Preferences -> Server -> Runtime Environments -> Add**
 * Select your version of Tomcat.
 * To compile the JSP into servlets you need to use the JDK. You can check your setup by clicking on the Installed JRE button.
@@ -162,10 +163,20 @@ One resource, many representations
 
 --
  
-## Configuration - Tomcat Server in Eclipse (1)
+## Configuration - Tomcat Server in Eclipse (2)
 
-* During development you will create your server. You can manage it via the Server view
-* You can stop and start the server via the **Window -> Show View -> Other -> Servers**
+* Second step is to create a running **Tomcat Server**
+* Open the Server view for this: **Window -> Show View -> Other -> Server -> Servers**
+* If no server is available, you need to create a new one (just follow the steps of the wizard)
+* Once the server is created, double click on it to open its configuration file
+* I reccomend you mark "use tomcat installation"
+
+--- 
+
+## Configuration - Tomcat Server in Eclipse (3)
+
+![](https://raw.github.com/cdparra/introsde2013/master/lab5/resources/ServerTomcat-Configuration.png)
+
 
 ---
 

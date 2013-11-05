@@ -3,6 +3,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.bind.*;
 
+import oracle.jrockit.jfr.settings.JSONElement;
 
 import org.w3c.dom.*;
 import org.w3c.dom.Element;
@@ -17,9 +18,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 import java.io.IOException;
 import java.io.StringWriter;
+import java.io.Writer;
+import java.util.Iterator;
 
 
 /**
@@ -118,13 +120,24 @@ public class SydneyServlet extends HttpServlet {
 	}
 
 	private void csvReply(HttpServletResponse response) {
-		// TODO Auto-generated method stub
-		
+		response.setContentType("text/csv");
+		try {
+			Writer writer = response.getWriter();
+			writer.write("City.place\n");
+			
+			for (String place: places) {
+				writer.write("Sydney,");
+				writer.write(place+"\n");
+			}
+			writer.flush();
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void jsonReply(HttpServletResponse response) {
-		// TODO Auto-generated method stub
-		
+		// TODO
 	}
 
 	/**
