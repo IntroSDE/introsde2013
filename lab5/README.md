@@ -171,4 +171,4 @@ One resource, many representations
 
 ## The Simplest REST Example - A Servlet
 
-* Check the code example in ![lab5/Example1-Servlet](https://github.com/cdparra/introsde2013/tree/master/lab5/Example1-Servlet)
+* Check the code example in [lab5/Example1-Servlet](https://github.com/cdparra/introsde2013/tree/master/lab5/Example1-Servlet)
