@@ -6,6 +6,8 @@ import javax.xml.bind.*;
 
 import oracle.jrockit.jfr.settings.JSONElement;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.w3c.dom.*;
 import org.w3c.dom.Element;
 
@@ -65,6 +67,9 @@ public class SydneyServlet extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
+		response.getWriter().flush();
+		response.getWriter().flush();
+		response.flushBuffer();
 	}
 
 	private void xmlReply(HttpServletResponse response)
@@ -103,6 +108,7 @@ public class SydneyServlet extends HttpServlet {
 		String xmlString = sw.toString();
 
 		getServletContext().log(xmlString);
+		System.out.println(xmlString);
 		response.getWriter().write(xmlString);
 	}
 
@@ -114,11 +120,21 @@ public class SydneyServlet extends HttpServlet {
 			
 		}
 	    getServletContext().log(output);
+		System.out.println(output);
 		response.getWriter().write(output);
 	}
 
-	private void jsonReply(HttpServletResponse response) {
-		// TODO
+	private void jsonReply(HttpServletResponse response) throws IOException {
+		response.setContentType("text/json");
+		JSONObject obj=new JSONObject();
+		obj.put("city", "Sydney");
+		JSONArray jsonPlaces = new JSONArray();
+		for (String place : places) {
+			jsonPlaces.add(place);
+		}
+		obj.put("places",jsonPlaces);
+		System.out.println(obj.toJSONString());
+		response.getWriter().write(obj.toJSONString());
 	}
 
 	/**
