@@ -8,7 +8,6 @@
 build/*
 build/
 *.pydevproject
-.project
 .metadata
 bin/**
 tmp/**
@@ -17,10 +16,13 @@ tmp/**/*
 *.bak
 *.swp
 *~.nib
+
+# Eclipse project files
 local.properties
 .classpath
 .settings/
 .loadpath
+.project
 
 # External tool builders
 .externalToolBuilders/

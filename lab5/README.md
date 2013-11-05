@@ -137,7 +137,7 @@ One resource, many representations
 
 ---
 
-## Configuration
+## Configuration - Eclipse WTP (1)
 
 * For the lab, we will use **Eclipse WTP**, which provides tools for developing standard Java web applications and Java EE applications
 * To install, use **Help -> Install new software -> All Available Sites**
@@ -145,11 +145,30 @@ One resource, many representations
 * Search for **"Web Tools Platform"** and install all what's inside that category (using the latest version)
 * In old versions of eclipse, there might be a category "Web, XML, Java EE Development and OSGi Enterprise Development". Install all inside. 
 
+--- 
+
+## Configuration - Eclipse WTP (2)
+
 ![](https://raw.github.com/cdparra/introsde2013/master/lab5/resources/EclipseWTP.png)
+
+--
  
-* 
-* 'Preferences' -> 'Server' -> 'Runtime Environments'
-* Click the 'Add' button, then follow the prompts to specify the current location of your own apache tomcat runtime
-* http://www.getpostman.com/
+## Configuration - Tomcat Server in Eclipse (1)
+
+* In eclipse, go to **Preferences -> Server -> Runtime Environments -> Add**
+* Select your version of Tomcat.
+* To compile the JSP into servlets you need to use the JDK. You can check your setup by clicking on the Installed JRE button.
+* Press Finish and then OK. You are now ready to use Tomcat with WTP.
+
+--
+ 
+## Configuration - Tomcat Server in Eclipse (1)
+
+* During development you will create your server. You can manage it via the Server view
+* You can stop and start the server via the **Window -> Show View -> Other -> Servers**
 
 ---
+
+## The Simplest REST Example - A Servlet
+
+* Check the code example in ![lab5/Example1-Servlet](https://github.com/cdparra/introsde2013/tree/master/lab5/Example1-Servlet)
