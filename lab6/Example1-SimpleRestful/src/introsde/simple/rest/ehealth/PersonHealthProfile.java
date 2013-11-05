@@ -1,4 +1,7 @@
 package introsde.simple.rest.ehealth;
+import introsde.simple.rest.ehealth.model.HealthProfile;
+import introsde.simple.rest.ehealth.model.Person;
+
 import java.util.HashMap;
 import java.util.Map;
 

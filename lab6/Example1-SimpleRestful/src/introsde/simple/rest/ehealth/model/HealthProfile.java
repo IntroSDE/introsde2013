@@ -1,4 +1,4 @@
-package introsde.simple.rest.ehealth;
+package introsde.simple.rest.ehealth.model;
 
 public class HealthProfile {
 	private double weight; // in kg
