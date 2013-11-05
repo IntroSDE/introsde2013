@@ -1,4 +1,5 @@
 package introsde.servlet;
+
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.bind.*;
@@ -23,117 +24,97 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Iterator;
 
-
 /**
  * Servlet implementation class SydneyServlet
  */
 @WebServlet("/SydneyServlet")
 public class SydneyServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-	private static final String [] places = {
-		"Harbour Bridge", 
-		"Circular Quay", 
-		"Taronga Zoo", 
-		"Manly Beach", 
-		"Darling Harbour", 
-		"Coogee Beach", 
-		"University of New South Wales"
-	};
-	
-	
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public SydneyServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+
+	private static final String[] places = { "Harbour Bridge", "Circular Quay",
+			"Taronga Zoo", "Manly Beach", "Darling Harbour", "Coogee Beach",
+			"University of New South Wales" };
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(
-			HttpServletRequest request, 
-			HttpServletResponse response
-			) throws ServletException, IOException {
-		
-		// GET http://starbucks/order/json"
-		
+	public SydneyServlet() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws 
+			ServletException, IOException {
+
 		if ("/json".equals(request.getPathInfo())) {
 			jsonReply(response);
 		} else if ("/csv".equals(request.getPathInfo())) {
 			csvReply(response);
-		} else {
+		} else {	
 			try {
-				try {
-					xmlReply(response);
-				} catch (TransformerFactoryConfigurationError
-						| TransformerException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			} catch (ParserConfigurationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (JAXBException e) {
+				xmlReply(response);
+			} catch (ParserConfigurationException | JAXBException
+					| TransformerFactoryConfigurationError
+					| TransformerException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 	}
 
-	private void xmlReply(HttpServletResponse response) 
-			throws ParserConfigurationException, JAXBException, 
-			IOException, TransformerFactoryConfigurationError, TransformerException {
+	private void xmlReply(HttpServletResponse response)
+			throws ParserConfigurationException, JAXBException, IOException,
+			TransformerFactoryConfigurationError, TransformerException {
 		response.setContentType("text/xml");
-		DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-		//creating a new instance of a DOM to build a DOM tree.
+		DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance()
+				.newDocumentBuilder();
+		// creating a new instance of a DOM to build a DOM tree.
 		Document doc = docBuilder.newDocument();
-		
+
 		Element root = doc.createElement("cityplaces");
 		doc.appendChild(root);
 
 		Element city = doc.createElement("city");
 		city.setTextContent("Sydney");
 		root.appendChild(city);
-		
+
 		Element list = doc.createElement("places");
 		for (String placeName : places) {
 			Element place = doc.createElement("place");
 			place.setTextContent(placeName);
-			
+
 			list.appendChild(place);
 		}
 		root.appendChild(list);
-		
-		Transformer transformer = TransformerFactory.newInstance().newTransformer();
-		
+
+		Transformer transformer = TransformerFactory.newInstance()
+				.newTransformer();
+
 		// create string from xml tree
 		StringWriter sw = new StringWriter();
 		StreamResult result = new StreamResult(sw);
 		DOMSource source = new DOMSource(doc);
 		transformer.transform(source, result);
 		String xmlString = sw.toString();
-		
+
+		getServletContext().log(xmlString);
 		response.getWriter().write(xmlString);
 	}
 
-	private void csvReply(HttpServletResponse response) {
+	private void csvReply(HttpServletResponse response) throws IOException {
 		response.setContentType("text/csv");
-		try {
-			Writer writer = response.getWriter();
-			writer.write("City.place\n");
+		String output = "City,Place\r\n";
+		for (String place : places) {
+			output = output + "Sydney," + place + "\r\n";
 			
-			for (String place: places) {
-				writer.write("Sydney,");
-				writer.write(place+"\n");
-			}
-			writer.flush();
-			writer.close();
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
+	    getServletContext().log(output);
+		response.getWriter().write(output);
 	}
 
 	private void jsonReply(HttpServletResponse response) {
@@ -141,9 +122,11 @@ public class SydneyServlet extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 	}
 
