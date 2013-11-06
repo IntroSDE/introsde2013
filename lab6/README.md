@@ -7,6 +7,7 @@ Introduction to Service Design and Engineering 2013/2014.
 
 ## Outline
 
+* Frameworks
 * Configuring Development environment
 * REST Services example with Jersey
 * Calling REST Services
