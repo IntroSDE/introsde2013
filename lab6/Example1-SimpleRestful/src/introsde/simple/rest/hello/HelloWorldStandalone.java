@@ -5,7 +5,9 @@ import java.net.InetAddress;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import com.sun.jersey.api.container.httpserver.HttpServerFactory;
@@ -84,7 +86,27 @@ public class HelloWorldStandalone
  				+ "</html> ";
  	}
 
- 	// When client wants XML
+ 	// When client wants HTML
+  	@GET
+  	@Path("/{name}") // you can pass path params to a service
+  	@Produces(MediaType.TEXT_HTML)
+  	public String sayHelloHtmlToPerson(@PathParam("name") String name,
+  			@QueryParam("age") int age) {
+  		
+  		String printAlsoAge = "";
+  		
+  		// QueryParams can be used as optional parameters that you use if they are present
+  		// 
+  		if (age > 0) {
+  			printAlsoAge = " You are "+age+ "years old, but don't worry. It's never late to learn!";
+  		}
+  		
+  		return "<html> " + "<title>" + "Hello Jersey" + "</title>"
+  				+ "<body><h1>" + "Hello "+name+". Welcome to Jersey REST." +printAlsoAge+ "</body></h1>"
+  				+ "</html> ";
+  	} 
+  	
+  	// When client wants XML
  	@GET
  	@Produces(MediaType.APPLICATION_JSON)
  	public String sayHelloJson() {
