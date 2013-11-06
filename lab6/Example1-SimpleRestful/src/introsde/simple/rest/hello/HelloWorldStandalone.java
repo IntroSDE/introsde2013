@@ -25,6 +25,13 @@ import com.sun.jersey.api.container.httpserver.HttpServerFactory;
  * -> Enable Project Specific settings
  * -> Deprecated and restricted API
  * -> Forbidden reference (access rules): -> change to warning"
+ * 
+ * Other options to solve the problem: 
+ * - download httpserver from the url below and manually add it to the classpath 
+ * http://download.java.net/maven/2/com/sun/net/httpserver/http/20070405/http-20070405.jar
+ * 
+ * - use a non-sun httpserver like jetty: 
+ * http://wiki.eclipse.org/Jetty/Tutorial/Embedding_Jetty#Creating_a_Server
  */
 import com.sun.net.httpserver.HttpServer;
 
