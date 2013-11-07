@@ -93,7 +93,8 @@ Note: you browser will always request HTML MIME type as the first preference.
   </servlet-mapping>
 ```
 
-* Important Note: the param-name "com.sun.jersey.config.property.package" is a configuration parameter. Its value should point to the resource classes (i.e., the package 'cs9322.simple.rest.hello' in our case).
+* **Important Note**: the 'param-name' tag "com.sun.jersey.config.property.packages" is a configuration parameter. Its corresponding 'param-value' tag value should point to the package where the resource classes are located (i.e. the package "cs9322.simple.rest.hello" in our case).
+If your resource classes are located in the default package you can put either "." (without quotes) as the value or completely omit the 'param-name' and 'param-value' tags.
 
 * Note the url-pattern in servlet-mapping. Any URL with this pattern will be handled by Jersey servlet dispatcher.
 
@@ -106,9 +107,17 @@ Note: you browser will always request HTML MIME type as the first preference.
 
 * **[Test it first with your browser]** try 'http://localhost:8080/introsde.simple.rest.hello/rest/helloworld'. You should see the result of sayHelloHtml() (try viewing the source of the page returned).
 
-[Test it with a REST-client tool (e.g., Chrome Simple REST Client extension)] You can get Chrome Simple REST client from the Chrome Web Store (https://chrome.google.com/webstore/detail/fhjcajmcbmldlhcimfajhfbgofnpcjmb). SS told me that you can actually install an extension for Chrome yourself ... Such an extension will be installed on your home directory.
+* **[Test it with a REST-client tool]** you can use any REST client tool, below you will find links to some of them.
 
-You can use any other REST client tool you can find ... Let me know if you find a good one !
+---
+
+## REST clients
+
+* [Postman](http://www.getpostman.com) [Chrome extension]
+* [Simple REST Client](https://chrome.google.com/webstore/detail/fhjcajmcbmldlhcimfajhfbgofnpcjmb) [Chrome extension]
+* [rest-client](http://code.google.com/p/rest-client/) [Java, multi-platform]
+* [cocoa-rest-client](http://code.google.com/p/cocoa-rest-client/) [Mac OS X]
+* Let me know if you find others !
 
 ---
 
