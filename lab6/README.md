@@ -5,6 +5,8 @@ Introduction to Service Design and Engineering 2013/2014.
 
 ---
 
+This is a DRAFT in progress
+
 ## Outline
 
 * Frameworks
