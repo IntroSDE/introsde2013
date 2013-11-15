@@ -37,7 +37,8 @@ Introduction to Service Design and Engineering 2013/2014.
 
 * **Stateful interactions through hyperlinks**: every interaction with a resource is stateless, i.e., request messages are self-contained. 
 
---- 
+
+---
 
 ## REST principles: resources 
 
@@ -145,13 +146,13 @@ One resource, many representations
 * Search for **"Web Tools Platform"** and install all what's inside that category (using the latest version)
 * In old versions of eclipse, there might be a category "Web, XML, Java EE Development and OSGi Enterprise Development". Install all inside. 
 
---- 
+---
 
 ## Configuration - Eclipse WTP (2)
 
 ![](https://raw.github.com/cdparra/introsde2013/master/lab5/resources/EclipseWTP.png)
 
---
+---
  
 ## Configuration - Tomcat Server in Eclipse (1)
 
@@ -161,7 +162,7 @@ One resource, many representations
 * To compile the JSP into servlets you need to use the JDK. You can check your setup by clicking on the Installed JRE button.
 * Press Finish and then OK. You are now ready to use Tomcat with WTP.
 
---
+---
  
 ## Configuration - Tomcat Server in Eclipse (2)
 
@@ -171,7 +172,7 @@ One resource, many representations
 * Once the server is created, double click on it to open its configuration file
 * I reccomend you mark "use tomcat installation"
 
---- 
+---
 
 ## Configuration - Tomcat Server in Eclipse (3)
 

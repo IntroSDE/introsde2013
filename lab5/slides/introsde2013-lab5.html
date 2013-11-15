@@ -129,11 +129,13 @@ Introduction to Service Design and Engineering 2013/2014.
 
 ---
 
+
 ## REST Principles: RESTful Flavor
 
-* **Stateful interactions through hyperlinks**: every interaction with a resource is stateless, i.e., request messages are self-contained. 
+*  **Stateful interactions through hyperlinks:** every interaction with a resource is stateless (i.e., request messages are self-contained) 
 
---- 
+
+---
 
 ## REST principles: resources 
 
@@ -157,7 +159,7 @@ e.g., resources in the starbucks example: order, payment (represented in XML)
 ```
 
 * POST /starbucks/orders (to create an order)
-	* returns: location: /starbucks/orders/order?id=1234
+  * returns: location: /starbucks/orders/order?id=1234
 * GET /starbucks/orders/order?id=1234 (to read an order)
 * PUT /starbucks/orders/order?id=1234 (to update an existing order)
 * DELETE /starbucks/orders/order?id=1234 (to delete an existing order)
@@ -221,32 +223,32 @@ One resource, many representations
 * **XML**
 ```xml
 <animals>
-	<dog>
-		<name>Rufus</name>
-		<breed>Labrador</breed>
-	</dog>
-	<dog>
-		<name>Marty</name>
-		<breed>whippet</breed>
-	</dog>
-	<cat name="Matilda" />
+  <dog>
+    <name>Rufus</name>
+    <breed>Labrador</breed>
+  </dog>
+  <dog>
+    <name>Marty</name>
+    <breed>whippet</breed>
+  </dog>
+  <cat name="Matilda" />
 </animals>
 ```
 * **JSON**
 ```json
 { animals : {
-	dog: [ 	{ 	name:"Rufus",
-		  		breed:"Labrador"
-			},
-			{ 
-				name:"Marty",
-		  		breed:"whippet"
-			}
-		],
-	cat : {
-			name:"Matilda" 
-		}
-	}
+  dog: [  {   name:"Rufus",
+          breed:"Labrador"
+      },
+      { 
+        name:"Marty",
+          breed:"whippet"
+      }
+    ],
+  cat : {
+      name:"Matilda" 
+    }
+  }
 }
 ```
 
@@ -255,11 +257,11 @@ One resource, many representations
 ## Building REST Services
 
 * REST does not requires you to use a specific client or server-side framework in order to write your Web services. All you need is: 
-	* a client or server that supports the HTTP protocol (i.e., a web server, a browser).
-	* choose a language of your choice
+  * a client or server that supports the HTTP protocol (i.e., a web server, a browser).
+  * choose a language of your choice
 * **In Java:** You’d use servlets and override doGet(), doPost(), doPUT() and doDelete()
-	* URLs contains: servlet path + path info (all you need to process a request in REST)
-	* You could use a third-party library for generating specific content type (CSV, JSON or XML, etc.) or use Strings concatenations for simple responses.
+  * URLs contains: servlet path + path info (all you need to process a request in REST)
+  * You could use a third-party library for generating specific content type (CSV, JSON or XML, etc.) or use Strings concatenations for simple responses.
 
 
 ---
@@ -268,17 +270,17 @@ One resource, many representations
 
 * For the lab, we will use **Eclipse WTP**, which provides tools for developing standard Java web applications and Java EE applications
 * To install, use **Help -> Install new software -> All Available Sites**
-	* You can also use only the WTP repository: **http://download.eclipse.org/webtools/repository/kepler** (might change according to your version of eclipse)
+  * You can also use only the WTP repository: **http://download.eclipse.org/webtools/repository/kepler** (might change according to your version of eclipse)
 * Search for **"Web Tools Platform"** and install all what's inside that category (using the latest version)
 * In old versions of eclipse, there might be a category "Web, XML, Java EE Development and OSGi Enterprise Development". Install all inside. 
 
---- 
+---
 
 ## Configuration - Eclipse WTP (2)
 
 ![](https://raw.github.com/cdparra/introsde2013/master/lab5/resources/EclipseWTP.png)
 
---
+---
  
 ## Configuration - Tomcat Server in Eclipse (1)
 
@@ -288,7 +290,7 @@ One resource, many representations
 * To compile the JSP into servlets you need to use the JDK. You can check your setup by clicking on the Installed JRE button.
 * Press Finish and then OK. You are now ready to use Tomcat with WTP.
 
---
+---
  
 ## Configuration - Tomcat Server in Eclipse (2)
 
@@ -298,7 +300,7 @@ One resource, many representations
 * Once the server is created, double click on it to open its configuration file
 * I reccomend you mark "use tomcat installation"
 
---- 
+---
 
 ## Configuration - Tomcat Server in Eclipse (3)
 
@@ -310,7 +312,6 @@ One resource, many representations
 ## The Simplest REST Example - A Servlet
 
 * Check the code example in [lab5/Example1-Servlet](https://github.com/cdparra/introsde2013/tree/master/lab5/Example1-Servlet)
-
     </textarea>
     <script src="http://gnab.github.io/remark/downloads/remark-0.5.6.min.js" type="text/javascript">
     </script>
