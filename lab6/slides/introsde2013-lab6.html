@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
   <head>
     <title>Title</title>
@@ -94,6 +94,13 @@ Introduction to Service Design and Engineering 2013/2014.
 
 ---
 
+# REST-based Web Services (II)
+Introduction to Service Design and Engineering 2013/2014. 
+<br>*Lab session #6*
+<br>**University of Trento** 
+
+---
+
 ## Outline
 
 * Frameworks
@@ -106,8 +113,8 @@ Introduction to Service Design and Engineering 2013/2014.
 
 * There is **no need of a specific client or server-side framework**. 
 * The only requirement is **supporting the HTTP protocol**
-	* In Java: all you need are servlets and override *doGet()*, *doPost()*, *doPUT()* and *doDelete()*
-	* Remember [last 5 basic servlet example](https://github.com/cdparra/introsde2013/tree/master/lab5/Example1-Servlet)
+  * In Java: all you need are servlets and override *doGet()*, *doPost()*, *doPUT()* and *doDelete()*
+  * Remember [last 5 basic servlet example](https://github.com/cdparra/introsde2013/tree/master/lab5/Example1-Servlet)
 * However, *just servlets* can be complicated in reality, so a framework is welcomed to reduce boilerplace-type coding
 
 ---
@@ -116,13 +123,13 @@ Introduction to Service Design and Engineering 2013/2014.
 
 * Standard specification in java: [JAX-RS](http://jcp.org/en/jsr/detail?id=311)
 * Some frameworks
-	* [Apache CXF](http://cxf.apache.org/)
-	* [Jersey](https://jersey.java.net/) - the JAX-RS Reference Implementation from Sun.
-	* [RESTEasy](http://www.jboss.org/resteasy) - JBoss’s JAX-RS project.
-	* [Restlet](http://restlet.org/) - probably the first REST framework, which existed prior to JAX-RS.
-	* [Play Framework](http://www.playframework.com/) - popular nowadays, it is an MVC framework with a heavy focus on RESTful design
-	* [Spring Framework](http://docs.spring.io/spring/docs/3.0.0.M3/reference/html/ch18s02.html) - another very popular java application framework that you can use to build RESTful services 
-	
+  * [Apache CXF](http://cxf.apache.org/)
+  * [Jersey](https://jersey.java.net/) - the JAX-RS Reference Implementation from Sun.
+  * [RESTEasy](http://www.jboss.org/resteasy) - JBoss’s JAX-RS project.
+  * [Restlet](http://restlet.org/) - probably the first REST framework, which existed prior to JAX-RS.
+  * [Play Framework](http://www.playframework.com/) - popular nowadays, it is an MVC framework with a heavy focus on RESTful design
+  * [Spring Framework](http://docs.spring.io/spring/docs/3.0.0.M3/reference/html/ch18s02.html) - another very popular java application framework that you can use to build RESTful services 
+  
 ---
 
 ## Before we start: Jersey Libraries
@@ -130,21 +137,21 @@ Introduction to Service Design and Engineering 2013/2014.
 * Download the libraries we need from Jersey Download page (jars also available in the [resources folder](https://github.com/cdparra/introsde2013/tree/master/lab6/resources)
 * Unzip the downloaded zip file into your home directory. We will use this later through Eclipse WTP. Remove the zip file.
 * **What's inside Jersey?** 
-	* A core server, implemented as a servlet dispatcher for REST requests
-	* A core client that provides a library to communicate with the server
+  * A core server, implemented as a servlet dispatcher for REST requests
+  * A core client that provides a library to communicate with the server
 
 ---
 
 ## Example 1: Hello World with Jersey (1)
 
 * Create the project:
-	* New *Dynamic Web Project* (File -> New -> Other -> Web) and call it 'introsde.simple.rest.hello'
-	* Go to the Eclipse *Java EE perspective*
-	* Once the project is created, navigate to WebContent/WEB-INF/lib folder
-	* While the lib folder is highlighted, do 'right mouse click' to open a menu, then choose Import -> File system -> Specify the jersey_core directory you saved the jersey library files to. 
+  * New *Dynamic Web Project* (File -> New -> Other -> Web) and call it 'introsde.simple.rest.hello'
+  * Go to the Eclipse *Java EE perspective*
+  * Once the project is created, navigate to WebContent/WEB-INF/lib folder
+  * While the lib folder is highlighted, do 'right mouse click' to open a menu, then choose Import -> File system -> Specify the jersey_core directory you saved the jersey library files to. 
 * **Note:** 
-	* Click and highlight the directory, but do not 'tick' the box next to the directory name. Tick the boxes next to all 8 jar files for importing.
-	* When available, mark the option *Generate Web XML Descriptor*
+  * Click and highlight the directory, but do not 'tick' the box next to the directory name. Tick the boxes next to all 8 jar files for importing.
+  * When available, mark the option *Generate Web XML Descriptor*
 
 ---
 
@@ -161,20 +168,20 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 @Path("/helloworld")
 public class HelloWorld {
-	@GET
-	@Produces(MediaType.TEXT_HTML)
-	public String sayHelloHtml() {
-		return "<html> " + "<title>" + "Hello Jersey" + "</title>"
-				+ "<body><h1>" + "Hello World in REST" + "</body></h1>"
-				+ "</html> ";
-	}
-	@GET
-	@Produces(MediaType.TEXT_XML)
-	public String sayHelloXML() {
-		return "<?xml version=\"1.0\"?>" + "<msg>" + "Hello World in REST"
-				+ "</msg>";
-	}
-	...
+  @GET
+  @Produces(MediaType.TEXT_HTML)
+  public String sayHelloHtml() {
+    return "<html> " + "<title>" + "Hello Jersey" + "</title>"
+        + "<body><h1>" + "Hello World in REST" + "</body></h1>"
+        + "</html> ";
+  }
+  @GET
+  @Produces(MediaType.TEXT_XML)
+  public String sayHelloXML() {
+    return "<?xml version=\"1.0\"?>" + "<msg>" + "Hello World in REST"
+        + "</msg>";
+  }
+  ...
 }
 ```
 
@@ -184,8 +191,8 @@ public class HelloWorld {
 
 * The above resource supports two representations (XML and HTML). 
 * Jersey uses **content negotiation** to decide what representation to send as response.
-	* JAX-RS understands the *Accept* header and will use it when dispatching the answer.
-	* For example, an **Accept: text/html,application/xhtml,application/xml;q=0.9,*/*;q=0.8** means that the client prefers html or xhtml (q is 1 by default), raw XML second, and any other content type third	* Your browser will always request HTML MIME type as the first preference.
+  * JAX-RS understands the *Accept* header and will use it when dispatching the answer.
+  * For example, an **Accept: text/html,application/xhtml,application/xml;q=0.9,*/*;q=0.8** means that the client prefers html or xhtml (q is 1 by default), raw XML second, and any other content type third * Your browser will always request HTML MIME type as the first preference.
 
 ---
 
@@ -198,19 +205,19 @@ public class HelloWorld {
 
 
 ```xml
- 	<servlet>
-    	<servlet-name>SimpleRest</servlet-name>
-    	<servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
-    	<init-param>
-      		<param-name>com.sun.jersey.config.property.packages</param-name>
-      		<param-value>introsde.simple.rest.hello;introsde.simple.rest.ehealth</param-value>
-    	</init-param>
-    	<load-on-startup>1</load-on-startup>
-  	</servlet>
-  	<servlet-mapping>
-    	<servlet-name>SimpleRest</servlet-name>
-    	<url-pattern>/rest/*</url-pattern>
-  	</servlet-mapping>   
+  <servlet>
+      <servlet-name>SimpleRest</servlet-name>
+      <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+      <init-param>
+          <param-name>com.sun.jersey.config.property.packages</param-name>
+          <param-value>introsde.simple.rest.hello;introsde.simple.rest.ehealth</param-value>
+      </init-param>
+      <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+      <servlet-name>SimpleRest</servlet-name>
+      <url-pattern>/rest/*</url-pattern>
+    </servlet-mapping>   
 ```
 
 ---
@@ -259,14 +266,14 @@ import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 public class Test {
-	public static void main(String[] args) {
-		ClientConfig config = new DefaultClientConfig();
-		// Creating the client
-		Client client = Client.create(config);
-		// Instantiating a web resource that will be requested from BASEURI
-		WebResource service = client.resource(getBaseURI());
-		// Make HTTP requests and process resources you get in response
-		...
+  public static void main(String[] args) {
+    ClientConfig config = new DefaultClientConfig();
+    // Creating the client
+    Client client = Client.create(config);
+    // Instantiating a web resource that will be requested from BASEURI
+    WebResource service = client.resource(getBaseURI());
+    // Make HTTP requests and process resources you get in response
+    ...
 ```
 
 ---
@@ -275,26 +282,26 @@ public class Test {
 
 ```java
 public class Test {
-		...
-		// Making a GET request on BASEURI/rest/helloworld with
-		// Accept header equal text/plain
-		System.out.println(service.path("rest").path("helloworld")
-				.accept(MediaType.TEXT_PLAIN).get(ClientResponse.class)
-				.toString());
-		// Get plain text
-		System.out.println(service.path("rest").path("helloworld")
-				.accept(MediaType.TEXT_PLAIN).get(String.class));
-		// Get XML
-		System.out.println(service.path("rest").path("helloworld")
-				.accept(MediaType.TEXT_XML).get(String.class));
-		// The HTML
-		System.out.println(service.path("rest").path("helloworld")
-				.accept(MediaType.TEXT_HTML).get(String.class));
-	}
-	private static URI getBaseURI() {
-		return UriBuilder.fromUri(
-				"http://localhost:8080/introsde.simple.rest.hello").build();
-	}
+    ...
+    // Making a GET request on BASEURI/rest/helloworld with
+    // Accept header equal text/plain
+    System.out.println(service.path("rest").path("helloworld")
+        .accept(MediaType.TEXT_PLAIN).get(ClientResponse.class)
+        .toString());
+    // Get plain text
+    System.out.println(service.path("rest").path("helloworld")
+        .accept(MediaType.TEXT_PLAIN).get(String.class));
+    // Get XML
+    System.out.println(service.path("rest").path("helloworld")
+        .accept(MediaType.TEXT_XML).get(String.class));
+    // The HTML
+    System.out.println(service.path("rest").path("helloworld")
+        .accept(MediaType.TEXT_HTML).get(String.class));
+  }
+  private static URI getBaseURI() {
+    return UriBuilder.fromUri(
+        "http://localhost:8080/introsde.simple.rest.hello").build();
+  }
 }
 ```
 
@@ -321,17 +328,25 @@ public class Test {
 * **@QueryParam:** inject values from the query parameters in the URL into a method parameter. 
 * The complete path to a resource is based on the base URL and the @PATh annotation in your class.
 ```
-	http://your_domain:port/display-name/url-pattern/path_from_rest_class 
+  http://your_domain:port/display-name/url-pattern/path_from_rest_class 
 ```
+
+
+---
+
+## Additional Example: Person/Health Profile
+
+* Check the additional example about exposing our Person/Health Profile resource via a Jersey API: [the PersonHealthProfile resource](https://github.com/cdparra/introsde2013/tree/master/lab6/Example1-SimpleRestful/src/introsde/simple/rest/ehealth)
+* This example is revisited in Lab 7
 
 ---
 
 ## Further reading
 
 * Take a look on deploying Jersey Services with the new Servlet 3.0 API 
-	* https://jersey.java.net/documentation/latest/deployment.html
+  * https://jersey.java.net/documentation/latest/deployment.html
 * A good tutorial on REST with jersey:
-	* http://www.vogella.com/articles/REST/article.html 
+  * http://www.vogella.com/articles/REST/article.html  
 
     </textarea>
     <script src="http://gnab.github.io/remark/downloads/remark-0.5.6.min.js" type="text/javascript">

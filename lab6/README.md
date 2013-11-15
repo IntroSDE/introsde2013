@@ -229,6 +229,14 @@ public class Test {
 	http://your_domain:port/display-name/url-pattern/path_from_rest_class 
 ```
 
+
+---
+
+## Additional Example: Person/Health Profile
+
+* Check the additional example about exposing our Person/Health Profile resource via a Jersey API: [the PersonHealthProfile resource](https://github.com/cdparra/introsde2013/tree/master/lab6/Example1-SimpleRestful/src/introsde/simple/rest/ehealth)
+* This example is revisited in Lab 7
+
 ---
 
 ## Further reading
