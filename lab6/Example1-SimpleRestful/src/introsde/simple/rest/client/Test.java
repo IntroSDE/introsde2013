@@ -12,23 +12,35 @@ import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 
 public class Test {
-  public static void main(String[] args) {
-    ClientConfig config = new DefaultClientConfig();
-    Client client = Client.create(config);
-    WebResource service = client.resource(getBaseURI());
-    // Fluent interfaces
-    System.out.println(service.path("rest").path("helloworld").accept(MediaType.TEXT_PLAIN).get(ClientResponse.class).toString());
-    // Get plain text
-    System.out.println(service.path("rest").path("helloworld").accept(MediaType.TEXT_PLAIN).get(String.class));
-    // Get XML
-    System.out.println(service.path("rest").path("helloworld").accept(MediaType.TEXT_XML).get(String.class));
-    // The HTML
-    System.out.println(service.path("rest").path("helloworld").accept(MediaType.TEXT_HTML).get(String.class));
+	public static void main(String[] args) {
+		ClientConfig config = new DefaultClientConfig();
+		Client client = Client.create(config);
+		
+		
+		WebResource service = client.resource(getBaseURI());
+		// Fluent interfaces
+		
+		
+		// GET BASEURL/rest/helloworld
+		// Accept: text/plain
+		System.out.println(service.path("rest").path("helloworld")
+				.accept(MediaType.TEXT_PLAIN).get(ClientResponse.class)
+				.toString());
+		// Get plain text
+		System.out.println(service.path("rest").path("helloworld")
+				.accept(MediaType.TEXT_PLAIN).get(String.class));
+		// Get XML
+		System.out.println(service.path("rest").path("helloworld")
+				.accept(MediaType.TEXT_XML).get(String.class));
+		// The HTML
+		System.out.println(service.path("rest").path("helloworld")
+				.accept(MediaType.TEXT_HTML).get(String.class));
 
-  }
+	}
 
-  private static URI getBaseURI() {
-    return UriBuilder.fromUri("http://localhost:8080/introsde.simple.rest.hello").build();
-  }
+	private static URI getBaseURI() {
+		return UriBuilder.fromUri(
+				"http://localhost:8080/introsde.simple.rest.hello").build();
+	}
 
-} 
+}
