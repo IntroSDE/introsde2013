@@ -5,8 +5,6 @@ Introduction to Service Design and Engineering 2013/2014.
 
 ---
 
-This is a DRAFT in progress
-
 ## Outline
 
 * Frameworks
@@ -30,7 +28,7 @@ This is a DRAFT in progress
 * Some frameworks	* [Apache CXF](http://cxf.apache.org/)	* [Jersey](https://jersey.java.net/) - the JAX-RS Reference Implementation from Sun.	* [RESTEasy](http://www.jboss.org/resteasy) - JBoss’s JAX-RS project.	* [Restlet](http://restlet.org/) - probably the first REST framework, which existed prior to JAX-RS.
 	* [Play Framework](http://www.playframework.com/) - popular nowadays, it is an MVC framework with a heavy focus on RESTful design
 	* [Spring Framework](http://docs.spring.io/spring/docs/3.0.0.M3/reference/html/ch18s02.html) - another very popular java application framework that you can use to build RESTful services 	
---
+---
 
 ## Before we start: Jersey Libraries
 
@@ -40,7 +38,7 @@ This is a DRAFT in progress
 	* A core server, implemented as a servlet dispatcher for REST requests
 	* A core client that provides a library to communicate with the server
 
---
+---
 
 ## Example 1: Hello World with Jersey (1)
 
@@ -155,7 +153,7 @@ If your resource classes are located in the default package you can put either "
 
 * Create a simple java program with a main as follows: 
 
-```
+```java
 package introsde.simple.rest.client;
 import java.net.URI;
 import javax.ws.rs.core.MediaType;
@@ -181,6 +179,8 @@ public class Test {
 ## Example 2: Simple client in Java
 
 ```java
+public class Test {
+		...
 		// Making a GET request on BASEURI/rest/helloworld with
 		// Accept header equal text/plain
 		System.out.println(service.path("rest").path("helloworld")
@@ -207,19 +207,27 @@ public class Test {
 
 ---
 
-## Brief Summary of Jersey annotations
+## Brief Summary of Jersey annotations (1)
 
- * **@PATH(your_path):** Sets the path to base URL + /your_path. The base URL is based on your application name, the servlet and the URL pattern from the web.xml configuration file.
+* **@PATH(your_path):** Sets the path to base URL + /your_path. The base URL is based on your application name, the servlet and the URL pattern from the web.xml configuration file.
 * **@POST:** Indicates that the following method will answer to a HTTP POST request
 * **@GET:** Indicates that the following method will answer to a HTTP GET request
 * **@PUT:** Indicates that the following method will answer to a HTTP PUT request
 * **@DELETE:** Indicates that the following method will answer to a HTTP DELETE request
+
+---
+
+## Brief Summary of Jersey annotations (2)
+
+
 * **@Produces(MediaType.TEXT_PLAIN [, more-types ]):** defines which MIME type is delivered by a method annotated with @GET. 
 * **@Consumes(type [, more-types ]):** defines which MIME type is consumed by this method.
 * **@PathParam:** inject values from the URL into a method parameter. This way you inject for example the ID of a resource into the method to get the correct object.
 * **@QueryParam:** inject values from the query parameters in the URL into a method parameter. 
 * The complete path to a resource is based on the base URL and the @PATh annotation in your class.
-* http://your_domain:port/display-name/url-pattern/path_from_rest_class 
+```
+	http://your_domain:port/display-name/url-pattern/path_from_rest_class 
+```
 
 ---
 
