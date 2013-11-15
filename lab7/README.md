@@ -255,7 +255,7 @@ public enum PersonDao {
 ## Assignment #2: Part 2
 
 * With that model, expose the following services through a RESTful API as follows:	* CRUD operations for person (GET,PUT,DELETE) on /person/{id} and POST on /person
-	* GET /person should list all the names in your database (**extra points if this comes from an actual database**) 
+	* GET /person should list all the names in your database 
 	* GET /person/{id} should give all the personal information plus current measures of person {id} 
 	* GET /person/{id}/{measure} should return the list of values (the history) of {measure} for person {id}
 	* GET /person/{id}/{measure}/{mid} should return the value of {measure} identified by {mid} for person {id}
@@ -265,7 +265,8 @@ public enum PersonDao {
 
 ## Assignment #2: Part 2
 
-* **Extra points Service End Points**
+* **Extra points:**
+	* Having a real database in sqlite	
 	* PUT /person/{id}/{measure}/{mid} should update the value for the {measure} of person {id}
 	* GET /person/{id}/{measure}?before={beforeDate}&after={afterDate} should return the history of {measure} for person {id} in the specified range of date
 	* GET /person?measure={measure}&max={max}&min={min} retrieves people whose {measure} value is in the [{min},{max}] range (if only one fo the query params is provided, use only that)
