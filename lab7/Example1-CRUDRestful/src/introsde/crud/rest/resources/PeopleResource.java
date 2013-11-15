@@ -7,11 +7,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -32,16 +29,16 @@ public class PeopleResource {
 	@Context
 	Request request;
 
-	// Return the list of todos to the user in the browser
+	// Return the list of people to the user in the browser
 	@GET
 	@Produces(MediaType.TEXT_XML)
 	public List<Person> getPersonsBrowser() {
-		List<Person> todos = new ArrayList<Person>();
-		todos.addAll(PersonDao.instance.getModel().values());
-		return todos;
+		List<Person> people = new ArrayList<Person>();
+		people.addAll(PersonDao.instance.getModel().values());
+		return people;
 	}
 
-	// Return the list of todos for applications
+	// Return the list of people for applications
 	@GET
 	@Produces({ MediaType.APPLICATION_XML})
 	public List<Person> getPersonListXML() {
@@ -51,7 +48,7 @@ public class PeopleResource {
 	}
 	
 
-	// Return the list of todos for applications
+	// Return the list of people for applications
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON })
 	public List<Person> getPersonListJson() {
@@ -60,8 +57,7 @@ public class PeopleResource {
 		return people;
 	}
 
-	// retuns the number of todos
-	// use http://localhost:8080/de.vogella.jersey.todo/rest/todos/count
+	// retuns the number of people
 	// to get the total number of records
 	@GET
 	@Path("count")
@@ -87,7 +83,7 @@ public class PeopleResource {
 	
 	
 	// let's create this service for responding a submission form
-	@POST
+	// 
 	@Produces(MediaType.APPLICATION_XML)
 	@Consumes(MediaType.APPLICATION_XML)
 	public Person newPerson(Person person) throws IOException {

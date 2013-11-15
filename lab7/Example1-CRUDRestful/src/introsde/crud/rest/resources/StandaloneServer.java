@@ -4,10 +4,7 @@ package introsde.crud.rest.resources;
 import java.io.IOException;
 import java.net.InetAddress;
 
-import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 
 import com.sun.jersey.api.container.httpserver.HttpServerFactory;
 
@@ -40,7 +37,6 @@ import com.sun.net.httpserver.HttpServer;
 @Path("/rest")
 public class StandaloneServer
 {
-
     public static void main(String[] args) throws IllegalArgumentException, IOException
     {
     	String protocol = "http://";

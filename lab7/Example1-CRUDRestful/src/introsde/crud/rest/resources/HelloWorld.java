@@ -46,6 +46,7 @@ public class HelloWorld {
 	@Path("/{name}")
 	// you can pass path params to a service
 	@Produces(MediaType.TEXT_HTML)
+	// GET /hello/Cristhian Parra?age=29
 	public String sayHelloHtmlToPerson(@PathParam("name") String name,
 			@QueryParam("age") int age) {
 

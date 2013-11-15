@@ -10,9 +10,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.json.simple.JSONArray;
+//import org.json.simple.JSONException;
+import org.json.simple.JSONObject;
 
 @Path("/ehealthv1")
 public class PersonHealthProfile {
@@ -35,7 +35,7 @@ public class PersonHealthProfile {
 	@GET
 	@Path("staticTest")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String readHealthProfiles() throws JSONException {
+	public String readHealthProfiles() {
 		JSONObject result = new JSONObject();
 		JSONArray jsonPeople = new JSONArray();
 		for (Person person : database.values()) {
@@ -51,7 +51,7 @@ public class PersonHealthProfile {
 			
 			pObj.put("profile", hObj);
 			
-			jsonPeople.put(pObj);
+			jsonPeople.add(pObj);
 		}
 		result.put("people",jsonPeople);
 		System.out.println(result.toString());
