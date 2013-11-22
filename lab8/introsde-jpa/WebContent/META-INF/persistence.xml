@@ -8,9 +8,6 @@
 		<class>model.MeasureDefaultRange</class>
 		<class>model.MeasureDefinition</class>
 		<class>model.Person</class>
-		
-		<jta-data-source>jdbc/lifecoach</jta-data-source>
-		
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="org.sqlite.JDBC" />
 			<property name="javax.persistence.jdbc.url" value="jdbc:sqlite:/Users/cristhian/Dropbox/teaching/IntroSDE/Maurizio_IntroSDE/introsde2013-lab-github/lab8/resources/lifecoach.sqlite" />

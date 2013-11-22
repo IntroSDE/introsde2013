@@ -1,7 +1,9 @@
 package model;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 
 
 /**
@@ -11,6 +13,7 @@ import javax.persistence.*;
 @Entity
 @Table(name="\"MeasureDefaultRange\"")
 @NamedQuery(name="MeasureDefaultRange.findAll", query="SELECT m FROM MeasureDefaultRange m")
+@XmlRootElement
 public class MeasureDefaultRange implements Serializable {
 	private static final long serialVersionUID = 1L;
 
