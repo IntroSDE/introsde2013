@@ -252,6 +252,83 @@ public enum PersonDao {
 
 ---
 
+## Assignment #2: Part 1
+
+* Examples of how the model look like (you are not required to reproduce this, this is only as a minimum example)
+
+// person/healthprofile
+```json
+{
+      "firstname"     : "Chuck",
+      "lastname"      : "Norris",
+      "birthdate"     : "1945-01-01"
+      "healthProfile" : {
+                "weight"  : 78.9,
+                "height"  : 172
+      }
+}
+```
+// history of one measure (e.g., weight)
+```json
+[ 
+    { 
+        "mid" : 992,
+        "value" : 78.9,
+        "created" : "2007-12-09"
+    },
+    { 
+        "mid" : 999,
+        "value" : 75,
+        "created" : "2009-12-09"
+    },
+    { 
+        "mid" : 1002,
+        "value" : 72,
+        "created" : "2012-12-09"
+    }
+]
+```
+
+---
+
+## Assignment #2: Part 1
+
+// person/health profile
+```xml
+<person>
+    <firstname>Chuck</name>
+        <lastname>Norris</lastname>
+        <birthdate>1945-01-01</birthdate>
+        <healthProfile>
+            <weight>78.9</weight>
+            <height>172</height>
+        </healthProfile>
+</person>
+```
+
+// history of one measure (e.g., weight)
+```xml
+<measure-history> 
+    <measure>
+        <mid>992</mid>
+        <value>78.9</value>
+        <created>2007-12-09</created>
+    </measure>
+    <measure>
+        <mid>999</mid>
+        <value>75</value>
+        <created>2009-12-09</created>
+    </measure>
+    <measure>
+        <mid>1002</mid>
+        <value>72</value>
+        <created>2011-12-09</created>
+    </measure>
+</measure-history> 
+```
+
+---
+
 ## Assignment #2: Part 2
 
 * With that model, expose the following services through a RESTful API as follows:	* CRUD operations for person (GET,PUT,DELETE) on /person/{id} and POST on /person
@@ -260,6 +337,7 @@ public enum PersonDao {
 	* GET /person/{id}/{measure} should return the list of values (the history) of {measure} for person {id}
 	* GET /person/{id}/{measure}/{mid} should return the value of {measure} identified by {mid} for person {id}
 	* POST /person/{id}/{measure} should save a new value for the {measure} of person {id}
+	* GET /measures should return the list of measures your model supports in plain text and separated by commas as follows: weight,height,steps
 
 ---
 
@@ -282,6 +360,7 @@ public enum PersonDao {
 	* Either XML or JSON support is (only one is required)
 	* The client must request both and print the one that works or a message saying "NOT IMPLEMENTED" if it does not work
 	* Some of these services are going to be part of your final projet, so try to do them well. 
+	* While for the GET services you will be required to call a service of one of your  fellow colleagues, the POST/PUT services can be tested against your server (to avoid problems of not having standar model)
 
 ---
 
