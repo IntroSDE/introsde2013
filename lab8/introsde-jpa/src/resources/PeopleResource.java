@@ -47,7 +47,7 @@ public class PeopleResource {
 	EntityManager entityManager;
 	
 	// THIS IS NOT WORKING
-    @PersistenceUnit(unitName = "introsde-jpa")
+    @PersistenceContext(unitName = "introsde-jpa",type=PersistenceContextType.TRANSACTION)
     private EntityManagerFactory entityManagerFactory;
 
 	// Return the list of people to the user in the browser
@@ -156,12 +156,12 @@ public class PeopleResource {
 	@Path("{personId}")
 	public PersonResource getPerson(@PathParam("personId") Long id) {
 		//EntityManager entityManager = entityManagerFactory.createEntityManager();
-		EntityManager entityManager = PersonDao.instance.createEntityManager();
+		EntityManager em = PersonDao.instance.createEntityManager();
         try {
     		System.out.println("Person by id..."+id);
-    		return new PersonResource(uriInfo, request, id, entityManager);
+    		return new PersonResource(uriInfo, request, id, em);
         } finally {
-            entityManager.close();
+            em.close();
         }
 	}
 }

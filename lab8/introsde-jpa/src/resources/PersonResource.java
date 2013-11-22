@@ -5,8 +5,6 @@ import model.Person;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -20,6 +18,7 @@ import javax.ws.rs.core.UriInfo;
 import javax.xml.bind.JAXBElement;
 
 import dao.PersonDao;
+
 
 @Stateless
 @LocalBean
@@ -96,7 +95,11 @@ public class PersonResource {
 	}
 	
 	public Person getPersonById(Long personId) {
-		Person person = entityManager.find(Person.class, personId);
+		System.out.println("Reading person from DB with id: "+personId);
+		//Person person = entityManager.find(Person.class, personId);
+		
+		Person person = PersonDao.instance.getPersonById(personId);
+		System.out.println("Person: "+person.toString());
 		return person;
 	}
 }
