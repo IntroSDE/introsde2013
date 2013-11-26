@@ -54,7 +54,7 @@ public class PeopleResource {
 	@GET
 	@Produces(MediaType.TEXT_XML)
 	public List<Person> getPersonsBrowser() {
-	    List<Person> people = PersonDao.instance.getAll();
+	    List<Person> people = Person.getAll();
 		return people;
 	}
 
@@ -63,44 +63,22 @@ public class PeopleResource {
 	@Produces({ MediaType.APPLICATION_XML})
 	public List<Person> getPersonListXML() {
 		//EntityManager entityManager = entityManagerFactory.createEntityManager();
-		EntityManager entityManager = PersonDao.instance.createEntityManager();       
-        try {
-            List<Person> people = entityManager.createNamedQuery("Person.findAll", Person.class).getResultList();
-            return people;
-        } finally {
-            entityManager.close();
-        }
-		
-	    // List<Person> people = PersonDao.instance.getAll();
-		//return people;
+		//EntityManager entityManager = PersonDao.instance.createEntityManager();       
+//        try {
+//            List<Person> people = entityManager.createNamedQuery("Person.findAll", Person.class).getResultList();
+//            return people;
+//        } finally {
+//            entityManager.close();
+//        }
+	    List<Person> people = Person.getAll();
+		return people;
 	}
 	
-	
-		// Return the list of people for applications
-		@GET
-		@Produces({ MediaType.APPLICATION_XML})
-		@Path("test")
-		public List<Person> getPersonListXML2() {
-			EntityManager entityManager = entityManagerFactory.createEntityManager();
-			//EntityManager entityManager = PersonDao.instance.createEntityManager();       
-	        try {
-	            List<Person> people = entityManager.createNamedQuery("Person.findAll", Person.class).getResultList();
-	            return people;
-	        } finally {
-	            entityManager.close();
-	        }
-			
-		    // List<Person> people = PersonDao.instance.getAll();
-			//return people;
-		}
-	
-
 	// Return the list of people for applications
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON })
 	public List<Person> getPersonListJson() {
-		//List<Person> people = entityManager.createNamedQuery("Person.findAll", Person.class).getResultList();
-	    List<Person> people = PersonDao.instance.getAll();
+	    List<Person> people = Person.getAll();
 		return people;
 	}
 
@@ -112,7 +90,7 @@ public class PeopleResource {
 	public String getCount() {
 		System.out.println("Getting count...");
 	    //List<Person> list = entityManager.createNamedQuery("Person.findAll", Person.class).getResultList();
-	    List<Person> people = PersonDao.instance.getAll();
+	    List<Person> people = Person.getAll();
 		int count = people.size();
 		return String.valueOf(count);
 	}
@@ -138,14 +116,16 @@ public class PeopleResource {
 	public Person newPerson(Person person) throws IOException {
 		System.out.println("Creating new person...");
 		//EntityManager entityManager = entityManagerFactory.createEntityManager();
-		EntityManager entityManager = PersonDao.instance.createEntityManager();
-        try {
-    		entityManager.persist(person);
-    		entityManager.refresh(person);
-    		return person;
-        } finally {
-            entityManager.close();
-        }
+//		EntityManager entityManager = PersonDao.instance.createEntityManager();
+//        try {
+//    		entityManager.persist(person);
+//    		entityManager.refresh(person);
+//    		return person;
+//        } finally {
+//            entityManager.close();
+//        }
+		
+		return Person.savePerson(person);
 	}
 	
 
@@ -155,13 +135,15 @@ public class PeopleResource {
 	// 1 will be treaded as parameter todo and passed to PersonResource
 	@Path("{personId}")
 	public PersonResource getPerson(@PathParam("personId") Long id) {
-		//EntityManager entityManager = entityManagerFactory.createEntityManager();
-		EntityManager em = PersonDao.instance.createEntityManager();
-        try {
-    		System.out.println("Person by id..."+id);
-    		return new PersonResource(uriInfo, request, id, em);
-        } finally {
-            em.close();
-        }
+//		//EntityManager entityManager = entityManagerFactory.createEntityManager();
+//		EntityManager em = PersonDao.instance.createEntityManager();
+//        try {
+//    		System.out.println("Person by id..."+id);
+//    		return new PersonResource(uriInfo, request, id, em);
+//        } finally {
+//            em.close();
+//        }
+		
+		return new PersonResource(uriInfo, request, id);
 	}
 }

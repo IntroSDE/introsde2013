@@ -3,9 +3,16 @@ package model;
 import java.io.Serializable;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import dao.PersonDao;
+
 import java.util.Date;
+import java.util.List;
+
+import model.LifeStatus;
 
 
 /**
@@ -13,36 +20,44 @@ import java.util.Date;
  * 
  */
 @Entity
-@Table(name="\"Person\"")
+@Table(name="Person")
 @NamedQuery(name="Person.findAll", query="SELECT p FROM Person p")
 @XmlRootElement
 public class Person implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="\"birthdate\"")
+	@Column(name="birthdate")
 	private Date birthdate;
 	
-	@Column(name="\"email\"")
+	@Column(name="email")
 	private String email;
 
 	@Id
 //	@GeneratedValue(strategy=GenerationType.TABLE)
-	@GeneratedValue(generator="sqlite")
-	@TableGenerator(name="sqlite", table="sqlite_sequence",
+	// For sqlite in particular, you need to use the following @GeneratedValue annotation
+	// This holds also for the other tables
+	// SQLITE implements auto increment ids through named sequences that are stored in a 
+	// special table named "sqlite_sequence"
+	@GeneratedValue(generator="sqlite_person")
+	@TableGenerator(name="sqlite_person", table="sqlite_sequence",
 	    pkColumnName="name", valueColumnName="seq",
 	    pkColumnValue="Person")
-	@Column(name="\"idPerson\"")
+	@Column(name="idPerson")
 	private Long idPerson;
 
-	@Column(name="\"lastname\"")
+	@Column(name="lastname")
 	private String lastname;
 
-	@Column(name="\"name\"")
+	@Column(name="name")
 	private String name;
 
-	@Column(name="\"username\"")
+	@Column(name="username")
 	private String username;
+
+	// mappedBy must be equal to the name of the attribute in LifeStatus that maps this relation
+	@OneToMany(mappedBy="person",cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+	private List<LifeStatus> lifeStatus;
 
 	public Person() {
 	}
@@ -93,5 +108,60 @@ public class Person implements Serializable {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	@XmlElementWrapper(name = "Measurements")
+    @XmlElement(name = "Measure")
+	public List<LifeStatus> getLifeStatus() {
+	    return lifeStatus;
+	}
+
+	public void setLifeStatus(List<LifeStatus> param) {
+	    this.lifeStatus = param;
+	}
+	
+	// Database operations
+	public static Person getPersonById(Long personId) {
+		EntityManager em = PersonDao.instance.createEntityManager();
+		Person p = em.find(Person.class, personId);
+		PersonDao.instance.closeConnections(em);
+		return p;
+	}
+	
+	public static List<Person> getAll() {
+		EntityManager em = PersonDao.instance.createEntityManager();
+	    List<Person> list = em.createNamedQuery("Person.findAll", Person.class).getResultList();
+	    PersonDao.instance.closeConnections(em);
+	    return list;
+	}
+	
+	public static Person savePerson(Person p) {
+		EntityManager em = PersonDao.instance.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		tx.begin();
+		em.persist(p);
+		tx.commit();
+	    PersonDao.instance.closeConnections(em);
+	    return p;
+	}
+	
+	public static Person updatePerson(Person p) {
+		EntityManager em = PersonDao.instance.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		tx.begin();
+		p=em.merge(p);
+		tx.commit();
+	    PersonDao.instance.closeConnections(em);
+	    return p;
+	}
+	
+	public static void removePerson(Person p) {
+		EntityManager em = PersonDao.instance.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		tx.begin();
+	    p=em.merge(p);
+	    em.remove(p);
+	    tx.commit();
+	    PersonDao.instance.closeConnections(em);
 	}
 }

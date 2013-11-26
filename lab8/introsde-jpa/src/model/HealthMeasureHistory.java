@@ -1,11 +1,25 @@
 package model;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
+import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import java.sql.Timestamp;
+import dao.PersonDao;
+import model.Person;
 
 
 /**
@@ -13,38 +27,35 @@ import java.sql.Timestamp;
  * 
  */
 @Entity
-@Table(name="\"HealthMeasureHistory\"")
+@Table(name="HealthMeasureHistory")
 @NamedQuery(name="HealthMeasureHistory.findAll", query="SELECT h FROM HealthMeasureHistory h")
 @XmlRootElement
 public class HealthMeasureHistory implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@Column(name="\"idMeasureDefinition\"")
-	private Long idMeasureDefinition;
-
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="\"idMeasureHistory\"")
+	@GeneratedValue(generator="sqlite_mhistory")
+	@TableGenerator(name="sqlite_mhistory", table="sqlite_sequence",
+	    pkColumnName="name", valueColumnName="seq",
+	    pkColumnValue="HealthMeasureHistory")
+	@Column(name="idMeasureHistory")
 	private Long idMeasureHistory;
 
-	@Column(name="\"idPerson\"")
-	private Long idPerson;
-
-	@Column(name="\"timestamp\"")
+	@Column(name="timestamp")
 	private Timestamp timestamp;
 
-	@Column(name="\"value\"")
+	@Column(name="value")
 	private String value;
 
+	@OneToOne
+	@JoinColumn(name = "idMeasureDef", referencedColumnName = "idMeasureDef")
+	private MeasureDefinition measureDefinition;
+
+	@OneToOne
+	@JoinColumn(name = "idPerson", referencedColumnName = "idPerson")
+	private Person person;
+
 	public HealthMeasureHistory() {
-	}
-
-	public Long getIdMeasureDefinition() {
-		return this.idMeasureDefinition;
-	}
-
-	public void setIdMeasureDefinition(Long idMeasureDefinition) {
-		this.idMeasureDefinition = idMeasureDefinition;
 	}
 
 	public Long getIdMeasureHistory() {
@@ -53,14 +64,6 @@ public class HealthMeasureHistory implements Serializable {
 
 	public void setIdMeasureHistory(Long idMeasureHistory) {
 		this.idMeasureHistory = idMeasureHistory;
-	}
-
-	public Long getIdPerson() {
-		return this.idPerson;
-	}
-
-	public void setIdPerson(Long idPerson) {
-		this.idPerson = idPerson;
 	}
 
 	public Timestamp getTimestamp() {
@@ -79,4 +82,64 @@ public class HealthMeasureHistory implements Serializable {
 		this.value = value;
 	}
 
+	public MeasureDefinition getMeasureDefinition() {
+	    return measureDefinition;
+	}
+
+	public void setMeasureDefinition(MeasureDefinition param) {
+	    this.measureDefinition = param;
+	}
+
+	public Person getPerson() {
+	    return person;
+	}
+
+	public void setPerson(Person param) {
+	    this.person = param;
+	}
+
+	// database operations
+	public static HealthMeasureHistory getHealthMeasureHistoryById(Long id) {
+		EntityManager em = PersonDao.instance.createEntityManager();
+		HealthMeasureHistory p = em.find(HealthMeasureHistory.class, id);
+		PersonDao.instance.closeConnections(em);
+		return p;
+	}
+	
+	public static List<HealthMeasureHistory> getAll() {
+		EntityManager em = PersonDao.instance.createEntityManager();
+	    List<HealthMeasureHistory> list = em.createNamedQuery("HealthMeasureHistory.findAll", HealthMeasureHistory.class).getResultList();
+	    PersonDao.instance.closeConnections(em);
+	    return list;
+	}
+	
+	public static HealthMeasureHistory saveHealthMeasureHistory(HealthMeasureHistory p) {
+		EntityManager em = PersonDao.instance.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		tx.begin();
+		em.persist(p);
+		tx.commit();
+	    PersonDao.instance.closeConnections(em);
+	    return p;
+	}
+	
+	public static HealthMeasureHistory updateHealthMeasureHistory(HealthMeasureHistory p) {
+		EntityManager em = PersonDao.instance.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		tx.begin();
+		p=em.merge(p);
+		tx.commit();
+	    PersonDao.instance.closeConnections(em);
+	    return p;
+	}
+	
+	public static void removeHealthMeasureHistory(HealthMeasureHistory p) {
+		EntityManager em = PersonDao.instance.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		tx.begin();
+	    p=em.merge(p);
+	    em.remove(p);
+	    tx.commit();
+	    PersonDao.instance.closeConnections(em);
+	}
 }

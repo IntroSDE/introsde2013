@@ -10,15 +10,12 @@ import model.Person;
 
 public enum PersonDao {
 	instance;
-	private static EntityManagerFactory emf;
-
+	private EntityManagerFactory emf;
 	
-	PersonDao() {
-		initEntityManagerFactory();
-	}
-	
-	
-	public static void initEntityManagerFactory() {
+	private PersonDao() {
+		if (emf!=null) {
+			emf.close();
+		}
 		emf = Persistence.createEntityManagerFactory("introsde-jpa");
 	}
 	
@@ -34,21 +31,26 @@ public enum PersonDao {
 		return em.getTransaction();
 	}
 	
+	public EntityManagerFactory getEntityManagerFactory() {
+		return emf;
+	}
 	
+	// Person related operations could also directly go into the "Person" Model
+	// Check Methods in LifeStaus as example
 	public static Person getPersonById(Long personId) {
-		EntityManager em = PersonDao.instance.createEntityManager();
+		EntityManager em = instance.createEntityManager();
 		Person p = em.find(Person.class, personId);
-		PersonDao.instance.closeConnections(em);
+		instance.closeConnections(em);
 		return p;
 	}
 	
 	public static List<Person> getAll() {
-		EntityManager em = PersonDao.instance.createEntityManager();
+		EntityManager em = instance.createEntityManager();
 	    List<Person> list = em.createNamedQuery("Person.findAll", Person.class).getResultList();
-	    PersonDao.instance.closeConnections(em);
+	    instance.closeConnections(em);
 	    return list;
 	}
 	
-	// add other database methods
+	// add other database global access operations
 
 }

@@ -1,9 +1,13 @@
 package model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import dao.PersonDao;
+import model.MeasureDefaultRange;
 
 
 /**
@@ -11,7 +15,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * 
  */
 @Entity
-@Table(name="\"MeasureDefinition\"")
+@Table(name="MeasureDefinition")
 @NamedQuery(name="MeasureDefinition.findAll", query="SELECT m FROM MeasureDefinition m")
 @XmlRootElement
 public class MeasureDefinition implements Serializable {
@@ -19,14 +23,17 @@ public class MeasureDefinition implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="\"idMeasureDef\"")
+	@Column(name="idMeasureDef")
 	private Long idMeasureDef;
 
-	@Column(name="\"measureName\"")
+	@Column(name="measureName")
 	private String measureName;
 
-	@Column(name="\"measureType\"")
+	@Column(name="measureType")
 	private String measureType;
+
+	@OneToOne(mappedBy="measureDefinition")
+	private MeasureDefaultRange measureDefaultRange;
 
 	public MeasureDefinition() {
 	}
@@ -55,4 +62,56 @@ public class MeasureDefinition implements Serializable {
 		this.measureType = measureType;
 	}
 
+	public MeasureDefaultRange getMeasureDefaultRange() {
+	    return measureDefaultRange;
+	}
+
+	public void setMeasureDefaultRange(MeasureDefaultRange param) {
+	    this.measureDefaultRange = param;
+	}
+
+	// database operations
+	public static MeasureDefinition getMeasureDefinitionById(Long personId) {
+		EntityManager em = PersonDao.instance.createEntityManager();
+		MeasureDefinition p = em.find(MeasureDefinition.class, personId);
+		PersonDao.instance.closeConnections(em);
+		return p;
+	}
+	
+	public static List<MeasureDefinition> getAll() {
+		EntityManager em = PersonDao.instance.createEntityManager();
+	    List<MeasureDefinition> list = em.createNamedQuery("MeasureDefinition.findAll", MeasureDefinition.class).getResultList();
+	    PersonDao.instance.closeConnections(em);
+	    return list;
+	}
+	
+	public static MeasureDefinition saveMeasureDefinition(MeasureDefinition p) {
+		EntityManager em = PersonDao.instance.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		tx.begin();
+		em.persist(p);
+		tx.commit();
+	    PersonDao.instance.closeConnections(em);
+	    return p;
+	}
+	
+	public static MeasureDefinition updateMeasureDefinition(MeasureDefinition p) {
+		EntityManager em = PersonDao.instance.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		tx.begin();
+		p=em.merge(p);
+		tx.commit();
+	    PersonDao.instance.closeConnections(em);
+	    return p;
+	}
+	
+	public static void removeMeasureDefinition(MeasureDefinition p) {
+		EntityManager em = PersonDao.instance.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		tx.begin();
+	    p=em.merge(p);
+	    em.remove(p);
+	    tx.commit();
+	    PersonDao.instance.closeConnections(em);
+	}
 }

@@ -1,9 +1,14 @@
 package model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
+import dao.PersonDao;
+import model.MeasureDefinition;
 
 
 /**
@@ -11,31 +16,36 @@ import javax.xml.bind.annotation.XmlRootElement;
  * 
  */
 @Entity
-@Table(name="\"MeasureDefaultRange\"")
+@Table(name="MeasureDefaultRange")
 @NamedQuery(name="MeasureDefaultRange.findAll", query="SELECT m FROM MeasureDefaultRange m")
 @XmlRootElement
 public class MeasureDefaultRange implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@Column(name="\"alarmLevel\"")
+	@Column(name="alarmLevel")
 	private String alarmLevel;
 
-	@Column(name="\"endValue\"")
+	@Column(name="endValue")
 	private String endValue;
 
-	@Column(name="\"idMeasureDef\"")
-	private Long idMeasureDef;
-
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="\"idRange\"")
+	@GeneratedValue(generator="sqlite_range")
+	@TableGenerator(name="sqlite_range", table="sqlite_sequence",
+	    pkColumnName="name", valueColumnName="seq",
+	    pkColumnValue="MeasureDefaultRange")
+	@Column(name="idRange")
 	private Long idRange;
 
-	@Column(name="\"rangeName\"")
+	@Column(name="rangeName")
 	private String rangeName;
 
-	@Column(name="\"startValue\"")
+	@Column(name="startValue")
 	private String startValue;
+
+	@XmlTransient
+	@OneToOne
+	@JoinColumn(name="idMeasureDef",referencedColumnName="idMeasureDef",insertable=true,updatable=true)
+	private MeasureDefinition measureDefinition;
 
 	public MeasureDefaultRange() {
 	}
@@ -54,14 +64,6 @@ public class MeasureDefaultRange implements Serializable {
 
 	public void setEndValue(String endValue) {
 		this.endValue = endValue;
-	}
-
-	public Long getIdMeasureDef() {
-		return this.idMeasureDef;
-	}
-
-	public void setIdMeasureDef(Long idMeasureDef) {
-		this.idMeasureDef = idMeasureDef;
 	}
 
 	public Long getIdRange() {
@@ -88,4 +90,56 @@ public class MeasureDefaultRange implements Serializable {
 		this.startValue = startValue;
 	}
 
+	@XmlTransient
+	public MeasureDefinition getMeasureDefinition() {
+	    return measureDefinition;
+	}
+
+	public void setMeasureDefinition(MeasureDefinition param) {
+	    this.measureDefinition = param;
+	}
+	// database operations
+	public static MeasureDefaultRange getMeasureDefaultRangeById(Long id) {
+		EntityManager em = PersonDao.instance.createEntityManager();
+		MeasureDefaultRange p = em.find(MeasureDefaultRange.class, id);
+		PersonDao.instance.closeConnections(em);
+		return p;
+	}
+	
+	public static List<MeasureDefaultRange> getAll() {
+		EntityManager em = PersonDao.instance.createEntityManager();
+	    List<MeasureDefaultRange> list = em.createNamedQuery("MeasureDefaultRange.findAll", MeasureDefaultRange.class).getResultList();
+	    PersonDao.instance.closeConnections(em);
+	    return list;
+	}
+	
+	public static MeasureDefaultRange saveMeasureDefaultRange(MeasureDefaultRange p) {
+		EntityManager em = PersonDao.instance.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		tx.begin();
+		em.persist(p);
+		tx.commit();
+	    PersonDao.instance.closeConnections(em);
+	    return p;
+	}
+	
+	public static MeasureDefaultRange updateMeasureDefaultRange(MeasureDefaultRange p) {
+		EntityManager em = PersonDao.instance.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		tx.begin();
+		p=em.merge(p);
+		tx.commit();
+	    PersonDao.instance.closeConnections(em);
+	    return p;
+	}
+	
+	public static void removeMeasureDefaultRange(MeasureDefaultRange p) {
+		EntityManager em = PersonDao.instance.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		tx.begin();
+	    p=em.merge(p);
+	    em.remove(p);
+	    tx.commit();
+	    PersonDao.instance.closeConnections(em);
+	}
 }

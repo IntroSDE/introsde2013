@@ -38,6 +38,12 @@ public class PersonResource {
 		this.id = id;
 		this.entityManager = em;
 	}
+	
+	public PersonResource(UriInfo uriInfo, Request request,Long id) {
+		this.uriInfo = uriInfo;
+		this.request = request;
+		this.id = id;
+	}
 
 	// Application integration
 	@GET
@@ -76,7 +82,7 @@ public class PersonResource {
 			throw new RuntimeException("Delete: Person with " + id
 					+ " not found");
 
-		entityManager.remove(c);
+		Person.removePerson(c);
 	}
 
 	private Response putAndGetResponse(Person person) {
@@ -90,7 +96,7 @@ public class PersonResource {
 			res = Response.created(uriInfo.getAbsolutePath()).build();
 		}
 
-		entityManager.merge(person);
+		Person.updatePerson(person);
 		return res;
 	}
 	
@@ -98,7 +104,7 @@ public class PersonResource {
 		System.out.println("Reading person from DB with id: "+personId);
 		//Person person = entityManager.find(Person.class, personId);
 		
-		Person person = PersonDao.instance.getPersonById(personId);
+		Person person = Person.getPersonById(personId);
 		System.out.println("Person: "+person.toString());
 		return person;
 	}
