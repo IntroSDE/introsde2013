@@ -19,7 +19,7 @@ import javax.ws.rs.core.Request;
 import javax.ws.rs.core.UriInfo;
 
 
-//Will map the resource to the URL /ehealth/v2
+//Will map the resource to the URL /person
 @Path("/person")
 public class PeopleResource {
 

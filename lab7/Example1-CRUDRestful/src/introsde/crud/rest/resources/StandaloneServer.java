@@ -1,6 +1,5 @@
 package introsde.crud.rest.resources;
 
-
 import java.io.IOException;
 import java.net.InetAddress;
 
@@ -34,6 +33,7 @@ import com.sun.jersey.api.container.httpserver.HttpServerFactory;
 import com.sun.net.httpserver.HttpServer;
 
 // the whole resource will be available at baseUrl/rest
+@SuppressWarnings("restriction")
 @Path("/rest")
 public class StandaloneServer
 {
@@ -42,15 +42,12 @@ public class StandaloneServer
     	String protocol = "http://";
         String port = ":5900/";
         String hostname = InetAddress.getLocalHost().getHostAddress();
-        if (hostname.equals("127.0.0.1"))
-        {
+        if (hostname.equals("127.0.0.1")) {
             hostname = "localhost";
         }
-
         String baseUrl = protocol + hostname + port;
-
         final HttpServer server = HttpServerFactory.create(baseUrl);
         server.start();
-        System.out.println("server starts on " + baseUrl + "\n [kill the process to exit]");
+        System.out.println("Server is listening on: " + baseUrl + "\n [kill the process to exit]");
     }
 }
