@@ -351,46 +351,47 @@ public class JPAStarterTest {
 
 * Select the connection, get the list of tables and select the tables that you want to use to generate entities
 
-![](https://github.com/cdparra/introsde2013/blob/master/lab8/resources/generate-entities-1.png)
+![](https://raw.github.com/cdparra/introsde2013/master/lab8/resources/generate-entities-1.png)
 
 ---
 
 ## Tutorial JPA: Generating Entities (3)
 
 * The second step for generating entities is to specify **Table Associations** between entities to map relationship between tables. Add a relationship between *LifeStatus* and *MeasureDefinition* 
-![](https://github.com/cdparra/introsde2013/blob/master/lab8/resources/generate-entities-2.png)
+![](https://raw.github.com/cdparra/introsde2013/blob/master/lab8/resources/generate-entities-2.png)
 
 ---
 
 ## Tutorial JPA: Generating Entities (4)
 
 * Specify the columns that define the association
-![](https://github.com/cdparra/introsde2013/blob/master/lab8/resources/generate-entities-3.png)
+![](https://raw.github.com/cdparra/introsde2013/blob/master/lab8/resources/generate-entities-3.png)
 
 ---
 
 ## Tutorial JPA: Generating Entities (5)
 
 * Specify the cardinality of the association
-![](https://github.com/cdparra/introsde2013/blob/master/lab8/resources/generate-entities-4.png)
+![](https://raw.github.com/cdparra/introsde2013/blob/master/lab8/resources/generate-entities-4.png)
 
 ---
 
 ## Tutorial JPA: Generating Entities (6)
 
 * Finally, you can choose whether which entities in the association should have a property referencing the other entity (it is not required that both have a property referencing the other entity)
-![](https://github.com/cdparra/introsde2013/blob/master/lab8/resources/generate-entities-5.png)
+![](https://raw.github.com/cdparra/introsde2013/blob/master/lab8/resources/generate-entities-5.png)
 
 ---
 
 ## Tutorial JPA: Generating Entities (7)
 
 * The next step to select some defaults properties for the mapping, like the default key generator. Since we are using SQLite and there is a special generator for this, let's choose "None" 
-![](https://github.com/cdparra/introsde2013/blob/master/lab8/resources/generate-entities-6.png)
+![](https://raw.github.com/cdparra/introsde2013/blob/master/lab8/resources/generate-entities-6.png)
 
 ---
 
 ## Tutorial JPA: Generating Entities (8)
 
 * The last step is to define how each property will be mapped (name of the attributes int the model classes, type of each attribute, etc.). Make sure all the primary keys have the mapping kind to "id". 
-![](https://github.com/cdparra/introsde2013/blob/master/lab8/resources/generate-entities-7.png)
+![](https://raw.github.com/cdparra/introsde2013/blob/master/lab8/resources/generate-entities-7.png)
+
