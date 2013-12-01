@@ -24,7 +24,7 @@ public class MeasureDefinition implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="idMeasureDef")
-	private Long idMeasureDef;
+	private int idMeasureDef;
 
 	@Column(name="measureName")
 	private String measureName;
@@ -38,11 +38,11 @@ public class MeasureDefinition implements Serializable {
 	public MeasureDefinition() {
 	}
 
-	public Long getIdMeasureDef() {
+	public int getIdMeasureDef() {
 		return this.idMeasureDef;
 	}
 
-	public void setIdMeasureDef(Long idMeasureDef) {
+	public void setIdMeasureDef(int idMeasureDef) {
 		this.idMeasureDef = idMeasureDef;
 	}
 
@@ -71,7 +71,7 @@ public class MeasureDefinition implements Serializable {
 	}
 
 	// database operations
-	public static MeasureDefinition getMeasureDefinitionById(Long personId) {
+	public static MeasureDefinition getMeasureDefinitionById(int personId) {
 		EntityManager em = LifeCoachDao.instance.createEntityManager();
 		MeasureDefinition p = em.find(MeasureDefinition.class, personId);
 		LifeCoachDao.instance.closeConnections(em);

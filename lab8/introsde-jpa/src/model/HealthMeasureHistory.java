@@ -9,7 +9,6 @@ import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.NamedQuery;
@@ -39,7 +38,7 @@ public class HealthMeasureHistory implements Serializable {
 	    pkColumnName="name", valueColumnName="seq",
 	    pkColumnValue="HealthMeasureHistory")
 	@Column(name="idMeasureHistory")
-	private Long idMeasureHistory;
+	private int idMeasureHistory;
 
 	@Column(name="timestamp")
 	private Timestamp timestamp;
@@ -58,11 +57,11 @@ public class HealthMeasureHistory implements Serializable {
 	public HealthMeasureHistory() {
 	}
 
-	public Long getIdMeasureHistory() {
+	public int getIdMeasureHistory() {
 		return this.idMeasureHistory;
 	}
 
-	public void setIdMeasureHistory(Long idMeasureHistory) {
+	public void setIdMeasureHistory(int idMeasureHistory) {
 		this.idMeasureHistory = idMeasureHistory;
 	}
 
@@ -99,7 +98,7 @@ public class HealthMeasureHistory implements Serializable {
 	}
 
 	// database operations
-	public static HealthMeasureHistory getHealthMeasureHistoryById(Long id) {
+	public static HealthMeasureHistory getHealthMeasureHistoryById(int id) {
 		EntityManager em = LifeCoachDao.instance.createEntityManager();
 		HealthMeasureHistory p = em.find(HealthMeasureHistory.class, id);
 		LifeCoachDao.instance.closeConnections(em);

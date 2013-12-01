@@ -3,7 +3,6 @@ package resources;
 import model.Person;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.*;
@@ -21,8 +20,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Request;
 import javax.ws.rs.core.UriInfo;
-
-import dao.LifeCoachDao;
 
 /*
  * TODO 
@@ -134,7 +131,7 @@ public class PeopleResource {
 	// Allows to type http://localhost:599/base_url/1
 	// 1 will be treaded as parameter todo and passed to PersonResource
 	@Path("{personId}")
-	public PersonResource getPerson(@PathParam("personId") Long id) {
+	public PersonResource getPerson(@PathParam("personId") int id) {
 //		//EntityManager entityManager = entityManagerFactory.createEntityManager();
 //		EntityManager em = PersonDao.instance.createEntityManager();
 //        try {

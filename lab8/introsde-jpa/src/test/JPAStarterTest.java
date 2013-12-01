@@ -2,9 +2,7 @@ package test;
 
 import static org.junit.Assert.*;
 
-import java.text.DateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -21,8 +19,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import dao.LifeCoachDao;
-
 public class JPAStarterTest {
 
 	@Test
@@ -33,116 +29,77 @@ public class JPAStarterTest {
 		assertEquals("Table has correct name", "Chuck", list.get(0).getName());
 	}
 
+	// test for adding person without using the DAO object, but isntead using the entity manager 
+	// created in the testing unit by the beforetest method
 	@Test
 	public void addPerson() {
-		// Arrange
 		Person at = new Person();
 		at.setName("Pinco");
-		// Act
 		tx.begin();
 		em.persist(at);
 		tx.commit();
-		// Assert
 		assertNotNull("Id should not be null", at.getIdPerson());
 		List<Person> list = em.createNamedQuery("Person.findAll", Person.class)
 				.getResultList();
 		assertEquals("Table has two entities", 2, list.size());
 		assertEquals("Table has correct name", "Pinco", list.get(1).getName());
-
-		// Person p = em.find(Person.class, 2);
 		Person p = list.get(1);
-
 		em.getTransaction().begin();
 		em.remove(p);
 		em.getTransaction().commit();
-
 		list = em.createNamedQuery("Person.findAll", Person.class)
 				.getResultList();
-
 		assertEquals("Table has two entities", 1, list.size());
 		assertEquals("Table has correct name", "Chuck", list.get(0).getName());
-
 	}
 
+	// same adding person test, but using the DAO object
 	@Test
 	public void addPersonWithDao() {
-
-		// Arrange
 		Person p = new Person();
 		p.setName("Pinco");
 		p.setLastname("Pallino");
 		Calendar c = Calendar.getInstance();
 		c.set(1984, 6, 21);
 		p.setBirthdate(c.getTime());
-		// Act
 		Person.savePerson(p);
-		// Assert
 		assertNotNull("Id should not be null", p.getIdPerson());
-
 		List<Person> list = Person.getAll();
 		assertEquals("Table has two entities", 2, list.size());
 		assertEquals("Table has correct name", "Pinco", list.get(1).getName());
-
 		Person created = list.get(1);
 		Person.removePerson(created);
 		list = Person.getAll();
-
 		assertEquals("Table has two entities", 1, list.size());
 		assertEquals("Table has correct name", "Chuck", list.get(0).getName());
 	}
 
 	@Test
-	public void addPersonWithLifeStatusDao() {
-
-		// Arrange
-		Person p = new Person();
-		p.setName("Pinco");
-		p.setLastname("Pallino");
-		Calendar c = Calendar.getInstance();
-		c.set(1984, 6, 21);
-		p.setBirthdate(c.getTime());
-		// Act
-		p = Person.savePerson(p);
-		// Assert
-		assertNotNull("Id should not be null", p.getIdPerson());
-
-		List<Person> list = Person.getAll();
-		assertEquals("Table has two entities", 2, list.size());
-		assertEquals("Table has correct name", "Pinco", list.get(1).getName());
-
-		Person created = p;
-		Person.removePerson(created);
-		list = Person.getAll();
-		
+	public void testLifeStatusListDao() {
 		List<LifeStatus> mList = LifeStatus.getAll();
-
-		assertEquals("Only one person in DB", 1, list.size());
 		assertEquals("Only one LifeStatus in DB", 1, mList.size());
-		assertEquals("Only Person has correct name", "Chuck", list.get(0).getName());
-		
+	}
+
+	@Test
+	public void testLifeStatusPersonRelationship() {
 		// setting weight for an existing person with existing measures
-		Person chuck = Person.getPersonById(new Long(1));
-		
+		Person chuck = Person.getPersonById(1);
 		assertEquals("Chuck norris is here", "Chuck", chuck.getName());
-		
-		MeasureDefinition md = MeasureDefinition
-				.getMeasureDefinitionById(new Long(1));
+		// add a new measure value to the list of measurements of chuck
+		MeasureDefinition md = MeasureDefinition.getMeasureDefinitionById(1);
 		LifeStatus l = new LifeStatus();
 		l.setMeasureDefinition(md);
 		l.setValue("85");
 		chuck.getLifeStatus().add(l);
 		chuck = Person.updatePerson(chuck);
-
-		assertEquals("Person should have now two measures", 2, chuck.getLifeStatus().size());
-
-		l=chuck.getLifeStatus().get(1);
-		
+		assertEquals("Person should have now two measures", 2, chuck
+				.getLifeStatus().size());
+		l = chuck.getLifeStatus().get(1);
 		assertNotNull("LifeStatus measure was created", l.getIdMeasure());
-
 		chuck.getLifeStatus().remove(1);
 		Person.updatePerson(chuck);
-		
-		assertEquals("Person should have now just one measure", 1, chuck.getLifeStatus().size());
+		assertEquals("Person should have now just one measure", 1, chuck
+				.getLifeStatus().size());
 	}
 
 	@BeforeClass

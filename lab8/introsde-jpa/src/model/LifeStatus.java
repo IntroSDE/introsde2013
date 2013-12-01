@@ -40,7 +40,7 @@ public class LifeStatus implements Serializable {
 	    pkColumnName="name", valueColumnName="seq",
 	    pkColumnValue="LifeStatus")
 	@Column(name = "idMeasure")
-	private Long idMeasure;
+	private int idMeasure;
 
 	@Column(name = "value")
 	private String value;
@@ -57,11 +57,11 @@ public class LifeStatus implements Serializable {
 	public LifeStatus() {
 	}
 
-	public Long getIdMeasure() {
+	public int getIdMeasure() {
 		return this.idMeasure;
 	}
 
-	public void setIdMeasure(Long idMeasure) {
+	public void setIdMeasure(int idMeasure) {
 		this.idMeasure = idMeasure;
 	}
 
@@ -91,7 +91,7 @@ public class LifeStatus implements Serializable {
 	}
 	
 	// Database Operations
-	public static LifeStatus getLifeStatusById(Long lifestatusId) {
+	public static LifeStatus getLifeStatusById(int lifestatusId) {
 		EntityManager em = LifeCoachDao.instance.createEntityManager();
 		LifeStatus p = em.find(LifeStatus.class, lifestatusId);
 		LifeCoachDao.instance.closeConnections(em);

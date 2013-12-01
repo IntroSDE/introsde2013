@@ -44,7 +44,7 @@ public class Person implements Serializable {
 	    pkColumnName="name", valueColumnName="seq",
 	    pkColumnValue="Person")
 	@Column(name="idPerson")
-	private Long idPerson;
+	private int idPerson;
 
 	@Column(name="lastname")
 	private String lastname;
@@ -78,11 +78,11 @@ public class Person implements Serializable {
 		this.email = email;
 	}
 
-	public Long getIdPerson() {
+	public int getIdPerson() {
 		return this.idPerson;
 	}
 
-	public void setIdPerson(Long idPerson) {
+	public void setIdPerson(int idPerson) {
 		this.idPerson = idPerson;
 	}
 
@@ -121,7 +121,7 @@ public class Person implements Serializable {
 	}
 	
 	// Database operations
-	public static Person getPersonById(Long personId) {
+	public static Person getPersonById(int personId) {
 		EntityManager em = LifeCoachDao.instance.createEntityManager();
 		Person p = em.find(Person.class, personId);
 		LifeCoachDao.instance.closeConnections(em);

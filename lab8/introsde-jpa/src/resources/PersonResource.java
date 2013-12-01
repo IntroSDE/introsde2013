@@ -30,16 +30,16 @@ public class PersonResource {
 	
 	EntityManager entityManager;
 	
-	Long id;
+	int id;
 
-	public PersonResource(UriInfo uriInfo, Request request,Long id, EntityManager em) {
+	public PersonResource(UriInfo uriInfo, Request request,int id, EntityManager em) {
 		this.uriInfo = uriInfo;
 		this.request = request;
 		this.id = id;
 		this.entityManager = em;
 	}
 	
-	public PersonResource(UriInfo uriInfo, Request request,Long id) {
+	public PersonResource(UriInfo uriInfo, Request request,int id) {
 		this.uriInfo = uriInfo;
 		this.request = request;
 		this.id = id;
@@ -100,7 +100,7 @@ public class PersonResource {
 		return res;
 	}
 	
-	public Person getPersonById(Long personId) {
+	public Person getPersonById(int personId) {
 		System.out.println("Reading person from DB with id: "+personId);
 		//Person person = entityManager.find(Person.class, personId);
 		

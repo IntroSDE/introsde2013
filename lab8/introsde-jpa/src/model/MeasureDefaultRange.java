@@ -34,7 +34,7 @@ public class MeasureDefaultRange implements Serializable {
 	    pkColumnName="name", valueColumnName="seq",
 	    pkColumnValue="MeasureDefaultRange")
 	@Column(name="idRange")
-	private Long idRange;
+	private int idRange;
 
 	@Column(name="rangeName")
 	private String rangeName;
@@ -66,11 +66,11 @@ public class MeasureDefaultRange implements Serializable {
 		this.endValue = endValue;
 	}
 
-	public Long getIdRange() {
+	public int getIdRange() {
 		return this.idRange;
 	}
 
-	public void setIdRange(Long idRange) {
+	public void setIdRange(int idRange) {
 		this.idRange = idRange;
 	}
 
@@ -99,7 +99,7 @@ public class MeasureDefaultRange implements Serializable {
 	    this.measureDefinition = param;
 	}
 	// database operations
-	public static MeasureDefaultRange getMeasureDefaultRangeById(Long id) {
+	public static MeasureDefaultRange getMeasureDefaultRangeById(int id) {
 		EntityManager em = LifeCoachDao.instance.createEntityManager();
 		MeasureDefaultRange p = em.find(MeasureDefaultRange.class, id);
 		LifeCoachDao.instance.closeConnections(em);
