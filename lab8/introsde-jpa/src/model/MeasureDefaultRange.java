@@ -7,7 +7,7 @@ import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-import dao.PersonDao;
+import dao.LifeCoachDao;
 import model.MeasureDefinition;
 
 
@@ -100,46 +100,46 @@ public class MeasureDefaultRange implements Serializable {
 	}
 	// database operations
 	public static MeasureDefaultRange getMeasureDefaultRangeById(Long id) {
-		EntityManager em = PersonDao.instance.createEntityManager();
+		EntityManager em = LifeCoachDao.instance.createEntityManager();
 		MeasureDefaultRange p = em.find(MeasureDefaultRange.class, id);
-		PersonDao.instance.closeConnections(em);
+		LifeCoachDao.instance.closeConnections(em);
 		return p;
 	}
 	
 	public static List<MeasureDefaultRange> getAll() {
-		EntityManager em = PersonDao.instance.createEntityManager();
+		EntityManager em = LifeCoachDao.instance.createEntityManager();
 	    List<MeasureDefaultRange> list = em.createNamedQuery("MeasureDefaultRange.findAll", MeasureDefaultRange.class).getResultList();
-	    PersonDao.instance.closeConnections(em);
+	    LifeCoachDao.instance.closeConnections(em);
 	    return list;
 	}
 	
 	public static MeasureDefaultRange saveMeasureDefaultRange(MeasureDefaultRange p) {
-		EntityManager em = PersonDao.instance.createEntityManager();
+		EntityManager em = LifeCoachDao.instance.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
 		em.persist(p);
 		tx.commit();
-	    PersonDao.instance.closeConnections(em);
+	    LifeCoachDao.instance.closeConnections(em);
 	    return p;
 	}
 	
 	public static MeasureDefaultRange updateMeasureDefaultRange(MeasureDefaultRange p) {
-		EntityManager em = PersonDao.instance.createEntityManager();
+		EntityManager em = LifeCoachDao.instance.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
 		p=em.merge(p);
 		tx.commit();
-	    PersonDao.instance.closeConnections(em);
+	    LifeCoachDao.instance.closeConnections(em);
 	    return p;
 	}
 	
 	public static void removeMeasureDefaultRange(MeasureDefaultRange p) {
-		EntityManager em = PersonDao.instance.createEntityManager();
+		EntityManager em = LifeCoachDao.instance.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
 	    p=em.merge(p);
 	    em.remove(p);
 	    tx.commit();
-	    PersonDao.instance.closeConnections(em);
+	    LifeCoachDao.instance.closeConnections(em);
 	}
 }

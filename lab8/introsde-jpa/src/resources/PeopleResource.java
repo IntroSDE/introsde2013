@@ -22,7 +22,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Request;
 import javax.ws.rs.core.UriInfo;
 
-import dao.PersonDao;
+import dao.LifeCoachDao;
 
 /*
  * TODO 

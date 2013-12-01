@@ -21,7 +21,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import dao.PersonDao;
+import dao.LifeCoachDao;
 
 public class JPAStarterTest {
 

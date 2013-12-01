@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -68,22 +69,7 @@ public class PeopleResource {
 		return String.valueOf(count);
 	}
 
-//	// let's create this service for responding a submission form
-//	@POST
-//	@Produces(MediaType.TEXT_HTML)
-//	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-//	public void newPerson(@FormParam("id") String id,
-//			@FormParam("firstname") String firstname,
-//			@FormParam("lastname") String lastname,
-//			@Context HttpServletResponse servletResponse) throws IOException {
-//		Person p = new Person(id, firstname, lastname);
-//		PersonDao.instance.getModel().put(id, p);
-//		servletResponse.sendRedirect("../NewPerson.html");
-//	}
-	
-	
-	// let's create this service for responding a submission form
-	// 
+	@POST
 	@Produces(MediaType.APPLICATION_XML)
 	@Consumes(MediaType.APPLICATION_XML)
 	public Person newPerson(Person person) throws IOException {

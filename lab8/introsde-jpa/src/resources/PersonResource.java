@@ -17,7 +17,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import javax.xml.bind.JAXBElement;
 
-import dao.PersonDao;
+import dao.LifeCoachDao;
 
 
 @Stateless

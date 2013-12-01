@@ -8,11 +8,11 @@ import javax.persistence.Persistence;
 
 import model.Person;
 
-public enum PersonDao {
+public enum LifeCoachDao {
 	instance;
 	private EntityManagerFactory emf;
 	
-	private PersonDao() {
+	private LifeCoachDao() {
 		if (emf!=null) {
 			emf.close();
 		}

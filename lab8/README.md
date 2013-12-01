@@ -72,20 +72,24 @@ Introduction to Service Design and Engineering 2013/2014.
 
 ---
 
-## Tutorial JPA: Simple project (2)
+## Tutorial JPA: Simple project (1)
 
-* **"persistence.xml"** defines the information needt for connecting to the database including:
-	* *JDBC driver:* a sofware component enbaling Java applications to interact with specific database engines (e.g., mysql, oracle, H2, sqlite)
-	* *Database url:* the url to the database (e.g., *"jdbc:mysql:localhost:3306/databasename*) 
-	* *User and password:* to connect to the database
-* Add the following to your persistence.xml, as part of the persistence-unit and replace PATH_TO_THE_SQLITE_FILE for the path to the *"lifecoach.sqlite"* file you will find in this session [resources](https://github.com/cdparra/introsde2013/tree/master/lab8/resources) folder
+* Create a new JPA project in Eclipse
+    * If you do not use eclipse, all you need is EclipseLink libraries you downloaded before to be in the classpath of your project
+    * In your source folder (e.g., src) create a folder named **"META-INF"**
+    * Add a file named **"persistence.xml"** in this folder.
+* Add the JDBC SQLite Driver to the classpath of the project
+* Open the **persistence.xml**. You should see the following, with the persistence-unit name equal to the name of your project (if not, add it)
 
 ```xml
-<properties>
-	<property name="javax.persistence.jdbc.driver" value="org.sqlite.JDBC" />
-    <property name="javax.persistence.jdbc.url" 
-    	value="jdbc:sqlite:PATH_TO_THE_SQLITE_FILE" />    
-</properties>
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+                        http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+	<persistence-unit name="introsde-jpa">
+	</persistence-unit>
+</persistence>
 ```
 
 ---
@@ -96,7 +100,7 @@ Introduction to Service Design and Engineering 2013/2014.
 * After you know very well what tables are in the database and how they relate to each other, the next step is to create java classes that will represent this data model. **This is what we call the MODEL**
 * Create a package named **model** and add the first model for the table **Person**
 
-``````java
+```java
 import java.io.Serializable;
 import javax.persistence.*;
 @Entity  // indicates that this class is an entity to persist in DB
@@ -331,6 +335,13 @@ public class JPAStarterTest {
 
 ---
 
+## Exercise 2:
+
+* Add CRUD operations to models using transactions and persist, merge and remove operations from the entity manager
+
+
+---
+
 ## Tutorial JPA: Generating Entities (1)
 
 * This part of the tutorial is **for eclipse only**
@@ -358,40 +369,139 @@ public class JPAStarterTest {
 ## Tutorial JPA: Generating Entities (3)
 
 * The second step for generating entities is to specify **Table Associations** between entities to map relationship between tables. Add a relationship between *LifeStatus* and *MeasureDefinition* 
-![](https://raw.github.com/cdparra/introsde2013/blob/master/lab8/resources/generate-entities-2.png)
+
+![](https://raw.github.com/cdparra/introsde2013/master/lab8/resources/generate-entities-2.png)
 
 ---
 
 ## Tutorial JPA: Generating Entities (4)
 
 * Specify the columns that define the association
-![](https://raw.github.com/cdparra/introsde2013/blob/master/lab8/resources/generate-entities-3.png)
+
+![](https://raw.github.com/cdparra/introsde2013/master/lab8/resources/generate-entities-3.png)
 
 ---
 
 ## Tutorial JPA: Generating Entities (5)
 
 * Specify the cardinality of the association
-![](https://raw.github.com/cdparra/introsde2013/blob/master/lab8/resources/generate-entities-4.png)
+
+![](https://raw.github.com/cdparra/introsde2013/master/lab8/resources/generate-entities-4.png)
 
 ---
 
 ## Tutorial JPA: Generating Entities (6)
 
 * Finally, you can choose whether which entities in the association should have a property referencing the other entity (it is not required that both have a property referencing the other entity)
-![](https://raw.github.com/cdparra/introsde2013/blob/master/lab8/resources/generate-entities-5.png)
+
+![](https://raw.github.com/cdparra/introsde2013/master/lab8/resources/generate-entities-5.png)
 
 ---
 
 ## Tutorial JPA: Generating Entities (7)
 
 * The next step to select some defaults properties for the mapping, like the default key generator. Since we are using SQLite and there is a special generator for this, let's choose "None" 
-![](https://raw.github.com/cdparra/introsde2013/blob/master/lab8/resources/generate-entities-6.png)
+
+![](https://raw.github.com/cdparra/introsde2013/master/lab8/resources/generate-entities-6.png)
 
 ---
 
 ## Tutorial JPA: Generating Entities (8)
 
 * The last step is to define how each property will be mapped (name of the attributes int the model classes, type of each attribute, etc.). Make sure all the primary keys have the mapping kind to "id". 
-![](https://raw.github.com/cdparra/introsde2013/blob/master/lab8/resources/generate-entities-7.png)
+
+![](https://raw.github.com/cdparra/introsde2013/master/lab8/resources/generate-entities-7.png)
+
+---
+## Tutorial JPA: Relationships (1)
+
+* You should have now all the entity classes generated in the model package.
+    * If you didn't use the generation wizard, copy the model classes from the [introsde-jpa](https://github.com/cdparra/introsde2013/tree/master/lab8/introsde-jpa) example in this lab code.
+* Open the LifeStatus entity. You should have the following attribute:
+```java
+    @ManyToOne
+	@JoinColumn(name = "idMeasureDef", referencedColumnName = "idMeasureDef", insertable = true, updatable = true)
+	private MeasureDefinition measureDefinition;
+```
+
+---
+
+## Tutorial JPA: Adding Relationships (2)
+
+* JPA allows to define relationships between classes, e.g. it can be defined that a class is part of another class (containment).
+* Classes can have one to one, one to many, many to one, and many to many relationships with other classes.
+* A relationship can be bidirectional or unidirectional, e.g. in a bidirectional relationship both classes store a reference to each other while in an unidirectional case only one class has a reference to the other class.
+* Within a bidirectional relationship you need to specify the owning side of this relationship in the other class with the attribute "mappedBy", e.g. **@ManyToMany(mappedBy="attributeOfTheOwningClass".**
+* JPA Relationship annotations:
+
+```java
+@OneToOne
+@OneToMany
+@ManyToOne
+@ManyToMany
+```
+
+
+* asdf
+
+``java
+	// mappedBy must be the name of the attribute mapping this
+	// relationship in the referenced entity
+	@OneToMany(mappedBy="person",cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+	private List<LifeStatus> lifeStatus;
+	...
+```
+
+
+---
+
+## Tutorial JPA: Testing Relationships
+
+
+
+
+---
+
+
+## Tutorial Jersey + JPA: Adding Resources (1)
+
+* Add [Jersey-Bundle](https://github.com/cdparra/introsde2013/blob/master/lab6/resources/jersey-bundle.zip) libraries to the build path
+
+
+## Example 2
+
+---
+
+## Tutorial JPA: Database from model (2)
+
+
+
+* Open data source view in eclipse and add a new conection
+*
+
+* Select H2 (or Oracle if H2 is not available)
+name the connection lifecoach (H2)
+add driver
+
+* Add H2 jar
+* name = H2 Driver
+* Database name = lifecoach
+* Class driver = org.h2.Driver
+* URL = jdbc:h2:~/lifecoach
+
+
+convert to JPA project
+use created connection
+
+or, without eclipse wizard
+add persistence xml to META-INF folder in src
+
+
+---
+
+## Other Resources
+
+* [JUnit Tutorial](http://www.vogella.com/articles/JUnit/article.html)
+* [JPA tutorial from where we took some of the explanations](http://www.vogella.com/articles/JavaPersistenceAPI/article.html)
+* Checkout also mashape.com and signup with your GitHub account (we will try to use an API from there in the future sessions)
 
