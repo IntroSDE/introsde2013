@@ -60,17 +60,17 @@ public class PersonResource {
 	@Produces(MediaType.TEXT_XML)
 	public Person getPersonHTML() {
 		Person person = this.getPersonById(id);
-		System.out.println("Person... " + person.toString());
 		if (person == null)
 			throw new RuntimeException("Get: Person with " + id + " not found");
-
-		System.out.println("Returning person... " + person.toString());
+		System.out.println("Returning person... " + person.getIdPerson());
 		return person;
 	}
 
+	// notice that here, we already obtaine the JAXBElement of the person 
 	@PUT
 	@Consumes(MediaType.APPLICATION_XML)
 	public Response putPerson(JAXBElement<Person> person) {
+		// the value of the JAXBElement is the person itself
 		Person c = person.getValue();
 		return putAndGetResponse(c);
 	}
@@ -94,9 +94,9 @@ public class PersonResource {
 			res = Response.noContent().build();
 		} else {
 			res = Response.created(uriInfo.getAbsolutePath()).build();
+			Person.updatePerson(person);
 		}
 
-		Person.updatePerson(person);
 		return res;
 	}
 	

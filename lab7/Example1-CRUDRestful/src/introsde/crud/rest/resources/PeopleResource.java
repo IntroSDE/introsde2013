@@ -81,11 +81,10 @@ public class PeopleResource {
 		return person;
 	}
 	
-
 	// Defines that the next path parameter after the base url is
 	// treated as a parameter and passed to the PersonResources
-	// Allows to type http://localhost:599/base_url/1
-	// 1 will be treaded as parameter todo and passed to PersonResource
+	// Allows to type http://localhost:5900/base_url/1
+	// 1 will be treated as parameter todo and passed to PersonResource
 	@Path("{personId}")
 	public PersonResource getPerson(@PathParam("personId") String id) {
 		return new PersonResource(uriInfo, request, id);

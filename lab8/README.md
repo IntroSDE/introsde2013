@@ -110,7 +110,7 @@ public class Person implements Serializable {
 	@Id // defines this attributed as the one that identifies the entity
 	@GeneratedValue(strategy=GenerationType.AUTO) 
 	@Column(name="idPerson") // maps the following attribute to a column
-	private Long idPerson;
+	private int idPerson;
 	@Column(name="lastname")
 	private String lastname;
 	@Column(name="name")
@@ -149,20 +149,20 @@ public class Person implements Serializable {
 ## Exercise 1: Creating JPA Models 
 * Create the model for the *LifeStatus* table in Lifecoach DB
 
-
 ---
 
 ## Tutorial JPA: Accessing the Database (1)
 
 * Create a package named **dao (data access objects)** and the following class to it. 
+
 ```java
 package dao;
 import java.util.List;
 import javax.persistence.*;
 import model.Person;
 public enum LifeCoachDao {
-	instance;
-	private EntityManagerFactory emf;
+    instance;
+    private EntityManagerFactory emf;
 	private LifeCoachDao() {
 		if (emf!=null) {
 			emf.close();
@@ -208,28 +208,28 @@ public enum LifeCoachDao {
 
 * Add the following methods to the Person model
 ```java
-	public static Person getPersonById(Long personId) {
-		EntityManager em = LifeCoachDao.instance.createEntityManager();
-		Person p = em.find(Person.class, personId);
-		LifeCoachDao.instance.closeConnections(em);
-		return p;
-	}
-	public static List<Person> getAll() {
-		EntityManager em = LifeCoachDao.instance.createEntityManager();
-	    List<Person> list = em.createNamedQuery("Person.findAll", Person.class).getResultList();
-	    LifeCoachDao.instance.closeConnections(em);
-	    return list;
-	}
-	public static Person savePerson(Person p) {
-		EntityManager em = LifeCoachDao.instance.createEntityManager();
-		EntityTransaction tx = em.getTransaction();
-		tx.begin();
-		em.persist(p);
-		tx.commit();
-	    LifeCoachDao.instance.closeConnections(em);
-	    return p;
-	}
-	...
+public static Person getPersonById(int personId) {
+    EntityManager em = LifeCoachDao.instance.createEntityManager();
+	Person p = em.find(Person.class, personId);
+	LifeCoachDao.instance.closeConnections(em);
+	return p;
+}
+public static List<Person> getAll() {
+	EntityManager em = LifeCoachDao.instance.createEntityManager();
+    List<Person> list = em.createNamedQuery("Person.findAll", Person.class).getResultList();
+    LifeCoachDao.instance.closeConnections(em);
+    return list;
+}
+public static Person savePerson(Person p) {
+	EntityManager em = LifeCoachDao.instance.createEntityManager();
+	EntityTransaction tx = em.getTransaction();
+	tx.begin();
+	em.persist(p);
+	tx.commit();
+    LifeCoachDao.instance.closeConnections(em);
+    return p;
+}
+// continues in the next page
 ```
 
 ---
@@ -237,25 +237,24 @@ public enum LifeCoachDao {
 ## Tutorial JPA: Operations in the Database (4)
 
 ```java
-	...
-	public static Person updatePerson(Person p) {
-		EntityManager em = LifeCoachDao.instance.createEntityManager();
-		EntityTransaction tx = em.getTransaction();
-		tx.begin();
-		p=em.merge(p);
-		tx.commit();
-	    LifeCoachDao.instance.closeConnections(em);
-	    return p;
-	}
-	public static void removePerson(Person p) {
-		EntityManager em = LifeCoachDao.instance.createEntityManager();
-		EntityTransaction tx = em.getTransaction();
-		tx.begin();
-	    p=em.merge(p);
-	    em.remove(p);
-	    tx.commit();
-	    LifeCoachDao.instance.closeConnections(em);
-	}
+public static Person updatePerson(Person p) {
+	EntityManager em = LifeCoachDao.instance.createEntityManager();
+	EntityTransaction tx = em.getTransaction();
+	tx.begin();
+	p=em.merge(p);
+	tx.commit();
+    LifeCoachDao.instance.closeConnections(em);
+    return p;
+}
+public static void removePerson(Person p) {
+	EntityManager em = LifeCoachDao.instance.createEntityManager();
+	EntityTransaction tx = em.getTransaction();
+	tx.begin();
+    p=em.merge(p);
+    em.remove(p);
+    tx.commit();
+	 LifeCoachDao.instance.closeConnections(em);
+}
 ```
 
 ---
@@ -282,40 +281,35 @@ import java.util.List;
 public class JPAStarterTest {
 	@Test
 	public void readPerson() {
-		Person p = Person.getPersonById(new Long(1));
+		Person p = Person.getPersonById(1);
 		assertEquals("Table has correct name", "Chuck", p.getName());
 		List<Person> list = Person.getAll();
 		assertEquals("Table has one entity", 1, list.size());
 	}
-	...
+    // continues in the next page
 ```
 
 ---
 
 ## Tutorial JPA: Testing the connection (3)
 
-
 ```java
-	...
-	@Test
-	public void addPersonWithDao() {
-		// Arrange
-		Person p = new Person();
-		p.setName("Pinco");
-		p.setLastname("Pallino");
-		// Act
-		Person.savePerson(p);
-		// Assert
-		assertNotNull("Id should not be null", p.getIdPerson());
-		List<Person> list = Person.getAll();
-		assertEquals("Table has two entities", 2, list.size());
-		assertEquals("Table has correct name", "Pinco", list.get(1).getName());
-		Person created = list.get(1);
-		Person.removePerson(created);
-		list = Person.getAll();
-		assertEquals("Table has two entities", 1, list.size());
-		assertEquals("Table has correct name", "Chuck", list.get(0).getName());
-	}
+@Test
+public void addPersonWithDao() {
+	Person p = new Person();
+	p.setName("Pinco");
+	p.setLastname("Pallino");
+	Person.savePerson(p);
+	assertNotNull("Id should not be null", p.getIdPerson());
+	List<Person> list = Person.getAll();
+	assertEquals("Table has two entities", 2, list.size());
+	assertEquals("Table has correct name", "Pinco", list.get(1).getName());
+	Person created = list.get(1);
+	Person.removePerson(created);
+	list = Person.getAll();
+	assertEquals("Table has two entities", 1, list.size());
+	assertEquals("Table has correct name", "Chuck", list.get(0).getName());
+}
 ```
 
 ---
@@ -326,19 +320,12 @@ public class JPAStarterTest {
 * For this reason, you need to use the following @GeneratedValue annotation
 
 ```java
-	@GeneratedValue(generator="sqlite_person")
-	@TableGenerator(name="sqlite_person", table="sqlite_sequence",
-	    pkColumnName="name", valueColumnName="seq",
-	    pkColumnValue="Person")
-	@Column(name="idPerson")
+@GeneratedValue(generator="sqlite_person")
+@TableGenerator(name="sqlite_person", table="sqlite_sequence",
+    pkColumnName="name", valueColumnName="seq",
+    pkColumnValue="Person")
+@Column(name="idPerson")
 ```
-
----
-
-## Exercise 2:
-
-* Add CRUD operations to models using transactions and persist, merge and remove operations from the entity manager
-
 
 ---
 
@@ -408,7 +395,7 @@ public class JPAStarterTest {
 
 ## Tutorial JPA: Generating Entities (8)
 
-* The last step is to define how each property will be mapped (name of the attributes int the model classes, type of each attribute, etc.). Make sure all the primary keys have the mapping kind to "id". 
+* The last step is to define how each property will be mapped (name of the attributes int the model classes, type of each attribute, etc.). Make sure all the primary keys have the mapping kind to "id".
 
 ![](https://raw.github.com/cdparra/introsde2013/master/lab8/resources/generate-entities-7.png)
 
@@ -416,8 +403,10 @@ public class JPAStarterTest {
 ## Tutorial JPA: Relationships (1)
 
 * You should have now all the entity classes generated in the model package.
-    * If you didn't use the generation wizard, copy the model classes from the [introsde-jpa](https://github.com/cdparra/introsde2013/tree/master/lab8/introsde-jpa) example in this lab code.
-* Open the LifeStatus entity. You should have the following attribute:
+    * If you didn't use the generation wizard, copy the model classes from the [introsde-jpa](https://github.com/cdparra/introsde2013/tree/master/lab8/introsde-jpa) example in this lab code
+    * In generated classes, you can delete **\"**
+* Open the LifeStatus entity. You should have the following attribute (if not, added). This is how we map a @ManyToOne relationship between LifeStatus and MeasureDefinition:
+
 ```java
     @ManyToOne
 	@JoinColumn(name = "idMeasureDef", referencedColumnName = "idMeasureDef", insertable = true, updatable = true)
@@ -440,39 +429,141 @@ public class JPAStarterTest {
 @ManyToOne
 @ManyToMany
 ```
+---
 
+## Exercise 3:
 
-* asdf
+* Control the code of the models and: 
+    * add the relationships that are missing in all the models
+    * for each class, add the correct @GeneratedValue annotations following the example of Person
 
-``java
-	// mappedBy must be the name of the attribute mapping this
-	// relationship in the referenced entity
-	@OneToMany(mappedBy="person",cascade=CascadeType.ALL,fetch=FetchType.EAGER)
-	private List<LifeStatus> lifeStatus;
-	...
-```
+---
 
+## Exercise 4:
+
+* Now that you have all the models of the database, add CRUD operations to all of them like the ones in Person (i.e., using transactions to persist, merge and remove entities in the database)
 
 ---
 
 ## Tutorial JPA: Testing Relationships
 
+* Add the following testing method to your testing class and check that when you update a person with a new LifeStatus measure, this is effectively added in the database. 
 
-
+```java
+@Test
+public void testLifeStatusPersonRelationship() {
+	// setting weight for an existing person with existing measures
+	Person chuck = Person.getPersonById(1);		
+	assertEquals("Chuck norris is here", "Chuck", chuck.getName());
+	// add a new measure value to the list of measurements of chuck
+	MeasureDefinition md = MeasureDefinition
+        .getMeasureDefinitionById(1);
+    LifeStatus l = new LifeStatus();
+	l.setMeasureDefinition(md);
+	l.setValue("85");
+	chuck.getLifeStatus().add(l);
+	chuck = Person.updatePerson(chuck);
+	assertEquals("Person should have now two measures", 2, chuck.getLifeStatus().size());
+	l=chuck.getLifeStatus().get(1);
+	assertNotNull("LifeStatus measure was created", l.getIdMeasure());
+	chuck.getLifeStatus().remove(1);
+	Person.updatePerson(chuck);
+	assertEquals("Person should have now just one measure", 1, chuck.getLifeStatus().size());
+}
+```
 
 ---
 
+## Tutorial Jersey+JPA: Adding Resources (1)
 
-## Tutorial Jersey + JPA: Adding Resources (1)
+* Now that we can connect to a Database, the next step is to use this model and connection in REST resources that are exposed using Jersey. 
+* The first step is to add Jersey support to your project 
+    * In Eclipse: Project Properties -> Project Facets -> Enable Dynamic Web Module
+    * Without Eclipse: create a WebContent folder in the root of the project with a subdirectory named WEB-INF and a web.xml as the one below inside.
+    * Add Jersey support by adding the [Jersey-Bundle](https://github.com/cdparra/introsde2013/blob/master/lab6/resources/jersey-bundle.zip) libraries to the build path
 
-* Add [Jersey-Bundle](https://github.com/cdparra/introsde2013/blob/master/lab6/resources/jersey-bundle.zip) libraries to the build path
-
-
-## Example 2
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app id="WebApp_ID" version="3.0" 
+    xmlns="http://java.sun.com/xml/ns/javaee" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+                http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+</web-app>
+```
 
 ---
 
-## Tutorial JPA: Database from model (2)
+## Tutorial Jersey+JPA: Adding Resources (2)
+
+* Create a package **resources** for the resources of your REST API. 
+* Copy from [lab7](https://github.com/cdparra/introsde2013/tree/master/lab7) the following resources:
+    * PeopleResource
+    * PersonResource
+    * StandaloneServer (remember to change project properties as indicated in the comments of this class)
+* Fix the errors
+    * i.e., import the correct model classes, use and int id instead of String 
+* Replace the PersonDao references with calls to the static methods in the models
+    * i.e., *Person.getPersonById()* to read a person, *Person.savePerson(p)* to save a person, *Person.getAll()* to get the whole list of people in the database 
+
+---
+
+## Tutorial Jersey+JPA: Persistance methods in models (3)
+
+* Examples of how to replace PersonDao References to calls to the methods in models (for PeopleResource)
+
+```java
+@GET
+@Produces(MediaType.TEXT_XML)
+public List<Person> getPersonsBrowser() {
+    List<Person> people = Person.getAll();
+    return people;
+}
+@POST
+@Produces(MediaType.APPLICATION_XML)
+@Consumes(MediaType.APPLICATION_XML)
+public Person newPerson(Person person) throws IOException {
+	System.out.println("Creating new person...");
+	person = Person.savePerson(person);
+	return person;
+}
+```
+
+---
+
+## Tutorial Jersey+JPA: Persistance methods in models (4)
+
+* Examples of how to replace PersonDao References to calls to the methods in models (for PersonResource)
+
+```java
+@GET
+@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+public Person getPerson() {
+	Person person = this.getPersonById(id);
+	if (person == null)
+		throw new RuntimeException("Get: Person with " + id + " not found");
+	return person;
+}
+@DELETE
+public void deletePerson() {
+	Person c = Person.getPersonById(id);
+	if (c == null)
+		throw new RuntimeException("Delete: Person with " + id
+        + " not found");
+	Person.removePerson(c);
+}
+public Person getPersonById(int personId) {
+	System.out.println("Reading person from DB with id: "+personId);
+	Person person = Person.getPersonById(personId);
+	return person;
+}
+```
+
+---
+
+## Exercise 5:
+
+* Fix the remaining services so that all the services use the methods provided by models read/create/update/delete objects in the database. 
 
 
 
@@ -498,6 +589,16 @@ add persistence xml to META-INF folder in src
 
 
 ---
+
+
+
+---
+
+## Lab session source code
+
+* All the source code covered in this session (which is also the solution to the exercises) is part of the [introsde-jpa](https://github.com/cdparra/introsde2013/tree/master/lab8/introsde-jpa) project available in this lab's root folder.
+* The project contains some other features that are left to you to discover.    
+
 
 ## Other Resources
 
