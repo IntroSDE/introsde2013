@@ -29,7 +29,7 @@ Introduction to Service Design and Engineering 2013/2014.
 	* Eclipse: make you sure to have the **Dali Java Persistence Tools**
 	* Without Eclipse: [Download EclipseLink jars](http://www.eclipse.org/eclipselink/downloads/) -> eclipselink.jar, javax.persistence_*.jar
 
-![](https://github.com/cdparra/introsde2013/blob/master/lab8/resources/Dali-Eclipse.png) 
+![](https://raw.github.com/cdparra/introsde2013/master/lab8/resources/Dali-Eclipse.png) 
 
 ---
 
@@ -207,29 +207,34 @@ public enum LifeCoachDao {
 ## Tutorial JPA: Operations in the Database (3)
 
 * Add the following methods to the Person model
+
 ```java
-public static Person getPersonById(int personId) {
-    EntityManager em = LifeCoachDao.instance.createEntityManager();
-	Person p = em.find(Person.class, personId);
-	LifeCoachDao.instance.closeConnections(em);
-	return p;
+public class Person {
+    // attributes and other methods...
+    public static Person getPersonById(int personId) {
+        EntityManager em = LifeCoachDao.instance.createEntityManager();
+	   Person p = em.find(Person.class, personId);
+	   LifeCoachDao.instance.closeConnections(em);
+	   return p;
+       }
+    public static List<Person> getAll() {
+        EntityManager em = LifeCoachDao.instance.createEntityManager();
+        List<Person> list = em.createNamedQuery("Person.findAll", Person.class)
+            .getResultList();
+        LifeCoachDao.instance.closeConnections(em);
+        return list;
+        }
+    public static Person savePerson(Person p) {
+	   EntityManager em = LifeCoachDao.instance.createEntityManager();
+	   EntityTransaction tx = em.getTransaction();
+	   tx.begin();
+	   em.persist(p);
+	   tx.commit();
+       LifeCoachDao.instance.closeConnections(em);
+        return p;
+    } 
+    // continues in the next page
 }
-public static List<Person> getAll() {
-	EntityManager em = LifeCoachDao.instance.createEntityManager();
-    List<Person> list = em.createNamedQuery("Person.findAll", Person.class).getResultList();
-    LifeCoachDao.instance.closeConnections(em);
-    return list;
-}
-public static Person savePerson(Person p) {
-	EntityManager em = LifeCoachDao.instance.createEntityManager();
-	EntityTransaction tx = em.getTransaction();
-	tx.begin();
-	em.persist(p);
-	tx.commit();
-    LifeCoachDao.instance.closeConnections(em);
-    return p;
-}
-// continues in the next page
 ```
 
 ---
@@ -237,23 +242,26 @@ public static Person savePerson(Person p) {
 ## Tutorial JPA: Operations in the Database (4)
 
 ```java
-public static Person updatePerson(Person p) {
-	EntityManager em = LifeCoachDao.instance.createEntityManager();
-	EntityTransaction tx = em.getTransaction();
-	tx.begin();
-	p=em.merge(p);
-	tx.commit();
-    LifeCoachDao.instance.closeConnections(em);
-    return p;
-}
-public static void removePerson(Person p) {
-	EntityManager em = LifeCoachDao.instance.createEntityManager();
-	EntityTransaction tx = em.getTransaction();
-	tx.begin();
-    p=em.merge(p);
-    em.remove(p);
-    tx.commit();
-	 LifeCoachDao.instance.closeConnections(em);
+public class Person {
+    // previous page code
+    public static Person updatePerson(Person p) {
+	   EntityManager em = LifeCoachDao.instance.createEntityManager();
+	   EntityTransaction tx = em.getTransaction();
+	   tx.begin();
+       p=em.merge(p);
+	   tx.commit();
+        LifeCoachDao.instance.closeConnections(em);
+        return p;
+        }
+    public static void removePerson(Person p) {
+        EntityManager em = LifeCoachDao.instance.createEntityManager();
+	   EntityTransaction tx = em.getTransaction();
+	   tx.begin();
+        p=em.merge(p);
+        em.remove(p);
+        tx.commit();
+	   LifeCoachDao.instance.closeConnections(em);
+    }
 }
 ```
 
@@ -513,19 +521,23 @@ public void testLifeStatusPersonRelationship() {
 * Examples of how to replace PersonDao References to calls to the methods in models (for PeopleResource)
 
 ```java
-@GET
-@Produces(MediaType.TEXT_XML)
-public List<Person> getPersonsBrowser() {
-    List<Person> people = Person.getAll();
-    return people;
-}
-@POST
-@Produces(MediaType.APPLICATION_XML)
-@Consumes(MediaType.APPLICATION_XML)
-public Person newPerson(Person person) throws IOException {
-	System.out.println("Creating new person...");
-	person = Person.savePerson(person);
-	return person;
+@Path("/person")
+public class PeopleResource {
+    // attributes and other methos in People resource
+    @GET
+    @Produces(MediaType.TEXT_XML)
+    public List<Person> getPersonsBrowser() {
+        List<Person> people = Person.getAll();
+        return people;
+    }
+    @POST
+    @Produces(MediaType.APPLICATION_XML)
+    @Consumes(MediaType.APPLICATION_XML)
+    public Person newPerson(Person person) throws IOException {
+        System.out.println("Creating new person...");
+        person = Person.savePerson(person);
+	   return person;
+    }
 }
 ```
 
@@ -536,27 +548,46 @@ public Person newPerson(Person person) throws IOException {
 * Examples of how to replace PersonDao References to calls to the methods in models (for PersonResource)
 
 ```java
-@GET
-@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-public Person getPerson() {
-	Person person = this.getPersonById(id);
-	if (person == null)
-		throw new RuntimeException("Get: Person with " + id + " not found");
-	return person;
+public class PersonResource {
+    // attributes and other methos in Person resource
+    @GET
+    @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+    public Person getPerson() {
+        Person person = this.getPersonById(id);
+        if (person == null)
+            throw new RuntimeException("Get: Person with " + id + " not found");
+        return person;
+    }
+    @DELETE
+    public void deletePerson() {
+        Person c = Person.getPersonById(id);
+        if (c == null)
+		  throw new RuntimeException("Delete: Person with " + id
+                + " not found");
+        Person.removePerson(c);
+    }
+    public Person getPersonById(int personId) {
+	   System.out.println("Reading person from DB with id: "+personId);
+	   Person person = Person.getPersonById(personId);
+       return person;
+    }
 }
-@DELETE
-public void deletePerson() {
-	Person c = Person.getPersonById(id);
-	if (c == null)
-		throw new RuntimeException("Delete: Person with " + id
-        + " not found");
-	Person.removePerson(c);
-}
-public Person getPersonById(int personId) {
-	System.out.println("Reading person from DB with id: "+personId);
-	Person person = Person.getPersonById(personId);
-	return person;
-}
+```
+
+---
+
+## Tutorial Jersey+JPA: Enabling JAXB 
+
+* The last step is to add JAXB Annotations to the model classes to allow their proper serialization to and from xml
+* **Example:** 
+    * Add **@XmlRootElement** on top of the Person model
+    * Add **@XmlRootElement(name="Measure")** on top of the LifeStatus model
+    * The person element on LifeStatus should not be serialized (to avoid infinites loops because lifestatus is serialized within Person), so add **@XmlTransient** on the getter of person in the LifeStatus class
+    * To serialize each LifeStatus instance add the following to the LifeStatus getter on Person 
+
+```java
+@XmlElementWrapper(name = "Measurements")
+@XmlElement(name = "Measure")
 ```
 
 ---
@@ -564,33 +595,55 @@ public Person getPersonById(int personId) {
 ## Exercise 5:
 
 * Fix the remaining services so that all the services use the methods provided by models read/create/update/delete objects in the database. 
-
-
-
-* Open data source view in eclipse and add a new conection
-*
-
-* Select H2 (or Oracle if H2 is not available)
-name the connection lifecoach (H2)
-add driver
-
-* Add H2 jar
-* name = H2 Driver
-* Database name = lifecoach
-* Class driver = org.h2.Driver
-* URL = jdbc:h2:~/lifecoach
-
-
-convert to JPA project
-use created connection
-
-or, without eclipse wizard
-add persistence xml to META-INF folder in src
-
+* Add JAXB annotations to the models that do not have them yet. 
 
 ---
 
+## Exercise 6 (1): 
 
+* Run the standalone server and test the services using [postman client](www.getpostman.com)
+    * GET localhost:5900/person (should give you the list)
+    * GET localhost:5900/person/1 (should give you the record of the only person in the DB
+    * Try POST localhost:5900/person with the following data in the body
+    
+```xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<person>
+    <email>pinco.pallino@gmail.com</email>
+    <lastname>Pinco</lastname>
+    <name>Pallino</name>
+    <username>pinco</username>
+</person>
+```    
+
+---
+
+## Exercise 6 (2): 
+
+* Try also the Update 
+    * PUT localhost:5900/person/1 
+```xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<person>
+        <birthdate>1945-01-01T00:00:00+01:00</birthdate>
+        <email>chuck.norris@gmail.com</email>
+        <idPerson>1</idPerson>
+        <lastname>Norris</lastname>
+        <Measurements>
+          <Measure>
+            <idMeasure>1</idMeasure>
+            <measureDefinition>
+                <idMeasureDef>1</idMeasureDef>
+                <measureName>weight</measureName>
+                <measureType>double</measureType>
+            </measureDefinition>
+            <value>86</value>
+          </Measure>
+  		 </Measurements>
+        <name>Chuck</name>
+        <username>chuck</username>
+    </person>
+``` 
 
 ---
 
@@ -599,6 +652,7 @@ add persistence xml to META-INF folder in src
 * All the source code covered in this session (which is also the solution to the exercises) is part of the [introsde-jpa](https://github.com/cdparra/introsde2013/tree/master/lab8/introsde-jpa) project available in this lab's root folder.
 * The project contains some other features that are left to you to discover.    
 
+---
 
 ## Other Resources
 
