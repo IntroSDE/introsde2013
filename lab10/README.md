@@ -316,16 +316,261 @@ javac introsde/client/HelloWorldClient.java
 java introsde/client/HelloWorldClient
 ```
 
+---
 
+## JAX-WS Tutorial - Document style (1)
 
+* Create a new Web Dynamic Project
+* Create the packages introsde.ws, introsde.document.client, introsde.document.endpoint, introsde.document.ws.jaxws
+* Create the Web Service Endpoint Interface **HelloWorld** as follows (the only change is the SOAPBinding annotation):
+
+```java
+package introsde.document.ws; 
+import javax.jws.WebMethod;
+import javax.jws.WebService;
+import javax.jws.soap.SOAPBinding;
+import javax.jws.soap.SOAPBinding.Style;
+//Service Endpoint Interface
+@WebService
+@SOAPBinding(style = Style.DOCUMENT, use=Use.LITERAL) //optional
+public interface HelloWorld{
+	@WebMethod String getHelloWorldAsString(String name);
+}
+
+---
+
+## JAX-WS Tutorial - Document Style (2)
+
+* Create the Web Service Endpoint Implementation **HelloWorldImpl.java** (no changes here)
+
+```java
+package introsde.document.ws;
+import javax.jws.WebService;
+//Service Implementation
+@WebService(endpointInterface = "introsde.document.ws.HelloWorld")
+public class HelloWorldImpl implements HelloWorld{
+	@Override
+	public String getHelloWorldAsString(String name) {
+		return "Hello World JAX-WS " + name;
+	}
+}
+
+---
+
+## JAX-WS Tutorial - Document Style (3)
+
+* Create the Endpoint Publisher **HelloWorldPublisher.java**
+* Run it to ensure that all classes are compiled
+
+```java
+package introsde.document.endpoint;
+import javax.xml.ws.Endpoint;
+import introsde.document.ws.HelloWorldImpl;
+//Endpoint publisher
+public class HelloWorldPublisher{
+ 	public static void main(String[] args) {
+	   Endpoint.publish("http://localhost:6901/ws/hello", new HelloWorldImpl());
+    }
+}
+```
+
+---
+
+## JAX-WS Tutorial - Document Style - Generating Artifacts (1)
+
+* You can use **wsgen** to generate all necessary Java artifacts (mapping classes, wsdl or xsd schema). 
+* Run the following command on build/classes (where the compiled classes are):
+
+```sh
+wsgen -keep -cp . introsde.document.ws.HelloWorldImpl
+```
+
+* It will generate two classes in build/classes/introsde/ws/jaxws, 
+* Copy them to your **src/introsde/ws/jaxws** folder.
+* These can be seen as the equivalents to the **model** in Jersey. 
+
+---
+
+## JAX-WS Tutorial - Document Style - Generating Artifacts (2)
+
+* GetHelloWorldAsString.java
+
+```java
+package introsde.document.ws.jaxws;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
+@XmlRootElement(name = "getHelloWorldAsString", namespace = "http://ws.document.introsde/")
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "getHelloWorldAsString", namespace = "http://ws.document.introsde/")
+public class GetHelloWorldAsString {
+    @XmlElement(name = "arg0", namespace = "")
+    private String arg0;
+    public String getArg0() {
+        return this.arg0;
+    }
+    public void setArg0(String arg0) {
+        this.arg0 = arg0;
+    } 
+}
+```
+
+---
+
+## JAX-WS Tutorial - Document Style - Generating Artifacts (3)
+
+* GetHelloWorldAsStringResponse.java
+
+```java
+package introsde.document.ws.jaxws;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
+@XmlRootElement(name = "getHelloWorldAsStringResponse", namespace = "http://ws.document.introsde/")
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "getHelloWorldAsStringResponse", namespace = "http://ws.document.introsde/")
+public class GetHelloWorldAsStringResponse {
+    @XmlElement(name = "return", namespace = "")
+    private String _return;
+    public String getReturn() {
+        return this._return;
+    }
+    public void setReturn(String _return) {
+        this._return = _return;
+    }
+}
+```
+
+---
+
+## JAX-WS Tutorial - Document Style client (3)
+
+* Create the Web Service Client
+
+```java
+package introsde.document.client;
+import java.net.URL;
+import javax.xml.namespace.QName;
+import javax.xml.ws.Service;
+import introsde.document.ws.HelloWorld;
+public class HelloWorldClient{
+	public static void main(String[] args) throws Exception {
+		URL url = new URL("http://localhost:6901/ws/hello?wsdl");
+        //1st argument service URI, refer to wsdl document above
+		//2nd argument is service name, refer to wsdl document above
+        QName qname = new QName("http://ws.document.introsde/", "HelloWorldImplService");
+        Service service = Service.create(url, qname);
+        HelloWorld hello = service.getPort(HelloWorld.class);
+        System.out.println(hello.getHelloWorldAsString("Pinco"));
+    }
+}
+```
+
+---
+
+## Assignment #3: Part 1 (1)
+
+* Using JAX-WS, implement CRUD services for the following model including the following operations
+    * readPerson(int id)
+    * createPerson()
+    * updatePerson(int id)
+    * deletePerson(int id)
+    * updatePersonHealthProfile(HealthProfile hp)
+
+// Person & HealthProfile
+```xml
+<person>
+    <personId>1</personId>
+    <firstname>Chuck</name>
+    <lastname>Norris</lastname>
+    <birthdate>1945-01-01</birthdate>
+    <healthProfile>
+        <date>2013-12-05</date>
+        <weight>78.9</weight>
+        <height>172</height>
+        <steps>5000</steps>
+        <calories>2120</calories>
+    </healthProfile>
+</person>
+```
+
+---
+
+## Assignment #3: Part 1 (2)
+
+* **Extra points:** Include also the service getHealthProfileHistory(int personId)
+
+// History of the health profile
+```xml
+<healthProfile-history> 
+    <healthProfile>
+        <date>2013-12-05</date>
+        <weight>78.9</weight>
+        <height>172</height>
+        <steps>5000</steps>
+        <calories>2120</calories>
+    </healthProfile>
+    <healthProfile>
+        <date>2013-11-29</date>
+        <weight>null</weight>
+        <height>null</height>
+        <steps>6430</steps>
+        <height>null</height>
+    </healthProfile>
+    <healthProfile>
+        <date>2013-11-05</date>
+        <weight>null</weight>
+        <height>null</height>
+        <steps>12083</steps>
+        <height>null</height>
+    </healthProfile>
+</healthProfile-history> 
+```
+
+---
+
+## Assignment #3: Part 2 
+
+* Create a simple client that call each of this services and prints the result.
+
+---
+
+## Assignment Rules
+
+* Before submission make a zip file that includes only
+	* All Java source files 
+	* please, do not include .class or IDE generated project files
+* Rename the Zip file to: your full name + assignment_no. for example: cristhian_parra_3.zip
+* Submission link: www.dropitto.me/introsde2013
+* Password will be given and class and sent to the group
+* **Deadline:** 17/december 
+	* On this date, we will test the services matching clients and servers 
+
+---
+
+## Assignment Evaluation
+
+* The assignment will be evaluated in terms of:
+	* Requirements satisfaction
+	* Execution & Deployment
+	* Code design/independence/competence
+	* Submitted in time ?
+	* Report (or documentation)
+	* Code originality (if you choose to do it in pairs) 
+* Extra points are used as "recovery" you didn't finish the requirements or didn't submit in time
 
 ---
 
 ## Other Resources
 
-* [JAX-WS Tutorials online](http://www.mkyong.com/tutorials/jax-ws-tutorials/)
+* This lab session is heavily based on examples from [JAX-WS Tutorials online](http://www.mkyong.com/tutorials/jax-ws-tutorials/)
 * [Oracle Java EE tutorials on JAX-WS](http://docs.oracle.com/javaee/5/tutorial/doc/bnayl.html)
 * [SOAP Binding: difference between Document and RPC Style](http://java.globinch.com/enterprise-java/web-services/soap-binding-document-rpc-style-web-services-difference/#document_style_rpc_style)
+* Tutorial that mixes [JAX-WS with JPA](http://www.middlewareguru.com/mw/?p=795)
 
 
 
