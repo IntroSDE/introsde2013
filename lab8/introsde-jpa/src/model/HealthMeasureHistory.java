@@ -11,10 +11,12 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import dao.LifeCoachDao;
@@ -40,17 +42,20 @@ public class HealthMeasureHistory implements Serializable {
 	@Column(name="idMeasureHistory")
 	private int idMeasureHistory;
 
+	@Temporal(TemporalType.DATE)
 	@Column(name="timestamp")
 	private Timestamp timestamp;
 
 	@Column(name="value")
 	private String value;
 
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "idMeasureDef", referencedColumnName = "idMeasureDef")
 	private MeasureDefinition measureDefinition;
 
-	@OneToOne
+	// notice that we haven't included a reference to the history in Person
+	// this means that we don't have to make this attribute XmlTransient
+	@ManyToOne
 	@JoinColumn(name = "idPerson", referencedColumnName = "idPerson")
 	private Person person;
 

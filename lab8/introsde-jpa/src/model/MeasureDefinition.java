@@ -22,7 +22,10 @@ public class MeasureDefinition implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(generator="sqlite_measuredef")
+	@TableGenerator(name="sqlite_measuredef", table="sqlite_sequence",
+	    pkColumnName="name", valueColumnName="seq",
+	    pkColumnValue="MeasureDefinition")
 	@Column(name="idMeasureDef")
 	private int idMeasureDef;
 
@@ -32,7 +35,7 @@ public class MeasureDefinition implements Serializable {
 	@Column(name="measureType")
 	private String measureType;
 
-	@OneToOne(mappedBy="measureDefinition")
+	@OneToMany(mappedBy="measureDefinition")
 	private MeasureDefaultRange measureDefaultRange;
 
 	public MeasureDefinition() {

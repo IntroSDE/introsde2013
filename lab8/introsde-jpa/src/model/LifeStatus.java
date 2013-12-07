@@ -14,7 +14,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
-import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -50,7 +49,6 @@ public class LifeStatus implements Serializable {
 	@JoinColumn(name = "idMeasureDef", referencedColumnName = "idMeasureDef", insertable = true, updatable = true)
 	private MeasureDefinition measureDefinition;
 	
-	@XmlTransient
 	@ManyToOne
 	@JoinColumn(name="idPerson",referencedColumnName="idPerson")
 	private Person person;
@@ -82,6 +80,7 @@ public class LifeStatus implements Serializable {
 		this.measureDefinition = param;
 	}
 
+	// we make this transient for JAXB to avoid and infinite loop on serialization
 	@XmlTransient
 	public Person getPerson() {
 		return person;
@@ -91,7 +90,9 @@ public class LifeStatus implements Serializable {
 		this.person = person;
 	}
 	
-	// Database Operations
+	// Database operations
+	// Notice that, for this example, we create and destroy and entityManager on each operation. 
+	// How would you change the DAO to not having to create the entity manager every time? 
 	public static LifeStatus getLifeStatusById(int lifestatusId) {
 		EntityManager em = LifeCoachDao.instance.createEntityManager();
 		LifeStatus p = em.find(LifeStatus.class, lifestatusId);

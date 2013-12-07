@@ -22,12 +22,6 @@ import model.MeasureDefinition;
 public class MeasureDefaultRange implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@Column(name="alarmLevel")
-	private String alarmLevel;
-
-	@Column(name="endValue")
-	private String endValue;
-
 	@Id
 	@GeneratedValue(generator="sqlite_range")
 	@TableGenerator(name="sqlite_range", table="sqlite_sequence",
@@ -41,9 +35,14 @@ public class MeasureDefaultRange implements Serializable {
 
 	@Column(name="startValue")
 	private String startValue;
+	
+	@Column(name="alarmLevel")
+	private String alarmLevel;
 
-	@XmlTransient
-	@OneToOne
+	@Column(name="endValue")
+	private String endValue;
+
+	@ManyToOne
 	@JoinColumn(name="idMeasureDef",referencedColumnName="idMeasureDef",insertable=true,updatable=true)
 	private MeasureDefinition measureDefinition;
 
@@ -98,7 +97,10 @@ public class MeasureDefaultRange implements Serializable {
 	public void setMeasureDefinition(MeasureDefinition param) {
 	    this.measureDefinition = param;
 	}
-	// database operations
+	
+	// Database operations
+	// Notice that, for this example, we create and destroy and entityManager on each operation. 
+	// How would you change the DAO to not having to create the entity manager every time? 	
 	public static MeasureDefaultRange getMeasureDefaultRangeById(int id) {
 		EntityManager em = LifeCoachDao.instance.createEntityManager();
 		MeasureDefaultRange p = em.find(MeasureDefaultRange.class, id);

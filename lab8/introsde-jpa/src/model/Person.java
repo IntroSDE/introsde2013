@@ -3,7 +3,6 @@ package model;
 import java.io.Serializable;
 
 import javax.persistence.*;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -26,15 +25,7 @@ import model.LifeStatus;
 public class Person implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@Temporal(TemporalType.DATE)
-	@Column(name="birthdate")
-	private Date birthdate;
-	
-	@Column(name="email")
-	private String email;
-
 	@Id
-//	@GeneratedValue(strategy=GenerationType.TABLE)
 	// For sqlite in particular, you need to use the following @GeneratedValue annotation
 	// This holds also for the other tables
 	// SQLITE implements auto increment ids through named sequences that are stored in a 
@@ -54,11 +45,18 @@ public class Person implements Serializable {
 
 	@Column(name="username")
 	private String username;
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name="birthdate")
+	private Date birthdate;
+	
+	@Column(name="email")
+	private String email;
 
 	// mappedBy must be equal to the name of the attribute in LifeStatus that maps this relation
 	@OneToMany(mappedBy="person",cascade=CascadeType.ALL,fetch=FetchType.EAGER)
 	private List<LifeStatus> lifeStatus;
-
+	
 	public Person() {
 	}
 	
@@ -110,8 +108,9 @@ public class Person implements Serializable {
 		this.username = username;
 	}
 
+	// the XmlElementWrapper defines the name of node in which the list of LifeStatus elements
+	// will be inserted
 	@XmlElementWrapper(name = "Measurements")
-    @XmlElement(name = "Measure")
 	public List<LifeStatus> getLifeStatus() {
 	    return lifeStatus;
 	}
@@ -121,6 +120,8 @@ public class Person implements Serializable {
 	}
 	
 	// Database operations
+	// Notice that, for this example, we create and destroy and entityManager on each operation. 
+	// How would you change the DAO to not having to create the entity manager every time? 
 	public static Person getPersonById(int personId) {
 		EntityManager em = LifeCoachDao.instance.createEntityManager();
 		Person p = em.find(Person.class, personId);
