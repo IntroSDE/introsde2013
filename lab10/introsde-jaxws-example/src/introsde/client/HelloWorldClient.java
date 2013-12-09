@@ -1,9 +1,12 @@
 package introsde.client;
 
 import java.net.URL;
+
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
+
 import introsde.ws.HelloWorld;
+import introsde.ws.model.Person;
 
 public class HelloWorldClient {
 	public static void main(String[] args) throws Exception {
@@ -14,5 +17,9 @@ public class HelloWorldClient {
 		Service service = Service.create(url, qname);
 		HelloWorld hello = service.getPort(HelloWorld.class);
 		System.out.println(hello.getHelloWorldAsString("Pinco"));
+		String response = hello.sayHelloTo(new Person("Person","Test"));
+        System.out.println("Response from the service to 'sayHelloTo': " + response);
+        Person person = hello.readPerson(0);
+        System.out.println("Response from the service to 'sayHelloTo': " + person.toString());       
 	}
 }

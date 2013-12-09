@@ -47,8 +47,32 @@ Introduction to Service Design and Engineering 2013/2014.
 
 ## JAX-WS Overview (4)
 
-* **RPC Style** web service uses the names of the method and its parameters to generate XML structures that represent a method’s call stack. 
-* **Document style** indicates that the SOAP body contains a XML document which can be validated against pre-defined XML schema document. 
+
+* There are two ways to structure a SOAP message 
+* **RPC Style** web service uses the names of the method and its parameters to generate XML structures that represent a method’s call stack. In the early versions of SOAP (before it was publicly published),  When using RPC style, the contents of the SOAP Body must conform to a structure that indicates the method name and contains a set of parameters.
+* **Document style** indicates that the SOAP body contains a XML document which can be validated against pre-defined XML schema document. When using Document style, you can structure the contents of the SOAP Body any way you like.
+* The response message has a similar structure containing the return value and any output parameters. 
+
+## JAX-WS Overview (5)
+
+* For example, you can pass a **purchase order** as a document or as a parameter in a method called placeOrder. 
+* Document style:
+
+```xml
+<env:Body> 
+    <m:purchaseOrder xmlns:m="someURI"> [purchase order document] </m:purchaseOrder> 
+</env:Body> 
+```
+
+* RPC style:
+
+```xml
+<env:Body> 
+    <m:placeOrder xmlns:m="someURI"> 
+        <m:purchaseOrder> [purchase order document] </m:purchaseOrder> 
+    </m:placeOrder> 
+</env:Body> 
+```
 
 ---
 
@@ -178,6 +202,8 @@ public class HelloWorldClient {
 ## JAX-WS Tutorial - Implementing Clients - Automatic (1)
 
 * You can also use **wsimport** to parse the wsdl file and generate client files (stub) to access the published web service.
+* This is usefuls if you don't have the webservice interface (HelloWorld) locally available as part of some library.
+* With wsimport, you will generate a local stub of the remote service that will serve you as a proxy.  
 * wsimport should be in JDK_PATH/bin folder.
 * Create a **my-solutions** folder on your local copy of lab10.
 * From the command line, execute the following inside that new folder
@@ -479,11 +505,11 @@ public class HelloWorldClient{
 ## Assignment #3: Part 1 (1)
 
 * Using JAX-WS, implement CRUD services for the following model including the following operations
-    * readPerson(int id)
-    * createPerson()
-    * updatePerson(int id)
+    * readPerson(int personId)
+    * createPerson(Person p)
+    * updatePerson(Person p)
     * deletePerson(int id)
-    * updatePersonHealthProfile(HealthProfile hp)
+    * updatePersonHealthProfile(int personId, HealthProfile hp)
 
 // Person & HealthProfile
 ```xml
@@ -493,6 +519,7 @@ public class HelloWorldClient{
     <lastname>Norris</lastname>
     <birthdate>1945-01-01</birthdate>
     <healthProfile>
+        <hpId>999</hpId>
         <date>2013-12-05</date>
         <weight>78.9</weight>
         <height>172</height>
@@ -512,6 +539,7 @@ public class HelloWorldClient{
 ```xml
 <healthProfile-history> 
     <healthProfile>
+        <hpId>999</hpId>
         <date>2013-12-05</date>
         <weight>78.9</weight>
         <height>172</height>
@@ -519,6 +547,7 @@ public class HelloWorldClient{
         <calories>2120</calories>
     </healthProfile>
     <healthProfile>
+        <hpId>998</hpId>
         <date>2013-11-29</date>
         <weight>null</weight>
         <height>null</height>
@@ -526,6 +555,7 @@ public class HelloWorldClient{
         <height>null</height>
     </healthProfile>
     <healthProfile>
+        <hpId>1000</hpId>
         <date>2013-11-05</date>
         <weight>null</weight>
         <height>null</height>
