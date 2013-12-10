@@ -6,6 +6,7 @@ import javax.jws.WebParam;
 import javax.jws.WebResult;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
+import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.ws.Action;
 
 
@@ -17,6 +18,9 @@ import javax.xml.ws.Action;
  */
 @WebService(name = "HelloWorld", targetNamespace = "http://ws.introsde/")
 @SOAPBinding(style = SOAPBinding.Style.RPC)
+@XmlSeeAlso({
+    ObjectFactory.class
+})
 public interface HelloWorld {
 
 
@@ -32,5 +36,31 @@ public interface HelloWorld {
     public String getHelloWorldAsString(
         @WebParam(name = "arg0", partName = "arg0")
         String arg0);
+
+    /**
+     * 
+     * @param person
+     * @return
+     *     returns java.lang.String
+     */
+    @WebMethod
+    @WebResult(partName = "return")
+    @Action(input = "http://ws.introsde/HelloWorld/sayHelloToRequest", output = "http://ws.introsde/HelloWorld/sayHelloToResponse")
+    public String sayHelloTo(
+        @WebParam(name = "person", partName = "person")
+        Person person);
+
+    /**
+     * 
+     * @param personId
+     * @return
+     *     returns introsde.ws.Person
+     */
+    @WebMethod
+    @WebResult(name = "person", partName = "person")
+    @Action(input = "http://ws.introsde/HelloWorld/readPersonRequest", output = "http://ws.introsde/HelloWorld/readPersonResponse")
+    public Person readPerson(
+        @WebParam(name = "personId", partName = "personId")
+        int personId);
 
 }
