@@ -584,7 +584,7 @@ public class HelloWorldClient{
 * Rename the Zip file to: your full name + assignment_no. for example: cristhian_parra_3.zip
 * Submission link: www.dropitto.me/introsde2013
 * Password will be given and class and sent to the group
-* **Deadline:** 17/december 
+* **Deadline:** 20/december 
 	* On this date, we will test the services matching clients and servers 
 
 
