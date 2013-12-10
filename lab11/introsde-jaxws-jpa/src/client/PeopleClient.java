@@ -1,12 +1,13 @@
 package client;
  
 import java.net.URL;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
+import model.Person;
 import ws.People;
-//import client.ws.People;
  
 public class PeopleClient{
 	public static void main(String[] args) throws Exception {
@@ -17,6 +18,10 @@ public class PeopleClient{
         Service service = Service.create(url, qname);
         
         People people = service.getPort(People.class);
-        System.out.println(people.readPerson(1).getName());
+        Person p = people.readPerson(1);
+        List<Person> pList = people.getPeople();
+        System.out.println("Result ==> "+p);
+        System.out.println("Result ==> "+pList);
+        System.out.println("First Person in the list ==> "+pList.get(0).getName());
     }
 }

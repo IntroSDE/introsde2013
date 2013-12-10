@@ -15,7 +15,14 @@ public class PeopleImpl implements People {
 
 	@Override
 	public Person readPerson(int id) {
-		return Person.getPersonById(id);
+		System.out.println("---> Reading Person by id = "+id);
+		Person p = Person.getPersonById(id);
+		if (p!=null) {
+			System.out.println("---> Found Person by id = "+id+" => "+p.getName());
+		} else {
+			System.out.println("---> Didn't find any Person with  id = "+id);
+		}
+		return p;
 	}
 
 	@Override
