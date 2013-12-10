@@ -5,7 +5,7 @@ import javax.xml.ws.Endpoint;
 import introsde.document.ws.HelloWorldImpl;
  
 //Endpoint publisher
-public class HelloWorldPublisher{
+public class HelloWorldPublisher {
 	public static String SERVER_URL = "http://localhost";
 	public static String PORT = "6901";
 	public static String BASE_URL = "/ws/hello";

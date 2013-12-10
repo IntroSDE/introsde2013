@@ -505,11 +505,11 @@ public class HelloWorldClient{
 ## Assignment #3: Part 1 (1)
 
 * Using JAX-WS, implement CRUD services for the following model including the following operations
-    * readPerson(int personId)
-    * createPerson(Person p)
-    * updatePerson(Person p)
-    * deletePerson(int id)
-    * updatePersonHealthProfile(int personId, HealthProfile hp)
+    * readPerson(int personId) (returns the Person)
+    * createPerson(Person p) (returns the personId of the new Person, or a negative number representing an error)
+    * updatePerson(Person p) (returns the personId of the updated Person, or a negative number representing an error)
+    * deletePerson(int id) (returns 0, or a negative number representing an error)
+    * updatePersonHealthProfile(int personId, HealthProfile hp) (returns health profile updated, or a negative number representing an error). If no health profile exists yet, create it.
 
 // Person & HealthProfile
 ```xml

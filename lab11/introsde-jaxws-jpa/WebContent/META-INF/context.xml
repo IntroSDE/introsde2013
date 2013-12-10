@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!-- The contents of this file will be loaded for each web application -->
+  <Context crossContext="true">
+ 
+    <!-- Default set of monitored resources -->
+    <WatchedResource>WEB-INF/web.xml</WatchedResource>
+ 
+   <Resource name="jdbc/lifecoach" auth="Container"
+        type="javax.sql.DataSource"
+        maxActive="100" maxIdle="30" maxWait="10000"
+        username="lifecoach"
+        password=""
+        driverClassName="org.sqlite.Driver"
+        url="jdbc:sqlite:/Users/cristhian/Dropbox/teaching/IntroSDE/Maurizio_IntroSDE/introsde2013-lab-github/lab8/resources/lifecoach.sqlite"/>
+</Context>
