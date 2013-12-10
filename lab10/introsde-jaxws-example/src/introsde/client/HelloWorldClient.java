@@ -16,6 +16,9 @@ public class HelloWorldClient {
 		QName qname = new QName("http://ws.introsde/", "HelloWorldImplService");
 		Service service = Service.create(url, qname);
 		HelloWorld hello = service.getPort(HelloWorld.class);
+		
+		
+		
 		System.out.println(hello.getHelloWorldAsString("Pinco"));
 		String response = hello.sayHelloTo(new Person("Person","Test"));
         System.out.println("Response from the service to 'sayHelloTo': " + response);

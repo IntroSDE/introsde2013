@@ -2,6 +2,7 @@ package model;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -44,7 +45,7 @@ public class HealthMeasureHistory implements Serializable {
 
 	@Temporal(TemporalType.DATE)
 	@Column(name="timestamp")
-	private Timestamp timestamp;
+	private Date timestamp;
 
 	@Column(name="value")
 	private String value;
@@ -70,11 +71,11 @@ public class HealthMeasureHistory implements Serializable {
 		this.idMeasureHistory = idMeasureHistory;
 	}
 
-	public Timestamp getTimestamp() {
+	public Date getTimestamp() {
 		return this.timestamp;
 	}
 
-	public void setTimestamp(Timestamp timestamp) {
+	public void setTimestamp(Date timestamp) {
 		this.timestamp = timestamp;
 	}
 

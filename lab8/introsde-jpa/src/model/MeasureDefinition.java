@@ -36,7 +36,7 @@ public class MeasureDefinition implements Serializable {
 	private String measureType;
 
 	@OneToMany(mappedBy="measureDefinition")
-	private MeasureDefaultRange measureDefaultRange;
+	private List<MeasureDefaultRange> measureDefaultRange;
 
 	public MeasureDefinition() {
 	}
@@ -65,11 +65,11 @@ public class MeasureDefinition implements Serializable {
 		this.measureType = measureType;
 	}
 
-	public MeasureDefaultRange getMeasureDefaultRange() {
+	public List<MeasureDefaultRange> getMeasureDefaultRange() {
 	    return measureDefaultRange;
 	}
 
-	public void setMeasureDefaultRange(MeasureDefaultRange param) {
+	public void setMeasureDefaultRange(List<MeasureDefaultRange> param) {
 	    this.measureDefaultRange = param;
 	}
 

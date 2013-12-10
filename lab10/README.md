@@ -508,8 +508,10 @@ public class HelloWorldClient{
     * readPerson(int personId) (returns the Person)
     * createPerson(Person p) (returns the personId of the new Person, or a negative number representing an error)
     * updatePerson(Person p) (returns the personId of the updated Person, or a negative number representing an error)
+        * [OPTION A] If p includes changes to the "healthProfile" you can should 1) replace the current profile with a new one if no hpId is specified (in which case, the old health profile should be part of the history now) or 2) update the corrisponding health profile if an hpId is given  
     * deletePerson(int id) (returns 0, or a negative number representing an error)
-    * updatePersonHealthProfile(int personId, HealthProfile hp) (returns health profile updated, or a negative number representing an error). If no health profile exists yet, create it.
+    * updatePersonHealthProfile(int personId, HealthProfile hp) (returns the id of the health profile updated, or a negative number representing an error). If no health profile exists yet, create it. In any other case, you should only update the health profile which is given by the hpId inside hp. 
+    * [OPTION B] addPersonHealthProfile(int personId, HealthProfile hp) (adds a new health profile to replace the current one, which should pass to the history). When creating new health profiles, you can use either option A or B, the one you prefer.  
 
 // Person & HealthProfile
 ```xml
@@ -534,6 +536,7 @@ public class HelloWorldClient{
 ## Assignment #3: Part 1 (2)
 
 * **Extra points:** Include also the service getHealthProfileHistory(int personId)
+* **Extra points:** Connect to a database. 
 
 // History of the health profile
 ```xml
@@ -569,7 +572,7 @@ public class HelloWorldClient{
 
 ## Assignment #3: Part 2 
 
-* Create a simple client that call each of this services and prints the result.
+* Create a simple client that call each of this services and prints the result (using your service implementation).
 
 ---
 
@@ -583,6 +586,44 @@ public class HelloWorldClient{
 * Password will be given and class and sent to the group
 * **Deadline:** 17/december 
 	* On this date, we will test the services matching clients and servers 
+
+
+---
+
+## VIVA Testing Procedures for Assignments #2 and #3 (might change)
+
+1. Each student will be provided with a **Evaluation Document** where you find what to test and where you will be able to mark if it worked or not (the evaluation document will be a google spreadsheet given on that date) 
+2. Using the user/password/serverUrl we will provide on the day of the VIVA, each student will connect to the testing server via SSH (i.e., ssh user@serverUrl)
+    * This information will be provided on next lab, so that you can already run some tests before the day of the VIVA
+3. **Assignment 2:**
+    * Agree with your partner who will be the client/server first.
+    * In the home of the user, the server should search for his/her REST services implementation and run it 
+    * The implementation will be at *$HOME/assignments/servername_serverlastname_2/* 
+    * The client must now run his/her client against the server (should be on *$HOME/assignments/clientname_clientlastname_2/*
+    * The server will have 10 minutes for making quick changes on the server (or requesting quick changes on the client) to make things work.
+    * The client must copy all the output of the client to a file named *servername_serverlastname_2_output.txt* in the *servername_serverlastname_2* folder
+    * The client must indicate on the evaluation document which services worked and which didn't. 
+    * Repeat the whole procedure changing roles 
+
+--- 
+
+## VIVA Testing Procedures for Assignments #2 and #3 (might change)
+
+5. **Assignment 3:**
+    * Stop your REST services. 
+    * Agree with your partner who will be the client/server first.
+    * The server should search for his/her SOAP services implementation and run it 
+    * The implementation will be at $HOME/assignments/servername_serverlastname_3/
+    * The server should run his/her own client implementation
+    * The server must copy all the output of the his/her client to a file named *servername_serverlastname_2_output.txt* in the *servername_serverlastname_2* folder
+    * Using the url to the WSDL of the server, the client must now generate the stubs for creating a quick client. 
+    * The server must select which of his services should be tested. 
+    * The client will have 10 minutes to:
+        * implement a simple client in java that will call this service
+        * call the selected SOAP service from the browser, via HTTP POST of the SOAP message 
+    * The server will have 10 minutes for making quick changes on the server (or requesting quick changes on the client) to make things work.
+    * The client must indicate on the evaluation document which services worked and which didn't (from both the server's own tests and the client's test). 
+    * Repeat the whole procedure changing roles 
 
 ---
 

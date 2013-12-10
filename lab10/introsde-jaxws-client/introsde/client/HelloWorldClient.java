@@ -3,7 +3,10 @@ package introsde.client;
 public class HelloWorldClient {
 	public static void main(String[] args) {
 		// Trying the RPC version
-		introsde.ws.HelloWorldImplService helloService = new introsde.ws.HelloWorldImplService();
+		introsde.ws.HelloWorldImplService helloService = 
+				new introsde.ws.HelloWorldImplService();
+
+		
 		introsde.ws.HelloWorld hello = helloService.getHelloWorldImplPort();
 
 		System.out.println("Trying 'getHelloWorldAsString': "
